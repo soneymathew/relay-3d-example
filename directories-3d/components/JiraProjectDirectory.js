@@ -12,7 +12,7 @@ const JiraProjectDirectory = ({directory}) => {
         filterCriteria @match {
           ...JiraDirectorySearchTextFilterCriteria_content @module(name: "JiraDirectorySearchTextFilterCriteria")
           ...JiraProjectDirectoryProjectTypesFilterCriteria_content @module(name: "JiraProjectDirectoryProjectTypesFilterCriteria")
-          ...JiraProjectDirectoryProjectCategoriesFilterCriteria_content @module(name: "JiraDirectorySearchTextFilterCriteria")
+          ...JiraProjectDirectoryProjectCategoriesFilterCriteria_content @module(name: "JiraProjectDirectoryProjectCategoriesFilterCriteria")
         }
         result @match(key: "JiraProjectDirectory_directory_result") {
           ...JiraProjectDirectoryResults_content @module(name: "JiraProjectDirectoryResult")

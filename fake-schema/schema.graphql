@@ -77,7 +77,6 @@ type JiraProjectDirectoryResultHeader implements JiraDirectoryResultHeader {
 }
 
 interface JiraDirectoryResultCell {
-  type: String
   renderer(supported: [String]): JiraDirectoryResultCellDataUnion
 }
 
@@ -106,9 +105,43 @@ type JiraProjectDirectoryResultValues implements JiraDirectoryResultValues {
   columns : [JiraDirectoryResultCell]
 }
 
+
 type JiraProjectFavouriteCell {
 	isFavourite: Boolean
   js(module: String!, id: String): JSDependency!
 }
 
-union JiraDirectoryResultCellDataUnion = JiraProjectFavouriteCell
+type JiraProjectNameCell {
+	name: String
+  js(module: String!, id: String): JSDependency!
+}
+type JiraProjectKeyCell{
+    todo: String
+    js(module: String!, id: String): JSDependency!
+}
+type JiraProjectTypeCell{
+    todo: String
+    js(module: String!, id: String): JSDependency!
+}
+type JiraProjectLeadCell{
+    todo: String
+    js(module: String!, id: String): JSDependency!
+}
+type JiraProjectLastIssueUpdateCell{
+    todo: String
+    js(module: String!, id: String): JSDependency!
+}
+type JiraProjectCategoryCell{
+    todo: String
+    js(module: String!, id: String): JSDependency!
+}
+type JiraProjectLinkCell{
+    todo: String
+    js(module: String!, id: String): JSDependency!
+}
+
+type JiraProjectActionsCell{
+    todo: String
+    js(module: String!, id: String): JSDependency!
+}
+union JiraDirectoryResultCellDataUnion = JiraProjectFavouriteCell | JiraProjectKeyCell |JiraProjectNameCell | JiraProjectTypeCell |JiraProjectLeadCell |JiraProjectLastIssueUpdateCell |JiraProjectCategoryCell |JiraProjectLinkCell |JiraProjectActionsCell

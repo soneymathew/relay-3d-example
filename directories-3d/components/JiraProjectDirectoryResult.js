@@ -13,10 +13,16 @@ const JiraProjectDirectoryResult = ({results}) => {
         }
         rows {
           columns {
-            type
             renderer @match {
-              ...JiraProjectFavouriteCell_content
-                @module(name: "JiraProjectFavouriteCell")
+              ...JiraProjectFavouriteCell_content @module(name: "JiraProjectFavouriteCell")
+              ...JiraProjectNameCell_content @module(name: "JiraProjectNameCell")
+              ...JiraProjectKeyCell_content @module(name: "JiraProjectKeyCell")
+              ...JiraProjectTypeCell_content @module(name: "JiraProjectTypeCell")
+              ...JiraProjectLeadCell_content @module(name: "JiraProjectLeadCell")
+              ...JiraProjectLastIssueUpdateCell_content @module(name: "JiraProjectLastIssueUpdateCell")
+              ...JiraProjectCategoryCell_content @module(name: "JiraProjectCategoryCell")
+              ...JiraProjectLinkCell_content @module(name: "JiraProjectLinkCell")
+              ...JiraProjectActionsCell_content @module(name: "JiraProjectActionsCell")
             }
           }
         }

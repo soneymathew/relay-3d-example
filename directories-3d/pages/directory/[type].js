@@ -21,7 +21,7 @@ export default function Post(props) {
     <>
       <Nav />
       <Content>
-        {directory ? <RelayMatchContainer match={directory.content} /> : <p>Post not found.</p>}
+        {directory ? <RelayMatchContainer match={directory.content} /> : <p>Directory not found.</p>}
       </Content>
     </>
   );
