@@ -1,6 +1,6 @@
-import { ApolloServer, gql } from "apollo-server";
-import { allBlogPosts, findBlogPost } from "./blogPosts.js";
-import typeDefs from "./sdl.js";
+import { ApolloServer, gql } from "apollo-server-micro";
+import { allBlogPosts, findBlogPost } from "../blogPosts.mjs";
+import typeDefs from "./sdl.mjs";
 import { GraphQLScalarType, Kind } from "graphql";
 import { ApolloServerPluginLandingPageLocalDefault } from "apollo-server-core";
 
@@ -94,7 +94,7 @@ const server = new ApolloServer({
           async willSendResponse({ response }) {
             const dddModules = dataDrivenDependencies.getModules();
             if (dddModules.length > 0) {
-              // console.log("willSendResponse!" , dddModules.length, dddModules);
+              console.log("willSendResponse!" , dddModules.length, dddModules);
               const extensions =
                 response.extensions ||
                 (response.extensions = Object.create(null));
@@ -113,7 +113,10 @@ const server = new ApolloServer({
   ],
 });
 
-// The `listen` method launches a web server.
-server.listen().then(({ url }) => {
-  console.log(`🚀  Server ready at ${url}`);
-});
+// // The `listen` method launches a web server.
+// server.listen().then(({ url }) => {
+//   console.log(`🚀  Server ready at ${url}`);
+// });
+
+
+export default server;
