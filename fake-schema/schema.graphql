@@ -1,4 +1,3 @@
-
 type Query {
   jira: JiraQuery
 }
@@ -17,7 +16,7 @@ interface JiraDirectory {
   # What criteria to render (search text, project types, categories)
   # What is already specified by the uses searchText=Perf projectTypes=software,jsm categories=abcm,def
   # which component should be used to render each item
-  results: JiraDirectoryResults
+  result: JiraDirectoryResult
   js(module: String!, id: String): JSDependency!
 }
 
@@ -25,7 +24,7 @@ type JiraProjectDirectory implements JiraDirectory {
   title: String!
   createDirectoryItem(supported: [String]): JiraDirectoryCreateItem!
   filterCriteria(supported: [String]): [JiraDirectoryFilterCriteria!]!
-  results : JiraDirectoryResults
+  result : JiraDirectoryResult
   js(module: String!, id: String): JSDependency!
 }
 
@@ -60,29 +59,56 @@ type JiraProjectDirectoryProjectCategoriesFilterCriteria implements JiraDirector
   js(module: String!, id: String): JSDependency!
 }
 
+enum SortDirection {
+  ASC
+  DESC
+}
+
 interface JiraDirectoryResultHeader {
   title: String
+  isSortable: Boolean
+  sortDirection: SortDirection
 }
 
 type JiraProjectDirectoryResultHeader implements JiraDirectoryResultHeader {
   title: String
+  isSortable: Boolean
+  sortDirection: SortDirection
 }
-
 
 interface JiraDirectoryResultCell {
   type: String
+  renderer(supported: [String]): JiraDirectoryResultCellDataUnion
 }
 
 type JiraProjectDirectoryResultCell implements JiraDirectoryResultCell {
   type: String
+  renderer(supported: [String]): JiraDirectoryResultCellDataUnion
 }
 
-interface JiraDirectoryResults {
+interface JiraDirectoryResult {
   headers: [JiraDirectoryResultHeader]
+  rows: [JiraDirectoryResultValues]
+  js(module: String!, id: String): JSDependency!
+}
+
+interface JiraDirectoryResultValues {
   columns : [JiraDirectoryResultCell]
 }
 
-type JiraProjectDirectoryResults implements JiraDirectoryResults {
+type JiraProjectDirectoryResult implements JiraDirectoryResult {
   headers: [JiraDirectoryResultHeader]
+  rows: [JiraDirectoryResultValues]
+  js(module: String!, id: String): JSDependency!
+}
+
+type JiraProjectDirectoryResultValues implements JiraDirectoryResultValues {
   columns : [JiraDirectoryResultCell]
 }
+
+type JiraProjectFavouriteCell {
+	isFavourite: Boolean
+  js(module: String!, id: String): JSDependency!
+}
+
+union JiraDirectoryResultCellDataUnion = JiraProjectFavouriteCell

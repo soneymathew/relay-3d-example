@@ -14,9 +14,9 @@ const JiraProjectDirectory = ({directory}) => {
           ...JiraProjectDirectoryProjectTypesFilterCriteria_content @module(name: "JiraProjectDirectoryProjectTypesFilterCriteria")
           ...JiraProjectDirectoryProjectCategoriesFilterCriteria_content @module(name: "JiraDirectorySearchTextFilterCriteria")
         }
-        # results @match {
-          # ...JiraProjectDirectoryResults_content @module(name: "JiraProjectDirectoryResults")
-        # }
+        result @match(key: "JiraProjectDirectory_directory_result") {
+          ...JiraProjectDirectoryResults_content @module(name: "JiraProjectDirectoryResult")
+        }
       }
     `,
     directory,
