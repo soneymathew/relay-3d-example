@@ -35,5 +35,5 @@ yarn-error.log*
 
 # relay
 __generated__/
-schema/schema.graphql
+#schema/schema.graphql
 queryMap.json

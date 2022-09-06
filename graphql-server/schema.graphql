@@ -1,7 +1,4 @@
-import { gql } from "apollo-server";
-
-const typeDefs = gql`
-  type Query {
+type Query {
     viewer: Viewer
     blogPost(id: ID!): Post
   }
@@ -68,6 +65,3 @@ const typeDefs = gql`
     asc
     desc
   }
-`;
-
-export default typeDefs;

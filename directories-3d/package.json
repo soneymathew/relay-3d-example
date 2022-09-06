@@ -4,11 +4,10 @@
   "description": "Example of Next.js with Relay Modern",
   "scripts": {
     "next": "next",
-    "dev": "mkdir -p __generated__ && touch queryMap.json && get-graphql-schema http://localhost:9002/graphql > ./schema/schema.graphql && concurrently \"next\" \"relay-compiler --watch\"",
+    "dev": "mkdir -p __generated__ && touch queryMap.json && concurrently \"next\" \"relay-compiler --watch\"",
     "build": "next build",
     "start": "next start",
     "relay": "relay-compiler",
-    "schema": "node ./schema/printSchema.mjs",
     "prettier": "prettier --write '{,!(node_modules|__generated__|\\.next)/**}*.{mjs,js,json}'"
   },
   "license": "MIT",
@@ -17,6 +16,7 @@
     "apollo-server-micro": "^3.10.2",
     "chance": "^1.1.8",
     "graphql": "^16.3.0",
+    "micro": "^9.4.1",
     "next": "latest",
     "prettier": "^2.6.1",
     "react": "^18.0.0",

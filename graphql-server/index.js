@@ -1,8 +1,8 @@
 import { ApolloServer, gql } from "apollo-server";
 import { allBlogPosts, findBlogPost } from "./blogPosts.js";
-import typeDefs from "./sdl.js";
 import { GraphQLScalarType, Kind } from "graphql";
 import { ApolloServerPluginLandingPageLocalDefault } from "apollo-server-core";
+import { readFileSync } from "fs";
 
 const dateScalar = new GraphQLScalarType({
   name: "DateTime",
@@ -76,6 +76,7 @@ const mocks = {
   String: () => 'Hello',
 };
 
+const typeDefs = readFileSync(await import('./schema.graphql')).toString('utf-8')
 // The ApolloServer constructor requires two parameters: your schema
 // definition and your set of resolvers.
 const server = new ApolloServer({
