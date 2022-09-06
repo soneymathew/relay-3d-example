@@ -1,8 +1,7 @@
 import {useFragment, graphql} from 'react-relay';
-import {Title, Text} from './LayoutComponents';
-import {RelayMatchContainer} from './RelayMatchContainer';
+import RelayMatchContainer from './RelayMatchContainer';
 
-const JiraProjectDirectoryResult = ({results}) => {
+const JiraProjectDirectoryResult = ({content}) => {
   const data = useFragment(
     graphql`
       fragment JiraProjectDirectoryResults_content on JiraProjectDirectoryResult {
@@ -14,44 +13,57 @@ const JiraProjectDirectoryResult = ({results}) => {
         rows {
           columns {
             renderer @match {
-              ...JiraProjectFavouriteCell_content @module(name: "JiraProjectFavouriteCell")
-              ...JiraProjectNameCell_content @module(name: "JiraProjectNameCell")
+              ...JiraProjectFavouriteCell_content
+                @module(name: "JiraProjectFavouriteCell")
+              ...JiraProjectNameCell_content
+                @module(name: "JiraProjectNameCell")
               ...JiraProjectKeyCell_content @module(name: "JiraProjectKeyCell")
-              ...JiraProjectTypeCell_content @module(name: "JiraProjectTypeCell")
-              ...JiraProjectLeadCell_content @module(name: "JiraProjectLeadCell")
-              ...JiraProjectLastIssueUpdateCell_content @module(name: "JiraProjectLastIssueUpdateCell")
-              ...JiraProjectCategoryCell_content @module(name: "JiraProjectCategoryCell")
-              ...JiraProjectLinkCell_content @module(name: "JiraProjectLinkCell")
-              ...JiraProjectActionsCell_content @module(name: "JiraProjectActionsCell")
+              ...JiraProjectTypeCell_content
+                @module(name: "JiraProjectTypeCell")
+              ...JiraProjectLeadCell_content
+                @module(name: "JiraProjectLeadCell")
+              ...JiraProjectLastIssueUpdateCell_content
+                @module(name: "JiraProjectLastIssueUpdateCell")
+              ...JiraProjectCategoryCell_content
+                @module(name: "JiraProjectCategoryCell")
+              ...JiraProjectLinkCell_content
+                @module(name: "JiraProjectLinkCell")
+              ...JiraProjectActionsCell_content
+                @module(name: "JiraProjectActionsCell")
             }
           }
         }
       }
     `,
-    results,
+    content,
   );
 
+  console.log('********data', data);
+
   return (
-    <table class="table-auto">
+    <table className="table-auto">
       <thead>
         <tr>
-          {data.headers.map((header) => (
-            <th>{header.title}</th>
-          ))}
+          {data &&
+            data.headers.map((header, index) => (
+              <th key={`header-${index}`}>{header.title}</th>
+            ))}
         </tr>
       </thead>
       <tbody>
-        {data.rows.map((row) => (
-          <tr>
-            {row.columns.map(
-              column => (
-                <td>
-                  {column.renderer ? <RelayMatchContainer match={column.renderer} /> : <p>Unsupported cell.</p>}
-                </td>)
-              )
-            }
-          </tr>
-        ))}
+        {data &&
+          data.rows.map((row, rowIndex) => (
+            <tr key={`row-${rowIndex}`}>
+              {row.columns.map((column, columnIndex) => (
+                <td key={`cell-${rowIndex}-${columnIndex}`}>
+                  <RelayMatchContainer
+                    key={`cellmatch-${rowIndex}-${columnIndex}`}
+                    match={column.renderer}
+                  />
+                </td>
+              ))}
+            </tr>
+          ))}
       </tbody>
     </table>
   );

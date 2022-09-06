@@ -1,18 +1,18 @@
 import {useFragment, graphql} from 'react-relay';
 
-const JiraProjectLastIssueUpdateCell = ({cell}) => {
+const JiraProjectLastIssueUpdateCell = ({content}) => {
   const data = useFragment(
     graphql`
       fragment JiraProjectLastIssueUpdateCell_content on JiraProjectLastIssueUpdateCell {
-        todo
+        project {
+          todo
+        }
       }
     `,
-    cell,
+    content,
   );
 
-  return (
-      <span>{data.todo}</span>
-  );
+  return <span>{data.project.todo}</span>;
 };
 
 export default JiraProjectLastIssueUpdateCell;

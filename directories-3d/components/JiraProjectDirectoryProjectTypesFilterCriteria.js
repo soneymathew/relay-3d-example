@@ -1,22 +1,17 @@
 import {useFragment, graphql} from 'react-relay';
 import {Title, Text} from '../components/LayoutComponents';
 
-const JiraProjectDirectoryProjectTypesFilterCriteria = ({directory}) => {
+const JiraProjectDirectoryProjectTypesFilterCriteria = ({content}) => {
   const data = useFragment(
     graphql`
       fragment JiraProjectDirectoryProjectTypesFilterCriteria_content on JiraProjectDirectoryProjectTypesFilterCriteria {
         type
       }
     `,
-    directory,
+    content,
   );
 
-  return (
-    <article>
-      <Title>{data.canCreate}</Title>
-      {/* <Text>{data.content}</Text> */}
-    </article>
-  );
+  return <span>Project types picker here</span>;;
 };
 
 export default JiraProjectDirectoryProjectTypesFilterCriteria;

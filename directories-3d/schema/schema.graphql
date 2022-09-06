@@ -104,42 +104,56 @@ type JiraProjectDirectoryResultValues implements JiraDirectoryResultValues {
   columns: [JiraDirectoryResultCell]
 }
 
+# TODO: match this to current design later
+type JiraProject {
+  favourite: Boolean
+  todo: String
+  name: String
+  projectType: String
+}
+
 type JiraProjectFavouriteCell {
   isFavourite: Boolean
   js(module: String!, id: String): JSDependency!
 }
 
 type JiraProjectNameCell {
-  name: String
+  project: JiraProject
   js(module: String!, id: String): JSDependency!
 }
 type JiraProjectKeyCell {
-  todo: String
+  project: JiraProject
   js(module: String!, id: String): JSDependency!
 }
 type JiraProjectTypeCell {
-  todo: String
+  project: JiraProject
+
   js(module: String!, id: String): JSDependency!
 }
 type JiraProjectLeadCell {
-  todo: String
+  project: JiraProject
+
   js(module: String!, id: String): JSDependency!
 }
 type JiraProjectLastIssueUpdateCell {
-  todo: String
+  project: JiraProject
+
   js(module: String!, id: String): JSDependency!
 }
 type JiraProjectCategoryCell {
-  todo: String
+  project: JiraProject
+
   js(module: String!, id: String): JSDependency!
 }
 type JiraProjectLinkCell {
-  todo: String
+  project: JiraProject
+
   js(module: String!, id: String): JSDependency!
 }
 
 type JiraProjectActionsCell {
-  todo: String
+  project: JiraProject
+
   js(module: String!, id: String): JSDependency!
 }
 union JiraDirectoryResultCellDataUnion =

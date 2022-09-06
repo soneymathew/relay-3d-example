@@ -10,7 +10,7 @@ export default function RelayMatchContainer({match}) {
       shouldCatchError={(error) => error instanceof ModuleLoaderError}
       renderError={(error, resetError) => (
         <div className="bg-red-200 rounded-md px-2 py-1 inline-block">
-          Failed to load {error.moduleLoaderName}{' '}
+          Failed to load {error.moduleLoaderName}
           <Button
             size="small"
             onClick={() => {

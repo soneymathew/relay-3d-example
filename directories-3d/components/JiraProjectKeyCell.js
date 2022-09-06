@@ -1,18 +1,18 @@
 import {useFragment, graphql} from 'react-relay';
 
-const JiraProjectKeyCell = ({cell}) => {
+const JiraProjectKeyCell = ({content}) => {
   const data = useFragment(
     graphql`
       fragment JiraProjectKeyCell_content on JiraProjectKeyCell {
-        todo
+        project {
+          todo
+        }
       }
     `,
-    cell,
+    content,
   );
 
-  return (
-      <span>{data.todo}</span>
-  );
+  return <span>{data.project.todo}</span>;
 };
 
 export default JiraProjectKeyCell;

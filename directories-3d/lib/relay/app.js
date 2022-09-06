@@ -8,13 +8,13 @@ export function ReactRelayContainer({Component, props}) {
   return (
     <ReactRelayContext.Provider value={{environment}}>
       <Suspense fallback={null}>
-        <Hyderate Component={Component} props={props} />
+        <Hydrate Component={Component} props={props} />
       </Suspense>
     </ReactRelayContext.Provider>
   );
 }
 
-function Hyderate({Component, props}) {
+function Hydrate({Component, props}) {
   const environment = useRelayEnvironment();
 
   const transformedProps = useMemo(() => {

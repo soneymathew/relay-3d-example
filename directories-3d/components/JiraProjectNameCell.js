@@ -1,18 +1,18 @@
 import {useFragment, graphql} from 'react-relay';
 
-const JiraProjectNameCell = ({cell}) => {
+const JiraProjectNameCell = ({content}) => {
   const data = useFragment(
     graphql`
       fragment JiraProjectNameCell_content on JiraProjectNameCell {
-        name
+        project {
+          name
+        }
       }
     `,
-    cell,
+    content,
   );
 
-  return (
-      <span>{data.name}</span>
-  );
+  return <span>{data.project.name}</span>;
 };
 
 export default JiraProjectNameCell;

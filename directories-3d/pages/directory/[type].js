@@ -16,18 +16,20 @@ const query = graphql`
 `;
 
 export default function Post(props) {
-  const {directory} = usePreloadedQuery(query, props.queryRefs.query);
+  const {jira} = usePreloadedQuery(query, props.queryRefs.query);
+  // console.log('*******jira', jira);
   return (
     <>
       <Nav />
       <Content>
-        {directory ? <RelayMatchContainer match={directory.content} /> : <p>Directory not found.</p>}
+        {jira ? <RelayMatchContainer match={jira.directory} /> : <p>Directory not found.</p>}
       </Content>
     </>
   );
 }
 
 export async function getServerSideProps(ctx) {
+  console.log('getServerSideProps', ctx.params.type);
   return {
     props: {
       preloadedQueries: {

@@ -1,18 +1,18 @@
 import {useFragment, graphql} from 'react-relay';
 
-const JiraProjectLeadCell = ({cell}) => {
+const JiraProjectLeadCell = ({content}) => {
   const data = useFragment(
     graphql`
       fragment JiraProjectLeadCell_content on JiraProjectLeadCell {
-        todo
+        project {
+          todo
+        }
       }
     `,
-    cell,
+    content,
   );
 
-  return (
-      <span>{data.todo}</span>
-  );
+  return <span>{data.project.todo}</span>;
 };
 
 export default JiraProjectLeadCell;

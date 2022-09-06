@@ -1,5 +1,4 @@
 import {useFragment, graphql} from 'react-relay';
-import {Title, Text} from '../components/LayoutComponents';
 
 const JiraProjectDirectoryCreateItem = ({directory}) => {
   const data = useFragment(
@@ -10,12 +9,18 @@ const JiraProjectDirectoryCreateItem = ({directory}) => {
     `,
     directory,
   );
+  console.log('************JiraProjectDirectoryCreateItem', data);
 
   return (
-    <article>
-      <Title>{data.canCreate}</Title>
-      {/* <Text>{data.content}</Text> */}
-    </article>
+    <div>
+      {data.canCreate ? (
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
+          Create
+        </button>
+      ) : (
+        "can't create"
+      )}
+    </div>
   );
 };
 

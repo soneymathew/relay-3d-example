@@ -4,6 +4,7 @@ import {ApolloServer} from 'apollo-server-micro';
 import path from 'path';
 import {ApolloServerPluginLandingPageLocalDefault} from 'apollo-server-core';
 import {GraphQLScalarType} from 'graphql';
+import projectData, {projectDirectoryHeaders} from '../../lib/projectData.mjs';
 
 const SCHEMA_FILE = path.resolve(
   getConfig().serverRuntimeConfig.projectRoot,
@@ -25,58 +26,109 @@ const JSDependencyScalar = new GraphQLScalarType({
   },
 });
 
-const JSFieldResolver = (parent, args, _context, _info) => {
+const JSFieldResolver = (args, ..._rest) => {
   seenDataDrivenDependencies.add(args.module);
-  return 'module';
+  return args.module;
 };
 
 const resolvers = {
   JSDependency: JSDependencyScalar,
-  JiraProjectDirectoryResult: {
-    js: JSFieldResolver,
+  JiraDirectory: {
+    __resolveType(obj, context, info) {
+      if (obj) {
+        // TODO - check if this is a JiraProjectDirectory
+        return 'JiraProjectDirectory';
+      }
+      return null; // GraphQLError is thrown
+    },
   },
-  JiraProjectDirectory: {
-    js: JSFieldResolver,
+  JiraDirectoryCreateItem: {
+    __resolveType(obj, context, info) {
+      if (obj) {
+        // TODO - check if this is a JiraProjectDirectoryCreateItem
+        return 'JiraProjectDirectoryCreateItem';
+      }
+      return null; // GraphQLError is thrown
+    },
   },
-  JiraProjectDirectoryCreateItem: {
-    js: JSFieldResolver,
+  JiraDirectoryResult: {
+    __resolveType(obj, context, info) {
+      if (obj) {
+        // TODO - check if this is a JiraProjectDirectoryResult
+        return 'JiraProjectDirectoryResult';
+      }
+      return null; // GraphQLError is thrown
+    },
   },
-  JiraDirectorySearchTextFilterCriteria: {
-    js: JSFieldResolver,
+  JiraDirectoryFilterCriteria: {
+    __resolveType(obj, context, info) {
+      if (obj.__typename) {
+        return obj.__typename;
+      }
+      return null; // GraphQLError is thrown
+    },
   },
-  JiraProjectDirectoryProjectTypesFilterCriteria: {
-    js: JSFieldResolver,
+  JiraDirectoryResultCellDataUnion: {
+    __resolveType(obj, context, info) {
+      if (obj.__typename) {
+        return obj.__typename;
+      }
+      return null; // GraphQLError is thrown
+    },
   },
-  JiraProjectDirectoryProjectCategoriesFilterCriteria: {
-    js: JSFieldResolver,
-  },
-
-  JiraProjectFavouriteCell: {
-    js: JSFieldResolver,
-  },
-  JiraProjectKeyCell: {
-    js: JSFieldResolver,
-  },
-  JiraProjectNameCell: {
-    js: JSFieldResolver,
-  },
-  JiraProjectTypeCell: {
-    js: JSFieldResolver,
-  },
-  JiraProjectLeadCell: {
-    js: JSFieldResolver,
-  },
-  JiraProjectLastIssueUpdateCell: {
-    js: JSFieldResolver,
-  },
-  JiraProjectCategoryCell: {
-    js: JSFieldResolver,
-  },
-  JiraProjectLinkCell: {
-    js: JSFieldResolver,
-  },
-  JiraProjectActionsCell: {
-    js: JSFieldResolver,
+  Query: {
+    jira: () => ({
+      directory: (args, ...rest) => {
+        // console.log('directory', args, rest);
+        if (args.id == 'projects') {
+          return {
+            title: `${args.id.toUpperCase()}`,
+            createDirectoryItem: (args, ...rest) => {
+              return {
+                canCreate: true,
+                js: JSFieldResolver,
+              };
+            },
+            filterCriteria: (args, ...rest) => {
+              return args.supported.map((type) => ({
+                __typename: type,
+                // FIXME : A way to hydrate selected items .category and .projectType
+                type: "todo",
+                js: JSFieldResolver,
+              }));
+            },
+            result: {
+              js: JSFieldResolver,
+              headers: projectDirectoryHeaders.map(
+                ({title, isSortable, sortDirection}) => ({
+                  __typename: 'JiraProjectDirectoryResultHeader',
+                  title,
+                  isSortable,
+                  sortDirection,
+                }),
+              ),
+              rows: [
+                {
+                  __typename: 'JiraProjectDirectoryResultValues',
+                  columns: (args, ...rest) => {
+                    return projectDirectoryHeaders.map(({renderer}) => ({
+                      __typename: 'JiraProjectDirectoryResultCell',
+                      renderer: {
+                        __typename: renderer,
+                        js: JSFieldResolver,
+                        project: {name: "TBD", todo: "TBD", isFavourite: false}, // FIXME: return the project object
+                      },
+                    }));
+                  },
+                },
+              ],
+            },
+            js: JSFieldResolver,
+          };
+        }
+        return null;
+      },
+    }),
   },
 };
 
@@ -93,8 +145,8 @@ const dataDrivenDependencies = {
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
-  mocks: true,
-  mockEntireSchema: false,
+  // mocks: true,
+  // mockEntireSchema: false,
   csrfPrevention: true,
   cache: 'bounded',
   plugins: [
@@ -106,13 +158,11 @@ const apolloServer = new ApolloServer({
           async willSendResponse({response}) {
             const dddModules = dataDrivenDependencies.getModules();
             if (dddModules.length > 0) {
-              console.log('willSendResponse!', dddModules.length, dddModules);
+              // console.log('willSendResponse!', dddModules.length, dddModules);
               const extensions =
                 response.extensions ||
                 (response.extensions = Object.create(null));
 
-              // This should only happen if another plugin is using the same name-
-              // space within the `extensions` object and got to it before us.
               if (typeof extensions.modules !== 'undefined') {
                 throw new Error('The `modules` extension was already present.');
               }

@@ -1,17 +1,18 @@
 import {useFragment, graphql} from 'react-relay';
 
-const JiraProjectCategoryCell = ({cell}) => {
+const JiraProjectCategoryCell = ({content}) => {
   const data = useFragment(
     graphql`
       fragment JiraProjectCategoryCell_content on JiraProjectCategoryCell {
-        todo
-      }
+        project {
+   todo
+}      }
     `,
-    cell,
+    content,
   );
 
   return (
-      <span>{data.todo}</span>
+      <span>{data.project.todo}</span>
   );
 };
 
