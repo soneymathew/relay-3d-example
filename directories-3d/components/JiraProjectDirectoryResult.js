@@ -1,7 +1,7 @@
-import {useFragment, graphql} from 'react-relay';
+import { useFragment, graphql } from 'react-relay';
 import RelayMatchContainer from './RelayMatchContainer';
 
-const JiraProjectDirectoryResult = ({content}) => {
+const JiraProjectDirectoryResult = ({ content }) => {
   const data = useFragment(
     graphql`
       fragment JiraProjectDirectoryResults_content on JiraProjectDirectoryResult {
@@ -39,34 +39,39 @@ const JiraProjectDirectoryResult = ({content}) => {
   );
 
   console.log('********data', data);
-
-  return (
-    <table className="table-auto">
-      <thead>
-        <tr>
-          {data &&
-            data.headers.map((header, index) => (
-              <th key={`header-${index}`}>{header.title}</th>
-            ))}
-        </tr>
-      </thead>
-      <tbody>
-        {data &&
-          data.rows.map((row, rowIndex) => (
-            <tr key={`row-${rowIndex}`}>
-              {row.columns.map((column, columnIndex) => (
-                <td key={`cell-${rowIndex}-${columnIndex}`}>
-                  <RelayMatchContainer
-                    key={`cellmatch-${rowIndex}-${columnIndex}`}
-                    match={column.renderer}
-                  />
-                </td>
-              ))}
-            </tr>
-          ))}
-      </tbody>
-    </table>
-  );
+  return (<div class="flex flex-col">
+    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+        <div class="overflow-hidden">
+          <table class="min-w-full">
+            <thead class="bg-white border-b">
+              <tr>
+                {data &&
+                  data.headers.map((header, index) => (
+                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left" key={`header-${index}`}>{header.title}</th>
+                  ))}
+              </tr>
+            </thead>
+            <tbody>
+              {data &&
+                data.rows.map((row, rowIndex) => (
+                  <tr key={`row-${rowIndex}`} className={`${rowIndex % 2 ? "bg-gray-100" : "bg-white"} border-b`}>
+                    {row.columns.map((column, columnIndex) => (
+                      <td key={`cell-${rowIndex}-${columnIndex}`}
+                        className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        <RelayMatchContainer
+                          key={`cellmatch-${rowIndex}-${columnIndex}`}
+                          match={column.renderer}
+                        />
+                      </td>))}
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>);
 };
 
 export default JiraProjectDirectoryResult;
