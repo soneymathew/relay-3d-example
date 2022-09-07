@@ -5,15 +5,14 @@ const JiraProjectCategoryCell = ({content}) => {
     graphql`
       fragment JiraProjectCategoryCell_content on JiraProjectCategoryCell {
         project {
-   todo
-}      }
+          todo
+        }
+      }
     `,
     content,
   );
 
-  return (
-      <span>{data.project.todo}</span>
-  );
+  return <span>{data.project.todo}</span>;
 };
 
 export default JiraProjectCategoryCell;

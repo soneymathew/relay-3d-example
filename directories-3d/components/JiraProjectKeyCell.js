@@ -5,14 +5,14 @@ const JiraProjectKeyCell = ({content}) => {
     graphql`
       fragment JiraProjectKeyCell_content on JiraProjectKeyCell {
         project {
-          todo
+          key
         }
       }
     `,
     content,
   );
 
-  return <span>{data.project.todo}</span>;
+  return <span>{data.project.key}</span>;
 };
 
 export default JiraProjectKeyCell;
