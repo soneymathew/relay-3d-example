@@ -31,15 +31,17 @@ const JiraProjectDirectory = ({directory}) => {
 
   return (
     <div>
-      <Title>{data.title}</Title>
-      <div>
-        {data.createDirectoryItem ? (
-          <RelayMatchContainer match={data.createDirectoryItem} />
-        ) : (
-          <p>Unsupported result.</p>
-        )}
+      <div className="lg:flex lg:items-center lg:justify-between mt-3 mb-3">
+        <Title>{data.title}</Title>
+        <div>
+          {data.createDirectoryItem ? (
+            <RelayMatchContainer match={data.createDirectoryItem} />
+          ) : (
+            <p>Unsupported result.</p>
+          )}
+        </div>
       </div>
-      <div>
+      <div className="lg:flex lg:items-center lg:justify-between mt-3 mb-3">
         {data.filterCriteria.map((criteria, index) =>
           criteria ? (
             <RelayMatchContainer key={`criteria-${index}`} match={criteria} />

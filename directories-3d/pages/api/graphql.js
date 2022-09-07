@@ -95,12 +95,21 @@ const resolvers = {
               };
             },
             filterCriteria: (args, ...rest) => {
-              return args.supported.map((type) => ({
-                __typename: type,
-                // FIXME : A way to hydrate selected items .category and .projectType
-                type: 'todo',
-                js: JSFieldResolver,
-              }));
+              return args.supported.map((type) => {
+                const data = {
+                  JiraProjectDirectoryProjectTypesFilterCriteria:
+                    projectData.availableProjectTypes.slice(0, 2),
+                  JiraProjectDirectoryProjectCategoriesFilterCriteria:
+                    projectData.categories.slice(0, 2),
+                }[type];
+
+                return {
+                  __typename: type,
+                  type,
+                  selectedItems: data,
+                  js: JSFieldResolver,
+                };
+              });
             },
             result: {
               js: JSFieldResolver,
