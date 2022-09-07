@@ -5,14 +5,16 @@ const JiraProjectLeadCell = ({content}) => {
     graphql`
       fragment JiraProjectLeadCell_content on JiraProjectLeadCell {
         project {
-          todo
+          lead {
+            displayName
+          }
         }
       }
     `,
     content,
   );
 
-  return <span>{data.project.todo}</span>;
+  return <span>{data.project.lead?.displayName}</span>;
 };
 
 export default JiraProjectLeadCell;

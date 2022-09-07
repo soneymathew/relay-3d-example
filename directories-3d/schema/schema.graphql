@@ -104,16 +104,33 @@ type JiraProjectDirectoryResultValues implements JiraDirectoryResultValues {
   columns: [JiraDirectoryResultCell]
 }
 
+type Lead {
+  self: String
+  accountId: String
+  accountType: String
+  displayName: String
+  active: Boolean
+}
+
 # TODO: match this to current design later
 type JiraProject {
-  favourite: Boolean
-  todo: String
+  self: String
+  id: String
+  key: String
+  lead: Lead
   name: String
-  projectType: String
+  projectTypeKey: String
+  simplified: Boolean
+  style: String
+  favourite: Boolean
+  isPrivate: Boolean
+  entityId: String
+  uuid: String
+  todo: String
 }
 
 type JiraProjectFavouriteCell {
-  isFavourite: Boolean
+  project: JiraProject
   js(module: String!, id: String): JSDependency!
 }
 

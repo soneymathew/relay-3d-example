@@ -5,6 +5,11 @@ import path from 'path';
 import {ApolloServerPluginLandingPageLocalDefault} from 'apollo-server-core';
 import {GraphQLScalarType} from 'graphql';
 import projectData, {projectDirectoryHeaders} from '../../lib/projectData.mjs';
+import {DEFAULT_MOCK_DATA} from '../../lib/mocks/projectsSearchData';
+
+const MOCKED_PROJECT_DATA = DEFAULT_MOCK_DATA.values;
+// .sort(() => Math.random() - 0.5)
+// .slice(0, 30);
 
 const SCHEMA_FILE = path.resolve(
   getConfig().serverRuntimeConfig.projectRoot,
@@ -93,7 +98,7 @@ const resolvers = {
               return args.supported.map((type) => ({
                 __typename: type,
                 // FIXME : A way to hydrate selected items .category and .projectType
-                type: "todo",
+                type: 'todo',
                 js: JSFieldResolver,
               }));
             },
@@ -107,21 +112,19 @@ const resolvers = {
                   sortDirection,
                 }),
               ),
-              rows: [
-                {
-                  __typename: 'JiraProjectDirectoryResultValues',
-                  columns: (args, ...rest) => {
-                    return projectDirectoryHeaders.map(({renderer}) => ({
-                      __typename: 'JiraProjectDirectoryResultCell',
-                      renderer: {
-                        __typename: renderer,
-                        js: JSFieldResolver,
-                        project: {name: "TBD", todo: "TBD", isFavourite: false}, // FIXME: return the project object
-                      },
-                    }));
-                  },
+              rows: MOCKED_PROJECT_DATA.map((project) => ({
+                __typename: 'JiraProjectDirectoryResultValues',
+                columns: (args, ...rest) => {
+                  return projectDirectoryHeaders.map(({renderer}) => ({
+                    __typename: 'JiraProjectDirectoryResultCell',
+                    renderer: {
+                      __typename: renderer,
+                      js: JSFieldResolver,
+                      project,
+                    },
+                  }));
                 },
-              ],
+              })),
             },
             js: JSFieldResolver,
           };

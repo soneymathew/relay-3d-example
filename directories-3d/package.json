@@ -4,10 +4,10 @@
   "description": "Example of Next.js with Relay Modern",
   "scripts": {
     "next": "next",
-    "dev": "mkdir -p __generated__ && touch queryMap.json && concurrently \"next\" \"relay-compiler --watch\"",
+    "dev": "touch queryMap.json && concurrently \"next\" \"relay-compiler --watch\"",
     "build": "next build",
     "start": "next start",
-    "relay": "relay-compiler",
+    "relay": "mkdir -p __generated__ && relay-compiler",
     "prettier": "prettier --write '{,!(node_modules|__generated__|\\.next)/**}*.{mjs,js,json}'"
   },
   "license": "MIT",
