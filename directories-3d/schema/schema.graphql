@@ -37,6 +37,19 @@ type JiraProjectDirectoryCreateItem implements JiraDirectoryCreateItem {
   js(module: String!, id: String): JSDependency!
 }
 
+type JiraProjectType {
+  key: String
+  icon: String
+  formattedKey: String
+  id: String
+}
+
+type JiraProjectCategory {
+  name: String
+  description: String
+  id: String
+}
+
 interface JiraDirectoryFilterCriteria {
   type: String
 }
@@ -50,11 +63,13 @@ type JiraDirectorySearchTextFilterCriteria implements JiraDirectoryFilterCriteri
 
 type JiraProjectDirectoryProjectTypesFilterCriteria implements JiraDirectoryFilterCriteria {
   type: String
+  selectedItems: [JiraProjectType]
   js(module: String!, id: String): JSDependency!
 }
 
 type JiraProjectDirectoryProjectCategoriesFilterCriteria implements JiraDirectoryFilterCriteria {
   type: String
+  selectedItems: [JiraProjectCategory]
   js(module: String!, id: String): JSDependency!
 }
 

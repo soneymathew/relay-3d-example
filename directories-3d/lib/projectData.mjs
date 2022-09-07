@@ -42,46 +42,46 @@ export const projectDirectoryHeaders = [
     title: '⭐',
     isSortable: true,
     sortDirection: 'ASC',
-    renderer: "JiraProjectFavouriteCell"
+    renderer: 'JiraProjectFavouriteCell',
   },
   {
     title: 'Name',
     isSortable: true,
     sortDirection: 'ASC',
-    renderer: "JiraProjectNameCell",
+    renderer: 'JiraProjectNameCell',
   },
   {
     title: 'Key',
     isSortable: true,
     sortDirection: 'ASC',
-    renderer: "JiraProjectKeyCell",
+    renderer: 'JiraProjectKeyCell',
   },
   {
     title: 'Type',
     isSortable: false,
-    renderer: "JiraProjectTypeCell",
+    renderer: 'JiraProjectTypeCell',
   },
   {
     title: 'Lead',
     isSortable: true,
     sortDirection: 'ASC',
-    renderer: "JiraProjectLeadCell",
+    renderer: 'JiraProjectLeadCell',
   },
   {
     title: 'Category',
     isSortable: true,
     sortDirection: 'DESC',
-    renderer: "JiraProjectCategoryCell",
+    renderer: 'JiraProjectCategoryCell',
   },
   {
     title: '', // project link
     isSortable: false,
-    renderer: "JiraProjectLinkCell",
+    renderer: 'JiraProjectLinkCell',
   },
   {
     title: '', // Actions
     isSortable: false,
-    renderer: "JiraProjectActionsCell",
+    renderer: 'JiraProjectActionsCell',
   },
-]
+];
 export default wrmData;
