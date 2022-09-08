@@ -10,7 +10,7 @@ const JiraDirectorySearchTextFilterCriteria = ({content}) => {
     `,
     content,
   );
-  console.log('************JiraDirectorySearchTextFilterCriteria', data);
+  // console.log('************JiraDirectorySearchTextFilterCriteria', data);
   return (
     <div class="flex">
       <div class="bg-gray-200 py-2 px-3 border border-r-0 rounded-l-md border-gray-300">

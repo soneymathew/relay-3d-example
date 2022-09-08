@@ -29,7 +29,7 @@ export default function Post(props) {
 }
 
 export async function getServerSideProps(ctx) {
-  console.log('getServerSideProps', ctx.params.type);
+  // console.log('getServerSideProps', ctx.params.type);
   return {
     props: {
       preloadedQueries: {

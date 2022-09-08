@@ -1,5 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+#Avoid forcing peeps to refer to registeries behind vpn
+yarn.lock
 # dependencies
 /node_modules
 /.pnp

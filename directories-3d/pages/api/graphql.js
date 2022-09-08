@@ -7,7 +7,7 @@ import {GraphQLScalarType} from 'graphql';
 import projectData, {
   projectDirectoryHeaders,
   adminProjectDirectoryHeaders,
-} from '../../lib/projectData.mjs';
+} from '../../lib/mocks/projectData.mjs';
 import {DEFAULT_MOCK_DATA} from '../../lib/mocks/projectsSearchData';
 
 const MOCKED_PROJECT_DATA = DEFAULT_MOCK_DATA.values;
@@ -103,7 +103,7 @@ const resolvers = {
               };
             },
             filterCriteria: (args, ...rest) => {
-              console.log({args});
+              // console.log({args});
 
               return args.supported.map((type) => {
                 const data = {

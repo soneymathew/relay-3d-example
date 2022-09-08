@@ -9,7 +9,7 @@ const JiraProjectDirectoryCreateItem = ({directory}) => {
     `,
     directory,
   );
-  console.log('************JiraProjectDirectoryCreateItem', data);
+  // console.log('************JiraProjectDirectoryCreateItem', data);
 
   return (
     <div>
