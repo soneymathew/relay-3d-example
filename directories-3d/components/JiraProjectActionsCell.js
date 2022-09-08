@@ -5,15 +5,14 @@ const JiraProjectActionsCell = ({content}) => {
     graphql`
       fragment JiraProjectActionsCell_content on JiraProjectActionsCell {
         project {
-   todo
-}      }
+          isPrivate
+        }
+      }
     `,
     content,
   );
 
-  return (
-      <span>{data.project.todo}</span>
-  );
+  return <span>{data.project.isPrivate ? 'actions' : 'no-actions'}</span>;
 };
 
 export default JiraProjectActionsCell;

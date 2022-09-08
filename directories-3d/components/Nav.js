@@ -4,10 +4,9 @@ export default function Nav() {
   return (
     <header className="bg-white shadow">
       <nav className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-        <Link href="/">Home</Link> | 
-        <Link href="/about">About</Link> |
+        <Link href="/">Home</Link> |<Link href="/about">About</Link> |
         <Link href="/directory/projects">Projects</Link> |
-        <Link href="/directory/filters">Filters</Link>
+        <Link href="/directory/projectsAdmin">Admin</Link>
       </nav>
     </header>
   );

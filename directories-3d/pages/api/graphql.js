@@ -4,7 +4,10 @@ import {ApolloServer} from 'apollo-server-micro';
 import path from 'path';
 import {ApolloServerPluginLandingPageLocalDefault} from 'apollo-server-core';
 import {GraphQLScalarType} from 'graphql';
-import projectData, {projectDirectoryHeaders} from '../../lib/projectData.mjs';
+import projectData, {
+  projectDirectoryHeaders,
+  adminProjectDirectoryHeaders,
+} from '../../lib/projectData.mjs';
 import {DEFAULT_MOCK_DATA} from '../../lib/mocks/projectsSearchData';
 
 const MOCKED_PROJECT_DATA = DEFAULT_MOCK_DATA.values;
@@ -85,7 +88,12 @@ const resolvers = {
     jira: () => ({
       directory: (args, ...rest) => {
         // console.log('directory', args, rest);
-        if (args.id == 'projects') {
+        const tableHeaders =
+          args.id == 'projects'
+            ? projectDirectoryHeaders
+            : adminProjectDirectoryHeaders;
+
+        if (args.id == 'projects' || args.id == 'projectsAdmin') {
           return {
             title: `${args.id.toUpperCase()}`,
             createDirectoryItem: (args, ...rest) => {
@@ -95,6 +103,8 @@ const resolvers = {
               };
             },
             filterCriteria: (args, ...rest) => {
+              console.log({args});
+
               return args.supported.map((type) => {
                 const data = {
                   JiraProjectDirectoryProjectTypesFilterCriteria:
@@ -113,7 +123,7 @@ const resolvers = {
             },
             result: {
               js: JSFieldResolver,
-              headers: projectDirectoryHeaders.map(
+              headers: tableHeaders.map(
                 ({title, isSortable, sortDirection}) => ({
                   __typename: 'JiraProjectDirectoryResultHeader',
                   title,
@@ -124,7 +134,7 @@ const resolvers = {
               rows: MOCKED_PROJECT_DATA.map((project) => ({
                 __typename: 'JiraProjectDirectoryResultValues',
                 columns: (args, ...rest) => {
-                  return projectDirectoryHeaders.map(({renderer}) => ({
+                  return tableHeaders.map(({renderer}) => ({
                     __typename: 'JiraProjectDirectoryResultCell',
                     renderer: {
                       __typename: renderer,

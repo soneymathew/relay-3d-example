@@ -119,7 +119,7 @@ type JiraProjectDirectoryResultValues implements JiraDirectoryResultValues {
   columns: [JiraDirectoryResultCell]
 }
 
-type Lead {
+type ProjectLead {
   self: String
   accountId: String
   accountType: String
@@ -132,7 +132,7 @@ type JiraProject {
   self: String
   id: String
   key: String
-  lead: Lead
+  lead: ProjectLead
   name: String
   projectTypeKey: String
   simplified: Boolean

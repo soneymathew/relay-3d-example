@@ -84,4 +84,35 @@ export const projectDirectoryHeaders = [
     renderer: 'JiraProjectActionsCell',
   },
 ];
+
+export const adminProjectDirectoryHeaders = [
+  {
+    title: 'Name',
+    isSortable: true,
+    sortDirection: 'ASC',
+    renderer: 'JiraProjectNameCell',
+  },
+  {
+    title: 'Key',
+    isSortable: true,
+    sortDirection: 'ASC',
+    renderer: 'JiraProjectKeyCell',
+  },
+  {
+    title: 'Type',
+    isSortable: false,
+    renderer: 'JiraProjectTypeCell',
+  },
+  {
+    title: 'Lead',
+    isSortable: true,
+    sortDirection: 'ASC',
+    renderer: 'JiraProjectLeadCell',
+  },
+  {
+    title: '', // project link
+    isSortable: false,
+    renderer: 'JiraProjectLinkCell',
+  },
+];
 export default wrmData;
