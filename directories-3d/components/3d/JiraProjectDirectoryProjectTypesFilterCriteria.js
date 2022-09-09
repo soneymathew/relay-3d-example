@@ -1,7 +1,7 @@
 import {useFragment, graphql} from 'react-relay';
-import {Title, Text} from '../components/LayoutComponents';
+import {Title, Text} from '../LayoutComponents';
 
-import {Select} from './common/Select';
+import {Select} from '../common/Select';
 
 const JiraProjectDirectoryProjectTypesFilterCriteria = ({content}) => {
   const data = useFragment(

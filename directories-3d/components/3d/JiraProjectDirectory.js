@@ -1,6 +1,6 @@
 import {useFragment, graphql} from 'react-relay';
-import {Title, Text} from './LayoutComponents';
-import RelayMatchContainer from './RelayMatchContainer';
+import {Title, Text} from '../LayoutComponents';
+import RelayMatchContainer from '../RelayMatchContainer';
 
 const JiraProjectDirectory = ({directory}) => {
   const data = useFragment(

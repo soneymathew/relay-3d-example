@@ -1,5 +1,5 @@
 import {useFragment, graphql} from 'react-relay';
-import {Title, Text} from '../components/LayoutComponents';
+import {Title, Text} from '../LayoutComponents';
 
 const JiraDirectorySearchTextFilterCriteria = ({content}) => {
   const data = useFragment(
@@ -12,11 +12,11 @@ const JiraDirectorySearchTextFilterCriteria = ({content}) => {
   );
   // console.log('************JiraDirectorySearchTextFilterCriteria', data);
   return (
-    <div class="flex">
-      <div class="bg-gray-200 py-2 px-3 border border-r-0 rounded-l-md border-gray-300">
+    <div className="flex">
+      <div className="bg-gray-200 py-2 px-3 border border-r-0 rounded-l-md border-gray-300">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5"
+          className="h-5 w-5"
           viewBox="0 0 20 20"
           fill="currentColor">
           <path
@@ -27,12 +27,12 @@ const JiraDirectorySearchTextFilterCriteria = ({content}) => {
         </svg>
       </div>
       <input
-        class="flex-1 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+        className="flex-1 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
         type="text"
       />
       <button
         type="button"
-        class="rounded-r-md bg-gray-200 py-2 px-3 border border-l-0 border-gray-300">
+        className="rounded-r-md bg-gray-200 py-2 px-3 border border-l-0 border-gray-300">
         Search
       </button>
     </div>
