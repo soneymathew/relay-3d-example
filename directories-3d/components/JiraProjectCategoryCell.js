@@ -12,7 +12,7 @@ const JiraProjectCategoryCell = ({content}) => {
     content,
   );
 
-  return <span>{data.project.todo}</span>;
+  return <span></span>;
 };
 
 export default JiraProjectCategoryCell;
