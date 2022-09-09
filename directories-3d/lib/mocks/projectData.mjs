@@ -39,7 +39,7 @@ const wrmData = {
 
 export const projectDirectoryHeaders = [
   {
-    title: '⭐',
+    title: '',
     isSortable: true,
     sortDirection: 'ASC',
     renderer: 'JiraProjectFavouriteCell',
