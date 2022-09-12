@@ -5,14 +5,14 @@ const JiraProjectLastIssueUpdateCell = ({content}) => {
     graphql`
       fragment JiraProjectLastIssueUpdateCell_content on JiraProjectLastIssueUpdateCell {
         project {
-          todo
+          lastIssueUpdateDate
         }
       }
     `,
     content,
   );
 
-  return <span>{data.project.todo}</span>;
+  return <span>{data.project.lastIssueUpdateDate}</span>;
 };
 
 export default JiraProjectLastIssueUpdateCell;

@@ -1,18 +1,13 @@
 import fs from 'fs';
 import getConfig from 'next/config';
-import {ApolloServer} from 'apollo-server-micro';
+import { ApolloServer } from 'apollo-server-micro';
 import path from 'path';
-import {ApolloServerPluginLandingPageLocalDefault} from 'apollo-server-core';
-import {GraphQLScalarType} from 'graphql';
-import projectData, {
-  projectDirectoryHeaders,
-  adminProjectDirectoryHeaders,
-} from '../../lib/mocks/projectData.mjs';
-import {DEFAULT_MOCK_DATA} from '../../lib/mocks/projectsSearchData';
-
-const MOCKED_PROJECT_DATA = DEFAULT_MOCK_DATA.values;
-// .sort(() => Math.random() - 0.5)
-// .slice(0, 30);
+import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
+import { GraphQLScalarType } from 'graphql';
+import projectData from '../../lib/mocks/projectData.mjs';
+import {
+  PROJECT_DIRECTORY_CONFIG,
+} from '../../lib/mocks/projectsSearchData';
 
 const SCHEMA_FILE = path.resolve(
   getConfig().serverRuntimeConfig.projectRoot,
@@ -87,15 +82,14 @@ const resolvers = {
   Query: {
     jira: () => ({
       directory: (args, ...rest) => {
-        // console.log('directory', args, rest);
-        const tableHeaders =
-          args.id == 'projects'
-            ? projectDirectoryHeaders
-            : adminProjectDirectoryHeaders;
-
         if (args.id == 'projects' || args.id == 'projectsAdmin') {
+          // console.log('directory', args, rest);
+          const directoryConfig =
+            args.id == 'projectsAdmin'
+              ? PROJECT_DIRECTORY_CONFIG(true)
+              : PROJECT_DIRECTORY_CONFIG(false);
           return {
-            title: `${args.id.toUpperCase()}`,
+            title: `${directoryConfig.title}`,
             createDirectoryItem: (args, ...rest) => {
               return {
                 canCreate: true,
@@ -103,9 +97,7 @@ const resolvers = {
               };
             },
             filterCriteria: (args, ...rest) => {
-              // console.log({args});
-
-              return args.supported.map((type) => {
+              return args.supported.map((type) => { // Drive this based on request params and directoryConfig
                 const data = {
                   JiraProjectDirectoryProjectTypesFilterCriteria:
                     projectData.availableProjectTypes.slice(0, 2),
@@ -123,18 +115,18 @@ const resolvers = {
             },
             result: {
               js: JSFieldResolver,
-              headers: tableHeaders.map(
-                ({title, isSortable, sortDirection}) => ({
+              headers: directoryConfig.headers.map(
+                ({ title, isSortable, sortDirection }) => ({
                   __typename: 'JiraProjectDirectoryResultHeader',
                   title,
                   isSortable,
                   sortDirection,
                 }),
               ),
-              rows: MOCKED_PROJECT_DATA.map((project) => ({
+              rows: directoryConfig.data.values.map((project) => ({
                 __typename: 'JiraProjectDirectoryResultValues',
                 columns: (args, ...rest) => {
-                  return tableHeaders.map(({renderer}) => ({
+                  return directoryConfig.headers.map(({ renderer }) => ({
                     __typename: 'JiraProjectDirectoryResultCell',
                     renderer: {
                       __typename: renderer,
@@ -172,12 +164,12 @@ const apolloServer = new ApolloServer({
   csrfPrevention: true,
   cache: 'bounded',
   plugins: [
-    ApolloServerPluginLandingPageLocalDefault({embed: true}),
+    ApolloServerPluginLandingPageLocalDefault({ embed: true }),
     {
       async requestDidStart(_requestContext) {
         dataDrivenDependencies.reset();
         return {
-          async willSendResponse({response}) {
+          async willSendResponse({ response }) {
             const dddModules = dataDrivenDependencies.getModules();
             if (dddModules.length > 0) {
               // console.log('willSendResponse!', dddModules.length, dddModules);

@@ -142,6 +142,7 @@ type JiraProject {
   entityId: String
   uuid: String
   todo: String
+  lastIssueUpdateDate: String
 }
 
 type JiraProjectFavouriteCell {

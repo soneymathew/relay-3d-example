@@ -1,9 +1,15 @@
-import {useFragment, graphql} from 'react-relay';
-import {Title, Text} from '../LayoutComponents';
+import { useFragment, graphql } from 'react-relay';
+import { useState } from 'react'
+import { Listbox } from '@headlessui/react'
 
-import {Select} from '../common/Select';
+const projectTypes = [
+  { id: 1, name: 'Product Discovery' },
+  { id: 1, name: 'Jira Software' },
+  { id: 1, name: 'Jira Service Management' },
+  { id: 1, name: 'Jira Work Management' },
+]
 
-const JiraProjectDirectoryProjectTypesFilterCriteria = ({content}) => {
+const JiraProjectDirectoryProjectTypesFilterCriteria = ({ content }) => {
   const data = useFragment(
     graphql`
       fragment JiraProjectDirectoryProjectTypesFilterCriteria_content on JiraProjectDirectoryProjectTypesFilterCriteria {
@@ -15,12 +21,21 @@ const JiraProjectDirectoryProjectTypesFilterCriteria = ({content}) => {
     `,
     content,
   );
+  const [selectedProjectTypes, setSelectedProjectTypes] = useState([projectTypes[0], projectTypes[1]])
 
   return (
-    <Select
-      label={data.selectedItems?.map((item) => item.id).join(', ')}
-      options={[]}
-    />
+    <Listbox value={selectedProjectTypes} onChange={setSelectedProjectTypes} multiple>
+      <Listbox.Button>
+        {data.selectedItems?.map((item) => item.id).join(', ')}
+      </Listbox.Button>
+      <Listbox.Options>
+        {projectTypes.map((projectType) => (
+          <Listbox.Option key={projectType.id} value={projectType}>
+            {projectType.name}
+          </Listbox.Option>
+        ))}
+      </Listbox.Options>
+    </Listbox>
   );
 };
 

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<66de00ec56dbe74dadf4f0819325430e>>
+ * @generated SignedSource<<f510400a22cfd55bbfc66aa4869fb5d5>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -27,7 +27,7 @@ var node = {
           "alias": null,
           "args": null,
           "kind": "ScalarField",
-          "name": "todo",
+          "name": "lastIssueUpdateDate",
           "storageKey": null
         }
       ],
@@ -36,6 +36,6 @@ var node = {
   ]
 };
 
-node.hash = "5a6b61a406939ac40d0f9521739f7149";
+node.hash = "d699f6736cfc4f68e8b42101c1462dbd";
 
 module.exports = node;

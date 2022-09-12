@@ -1,8 +1,8 @@
-import {useFragment, graphql} from 'react-relay';
-import {Title, Text} from '../LayoutComponents';
+import { useFragment, graphql } from 'react-relay';
+import { Title, Text } from '../LayoutComponents';
 import RelayMatchContainer from '../RelayMatchContainer';
 
-const JiraProjectDirectory = ({directory}) => {
+const JiraProjectDirectory = ({ directory }) => {
   const data = useFragment(
     graphql`
       fragment JiraProjectDirectory_directory on JiraProjectDirectory {
@@ -41,7 +41,7 @@ const JiraProjectDirectory = ({directory}) => {
           )}
         </div>
       </div>
-      <div className="lg:flex lg:items-center lg:justify-between mt-3 mb-3">
+      <div className="flex items-center">
         {data.filterCriteria.map((criteria, index) =>
           criteria ? (
             <RelayMatchContainer key={`criteria-${index}`} match={criteria} />
