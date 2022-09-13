@@ -21,7 +21,7 @@ export default function Post(props) {
   return (
     <>
       <Nav />
-      <Content> gqlEndPoint ::: {props.gqlEndPoint}
+      <Content>
         {jira ? <RelayMatchContainer match={jira.directory} /> : <p>Directory not found.</p>}
       </Content>
     </>
@@ -46,7 +46,6 @@ export async function getServerSideProps(ctx) {
       preloadedQueries: {
         query: await getPreloadedQuery(query, {id: ctx.query.type}),
       },
-      gqlEndPoint: process.env.GRAPHQL_ENDPOINT
     },
   };
 }
