@@ -44,9 +44,12 @@ export async function networkFetch(id, variables, query) {
   // const url = process.env.VERCEL_URL ?
   //   `'https://${process.env.VERCEL_URL}/api/graphql'` :
   //   process.env.GRAPHQL_ENDPOINT ?? 'http://localhost:3000/api/graphql';
-  const url = process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}/api/graphql`
-    : process.env.GRAPHQL_ENDPOINT ?? 'http://localhost:3000/api/graphql';
+  const IS_SERVER = typeof window === typeof undefined;
+  const url = IS_SERVER
+    ? process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}/api/graphql`
+      : process.env.GRAPHQL_ENDPOINT ?? 'http://localhost:3000/api/graphql'
+    : `${window.location.origin}/api/graphql`;
   const response = await fetch(url, {
     method: 'POST',
     headers: {
