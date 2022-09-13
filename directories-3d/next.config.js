@@ -15,4 +15,15 @@ module.exports = {
   serverRuntimeConfig: {
     projectRoot: __dirname,
   },
+  webpack: (
+    config,
+    {buildId, dev, isServer, defaultLoaders, nextRuntime, webpack},
+  ) => {
+    config.module.rules.push({
+      test: /\.(graphql|gql)$/,
+      exclude: /node_modules/,
+      loader: 'graphql-tag/loader',
+    });
+    return config;
+  },
 };

@@ -1,6 +1,6 @@
 {
   "src": "./",
-  "schema": "./schema/schema.graphql",
+  "schema": "./lib/schema/schema.graphql",
   "artifactDirectory": "./__generated__",
   "excludes": ["**/.next/**", "**/node_modules/**", "**/schema/**"],
   "language": "javascript"
