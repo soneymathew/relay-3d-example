@@ -7,7 +7,8 @@ export default function About(props) {
       <Nav />
       <Content>
         <p>This is the about page</p>
-        <p>gqlEndPoint @ {props.gqlEndPoint}</p>
+        <p>GRAPHQL_ENDPOINT @ {props.gqlEndPoint}</p>
+        <p>VERCEL_URL @ {props.vercelUrl}</p>
       </Content>
     </>
   );
@@ -16,7 +17,8 @@ export default function About(props) {
 export async function getServerSideProps(ctx) {
   return {
     props: {
-      gqlEndPoint: process.env.GRAPHQL_ENDPOINT
+      gqlEndPoint: process.env.GRAPHQL_ENDPOINT,
+      vercelUrl: process.env.VERCEL_URL,
     },
   };
 }
