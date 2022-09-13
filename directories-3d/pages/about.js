@@ -18,7 +18,7 @@ export async function getServerSideProps(ctx) {
   return {
     props: {
       gqlEndPoint: process.env.GRAPHQL_ENDPOINT,
-      vercelUrl: process.env.VERCEL_URL,
+      vercelUrl: process.env.VERCEL_URL ?? null,
     },
   };
 }
