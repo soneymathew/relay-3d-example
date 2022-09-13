@@ -8,7 +8,7 @@ import {getPreloadedQuery} from '../../lib/relay/getServerSideProps';
 const query = graphql`
   query TypeBasedDirectoryPageQuery($id: ID!) @preloadable {
     jira {
-      directory(cloudId: "todo", id: $id) @match {
+      directory(cloudId: "cid-123", id: $id) @match {
         ...JiraProjectDirectory_directory @module(name: "JiraProjectDirectory")
       }
     }
@@ -21,7 +21,7 @@ export default function Post(props) {
   return (
     <>
       <Nav />
-      <Content>
+      <Content> gqlEndPoint ::: {props.gqlEndPoint}
         {jira ? <RelayMatchContainer match={jira.directory} /> : <p>Directory not found.</p>}
       </Content>
     </>
@@ -30,11 +30,23 @@ export default function Post(props) {
 
 export async function getServerSideProps(ctx) {
   // console.log('getServerSideProps', ctx.params.type);
+  // contains=<searchText>&page=1&selectedCategory=c1&selectedProjectType=service_desk%2Csoftware&sortKey=name&sortOrder=DESC
+  // console.log('getServerSideProps', ctx.query);
+  // [0] getServerSideProps {
+  // [0]   contains: '<searchText>',
+  // [0]   page: '1',
+  // [0]   selectedCategory: 'c1',
+  // [0]   selectedProjectType: 'service_desk,software',
+  // [0]   sortKey: 'name',
+  // [0]   sortOrder: 'DESC',
+  // [0]   type: 'projectsAdmin'
+  // [0] }
   return {
     props: {
       preloadedQueries: {
         query: await getPreloadedQuery(query, {id: ctx.query.type}),
       },
+      gqlEndPoint: process.env.GRAPHQL_ENDPOINT
     },
   };
 }

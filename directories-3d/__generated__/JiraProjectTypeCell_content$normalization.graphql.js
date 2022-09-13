@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d64e469e66584b154a9e6f0a2ae2e5d7>>
+ * @generated SignedSource<<896c81f14529d4c43ce8dd336f0b71f4>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,7 +10,15 @@
 
 
 
-var node = {
+var node = (function(){
+var v0 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+};
+return {
   "kind": "SplitOperation",
   "metadata": {},
   "name": "JiraProjectTypeCell_content$normalization",
@@ -27,15 +35,43 @@ var node = {
           "alias": null,
           "args": null,
           "kind": "ScalarField",
-          "name": "projectTypeKey",
+          "name": "simplified",
           "storageKey": null
-        }
+        },
+        {
+          "alias": null,
+          "args": null,
+          "concreteType": "JiraProjectTypeDetails",
+          "kind": "LinkedField",
+          "name": "projectType",
+          "plural": false,
+          "selections": [
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "teamManagedDisplayName",
+              "storageKey": null
+            },
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "companyManagedDisplayName",
+              "storageKey": null
+            },
+            (v0/*: any*/)
+          ],
+          "storageKey": null
+        },
+        (v0/*: any*/)
       ],
       "storageKey": null
     }
   ]
 };
+})();
 
-node.hash = "9b6011ba409c8f7ad35f5bff75a60cfe";
+node.hash = "a0f34771113b4cf216b66d076e632096";
 
 module.exports = node;

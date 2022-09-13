@@ -1,12 +1,13 @@
 import fs from 'fs';
 import getConfig from 'next/config';
-import { ApolloServer } from 'apollo-server-micro';
+import {ApolloServer} from 'apollo-server-micro';
 import path from 'path';
-import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
-import { GraphQLScalarType } from 'graphql';
+import {ApolloServerPluginLandingPageLocalDefault} from 'apollo-server-core';
+import {GraphQLScalarType} from 'graphql';
 import projectData from '../../lib/mocks/projectData.mjs';
 import {
   PROJECT_DIRECTORY_CONFIG,
+  projectTypeDetails,
 } from '../../lib/mocks/projectsSearchData';
 
 const SCHEMA_FILE = path.resolve(
@@ -91,16 +92,19 @@ const resolvers = {
           return {
             title: `${directoryConfig.title}`,
             createDirectoryItem: (args, ...rest) => {
-              return {
-                canCreate: true,
-                js: JSFieldResolver,
-              };
+              return directoryConfig.hasCreatePermission
+                ? {
+                    canCreate: directoryConfig.hasCreatePermission,
+                    js: JSFieldResolver,
+                  }
+                : null;
             },
             filterCriteria: (args, ...rest) => {
-              return args.supported.map((type) => { // Drive this based on request params and directoryConfig
+              return args.supported.map((type) => {
+                // Drive this based on request params and directoryConfig
                 const data = {
                   JiraProjectDirectoryProjectTypesFilterCriteria:
-                    projectData.availableProjectTypes.slice(0, 2),
+                    projectTypeDetails.values.slice(0, 2),
                   JiraProjectDirectoryProjectCategoriesFilterCriteria:
                     projectData.categories.slice(0, 2),
                 }[type];
@@ -116,7 +120,7 @@ const resolvers = {
             result: {
               js: JSFieldResolver,
               headers: directoryConfig.headers.map(
-                ({ title, isSortable, sortDirection }) => ({
+                ({title, isSortable, sortDirection}) => ({
                   __typename: 'JiraProjectDirectoryResultHeader',
                   title,
                   isSortable,
@@ -126,7 +130,7 @@ const resolvers = {
               rows: directoryConfig.data.values.map((project) => ({
                 __typename: 'JiraProjectDirectoryResultValues',
                 columns: (args, ...rest) => {
-                  return directoryConfig.headers.map(({ renderer }) => ({
+                  return directoryConfig.headers.map(({renderer}) => ({
                     __typename: 'JiraProjectDirectoryResultCell',
                     renderer: {
                       __typename: renderer,
@@ -164,12 +168,12 @@ const apolloServer = new ApolloServer({
   csrfPrevention: true,
   cache: 'bounded',
   plugins: [
-    ApolloServerPluginLandingPageLocalDefault({ embed: true }),
+    ApolloServerPluginLandingPageLocalDefault({embed: true}),
     {
       async requestDidStart(_requestContext) {
         dataDrivenDependencies.reset();
         return {
-          async willSendResponse({ response }) {
+          async willSendResponse({response}) {
             const dddModules = dataDrivenDependencies.getModules();
             if (dddModules.length > 0) {
               // console.log('willSendResponse!', dddModules.length, dddModules);

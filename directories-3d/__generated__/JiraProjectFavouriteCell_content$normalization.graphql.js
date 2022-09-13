@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<fafa4a1c87fa7628ca783700b849c916>>
+ * @generated SignedSource<<a2ab8ff4759c4ec8df74f7e0898aa77f>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -28,6 +28,13 @@ var node = {
           "args": null,
           "kind": "ScalarField",
           "name": "favourite",
+          "storageKey": null
+        },
+        {
+          "alias": null,
+          "args": null,
+          "kind": "ScalarField",
+          "name": "id",
           "storageKey": null
         }
       ],

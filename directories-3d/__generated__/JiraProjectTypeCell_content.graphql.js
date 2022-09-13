@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<4c3b6369d1cb51dd86128ec5b359d534>>
+ * @generated SignedSource<<897f82a5e8eef7a01cc1ff236691c26b>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -26,7 +26,32 @@ var node = {
           "alias": null,
           "args": null,
           "kind": "ScalarField",
-          "name": "projectTypeKey",
+          "name": "simplified",
+          "storageKey": null
+        },
+        {
+          "alias": null,
+          "args": null,
+          "concreteType": "JiraProjectTypeDetails",
+          "kind": "LinkedField",
+          "name": "projectType",
+          "plural": false,
+          "selections": [
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "teamManagedDisplayName",
+              "storageKey": null
+            },
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "companyManagedDisplayName",
+              "storageKey": null
+            }
+          ],
           "storageKey": null
         }
       ],
@@ -37,6 +62,6 @@ var node = {
   "abstractKey": null
 };
 
-node.hash = "9b6011ba409c8f7ad35f5bff75a60cfe";
+node.hash = "a0f34771113b4cf216b66d076e632096";
 
 module.exports = node;

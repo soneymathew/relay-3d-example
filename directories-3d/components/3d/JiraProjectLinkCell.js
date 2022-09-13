@@ -1,18 +1,18 @@
-import {useFragment, graphql} from 'react-relay';
+import { useFragment, graphql } from 'react-relay';
 
-const JiraProjectLinkCell = ({content}) => {
+const JiraProjectLinkCell = ({ content }) => {
   const data = useFragment(
     graphql`
       fragment JiraProjectLinkCell_content on JiraProjectLinkCell {
         project {
-          todo
+          url
         }
       }
     `,
     content,
   );
 
-  return <span></span>;
+  return data.project.url ? <a href={data.project.url}>🔗</a> : <span>&nbsp;</span>;
 };
 
 export default JiraProjectLinkCell;

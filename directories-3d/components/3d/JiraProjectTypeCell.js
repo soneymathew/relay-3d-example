@@ -5,14 +5,24 @@ const JiraProjectTypeCell = ({content}) => {
     graphql`
       fragment JiraProjectTypeCell_content on JiraProjectTypeCell {
         project {
-          projectTypeKey
+          simplified
+          projectType {
+            teamManagedDisplayName
+            companyManagedDisplayName
+          }
         }
       }
     `,
     content,
   );
 
-  return <span>{data.project.projectTypeKey}</span>;
+  return (
+    <span>
+      {data.project.simplified
+        ? data.project.projectType.teamManagedDisplayName
+        : data.project.projectType.companyManagedDisplayName}
+    </span>
+  );
 };
 
 export default JiraProjectTypeCell;

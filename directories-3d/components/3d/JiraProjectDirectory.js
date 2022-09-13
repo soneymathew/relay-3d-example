@@ -37,7 +37,7 @@ const JiraProjectDirectory = ({ directory }) => {
           {data.createDirectoryItem ? (
             <RelayMatchContainer match={data.createDirectoryItem} />
           ) : (
-            <p>Unsupported result.</p>
+            <p>❌No create permission❌</p>
           )}
         </div>
       </div>

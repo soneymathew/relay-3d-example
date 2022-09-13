@@ -10,7 +10,7 @@ type JiraQuery {
 
 interface JiraDirectory {
   title: String!
-  createDirectoryItem(supported: [String]): JiraDirectoryCreateItem!
+  createDirectoryItem(supported: [String]): JiraDirectoryCreateItem
   filterCriteria(supported: [String]): [JiraDirectoryFilterCriteria!]!
   # What criteria to render (search text, project types, categories)
   # What is already specified by the uses searchText=Perf projectTypes=software,jsm categories=abcm,def
@@ -21,7 +21,7 @@ interface JiraDirectory {
 
 type JiraProjectDirectory implements JiraDirectory {
   title: String!
-  createDirectoryItem(supported: [String]): JiraDirectoryCreateItem!
+  createDirectoryItem(supported: [String]): JiraDirectoryCreateItem
   filterCriteria(supported: [String]): [JiraDirectoryFilterCriteria!]!
   result: JiraDirectoryResult
   js(module: String!, id: String): JSDependency!
@@ -37,17 +37,10 @@ type JiraProjectDirectoryCreateItem implements JiraDirectoryCreateItem {
   js(module: String!, id: String): JSDependency!
 }
 
-type JiraProjectType {
-  key: String
-  icon: String
-  formattedKey: String
-  id: String
-}
-
 type JiraProjectCategory {
   name: String
   description: String
-  id: String
+  id: ID!
 }
 
 interface JiraDirectoryFilterCriteria {
@@ -63,7 +56,7 @@ type JiraDirectorySearchTextFilterCriteria implements JiraDirectoryFilterCriteri
 
 type JiraProjectDirectoryProjectTypesFilterCriteria implements JiraDirectoryFilterCriteria {
   type: String
-  selectedItems: [JiraProjectType]
+  selectedItems: [JiraProjectTypeDetails]
   js(module: String!, id: String): JSDependency!
 }
 
@@ -127,22 +120,50 @@ type ProjectLead {
   active: Boolean
 }
 
+type JiraProjectCategory {
+  id: ID!
+  name: String!
+  description: String
+}
+
+enum JiraProjectType {
+    SOFTWARE
+    SERVICE_DESK
+    BUSINESS
+    PRODUCT_DISCOVERY
+    UNKNOWN
+}
+
+type JiraProjectTypeDetails {
+  id: ID!
+  type: JiraProjectType!
+  key: String!
+  displayName: String!
+  description: String!
+  teamManagedDisplayName: String!
+  companyManagedDisplayName: String!
+  icon: String!
+  color: String!
+}
+
 # TODO: match this to current design later
 type JiraProject {
   self: String
-  id: String
+  id: ID!
   key: String
   lead: ProjectLead
   name: String
   projectTypeKey: String
+  projectType: JiraProjectTypeDetails
   simplified: Boolean
   style: String
   favourite: Boolean
   isPrivate: Boolean
   entityId: String
   uuid: String
-  todo: String
+  url: String
   lastIssueUpdateDate: String
+  category: JiraProjectCategory
 }
 
 type JiraProjectFavouriteCell {

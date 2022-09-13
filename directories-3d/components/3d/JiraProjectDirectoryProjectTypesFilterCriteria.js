@@ -14,7 +14,7 @@ const JiraProjectDirectoryProjectTypesFilterCriteria = ({ content }) => {
     graphql`
       fragment JiraProjectDirectoryProjectTypesFilterCriteria_content on JiraProjectDirectoryProjectTypesFilterCriteria {
         selectedItems {
-          formattedKey
+          displayName
           id
         }
       }
@@ -26,7 +26,7 @@ const JiraProjectDirectoryProjectTypesFilterCriteria = ({ content }) => {
   return (
     <Listbox value={selectedProjectTypes} onChange={setSelectedProjectTypes} multiple>
       <Listbox.Button>
-        {data.selectedItems?.map((item) => item.id).join(', ')}
+        {data.selectedItems?.map((item) => item.displayName).join(', ')}
       </Listbox.Button>
       <Listbox.Options>
         {projectTypes.map((projectType) => (

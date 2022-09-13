@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<607f379ccd2eebe06554d17e106f12fc>>
+ * @generated SignedSource<<7dd4c1c812623c196e6efaefbc635296>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -27,7 +27,14 @@ var node = {
           "alias": null,
           "args": null,
           "kind": "ScalarField",
-          "name": "todo",
+          "name": "url",
+          "storageKey": null
+        },
+        {
+          "alias": null,
+          "args": null,
+          "kind": "ScalarField",
+          "name": "id",
           "storageKey": null
         }
       ],
@@ -36,6 +43,6 @@ var node = {
   ]
 };
 
-node.hash = "d5a475b1fc0608356b65d0fdee3cf53c";
+node.hash = "47e4f4b5917c3c6dab3484001d4b1746";
 
 module.exports = node;
