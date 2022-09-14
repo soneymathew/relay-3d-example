@@ -2,7 +2,7 @@ import Chance from 'chance';
 
 const chance = new Chance(12345678);
 
-const projectCategories = {
+export const projectCategories = {
   maxResults: 25,
   startAt: 0,
   total: 50,

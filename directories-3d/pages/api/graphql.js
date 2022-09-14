@@ -1,21 +1,12 @@
-import fs from 'fs';
-import getConfig from 'next/config';
 import {ApolloServer} from 'apollo-server-micro';
-import path from 'path';
 import {ApolloServerPluginLandingPageLocalDefault} from 'apollo-server-core';
 import {GraphQLScalarType} from 'graphql';
-import projectData from '../../lib/mocks/projectData.mjs';
 import typeDefs from '../../lib/schema/schema.graphql';
 import {
   PROJECT_DIRECTORY_CONFIG,
   projectTypeDetails,
+  projectCategories,
 } from '../../lib/mocks/projectsSearchData';
-
-// const SCHEMA_FILE = path.resolve(
-//   getConfig().serverRuntimeConfig.projectRoot,
-//   './lib/schema/schema.graphql',
-// );
-// const typeDefs = fs.readFileSync(SCHEMA_FILE, 'utf8');
 
 const JSDependencyScalar = new GraphQLScalarType({
   name: 'JSDependency',
@@ -107,7 +98,7 @@ const resolvers = {
                   JiraProjectDirectoryProjectTypesFilterCriteria:
                     projectTypeDetails.values.slice(0, 2),
                   JiraProjectDirectoryProjectCategoriesFilterCriteria:
-                    projectData.categories.slice(0, 2),
+                    projectCategories.values.slice(0, 2),
                 }[type];
 
                 return {
