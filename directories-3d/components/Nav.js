@@ -14,6 +14,8 @@ export default function Nav() {
               src="https://relay.dev/img/relay.svg"
               className="mr-3 h-6 sm:h-9"
               alt="Logo"
+              width="36"
+              height="36"
             />
             <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
               Relay 3D(Data Driven Dependencies) Demo

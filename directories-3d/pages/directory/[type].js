@@ -3,6 +3,7 @@ import RelayMatchContainer from '../../components/RelayMatchContainer';
 import {Content} from '../../components/LayoutComponents';
 import Nav from '../../components/Nav';
 import {getPreloadedQuery} from '../../lib/relay/getServerSideProps';
+import Head from 'next/head'
 
 // TODO: think about relay's query naming conventions
 const query = graphql`
@@ -20,6 +21,10 @@ export default function Post(props) {
   // console.log('*******jira', jira);
   return (
     <>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+      </Head>
       <Nav />
       <Content>
         {jira ? <RelayMatchContainer match={jira.directory} /> : <p>Directory not found.</p>}

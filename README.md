@@ -1,2 +1,1 @@
-1. use graphql-faker to run the fake schema
-2. start directories-3d and point to fake schema
+directories-3d is an example app modelled after Jira Project directory to showcase Data-driven dependencies of Relay client
