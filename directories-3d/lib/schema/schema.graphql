@@ -38,9 +38,9 @@ type JiraProjectDirectoryCreateItem implements JiraDirectoryCreateItem {
 }
 
 type JiraProjectCategory {
-  name: String
-  description: String
   id: ID!
+  name: String!
+  description: String
 }
 
 interface JiraDirectoryFilterCriteria {
@@ -118,12 +118,6 @@ type ProjectLead {
   accountType: String
   displayName: String
   active: Boolean
-}
-
-type JiraProjectCategory {
-  id: ID!
-  name: String!
-  description: String
 }
 
 enum JiraProjectType {

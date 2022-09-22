@@ -8,12 +8,10 @@ const JiraProjectDirectory = ({ directory }) => {
     graphql`
       fragment JiraProjectDirectory_directory on JiraProjectDirectory {
         title
-        createDirectoryItem
-          @match(key: "JiraProjectDirectory_directory_createDirectoryItem") {
-          ...JiraProjectDirectoryCreateItem_directory
-            @module(name: "JiraProjectDirectoryCreateItem")
+        createDirectoryItem @match(key: "JiraProjectDirectory_directory_createDirectoryItem") {
+          ...JiraProjectDirectoryCreateItem_directory @module(name: "JiraProjectDirectoryCreateItem")
         }
-        filterCriteria @match {
+        filterCriteria @match(key: "JiraProjectDirectory_directory_filterCriteria") {
           ...JiraDirectorySearchTextFilterCriteria_content
             @module(name: "JiraDirectorySearchTextFilterCriteria")
           ...JiraProjectDirectoryProjectTypesFilterCriteria_content
