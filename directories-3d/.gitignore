@@ -1,7 +1,5 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-#Avoid forcing peeps to refer to registeries behind vpn
-yarn.lock
 # dependencies
 /node_modules
 /.pnp
@@ -25,17 +23,14 @@ yarn.lock
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.pnpm-debug.log*
 
 # local env files
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env*.local
 
 # vercel
 .vercel
 
-# relay
-#__generated__/
-#schema/schema.graphql
-queryMap.json
+# typescript
+*.tsbuildinfo
+next-env.d.ts

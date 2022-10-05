@@ -1,10 +1,11 @@
 const relay = require('./relay.config.json');
-
-module.exports = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   compiler: {
     relay: {
       src: relay.src,
       artifactDirectory: relay.artifactDirectory,
+      language: relay.language,
     },
     externalDir: true,
   },
@@ -30,4 +31,11 @@ module.exports = {
     locales: ['en'],
     defaultLocale: 'en',
   },
+  reactStrictMode: true,
+  swcMinify: true,
+  images: {
+    domains: ['relay.dev'],
+  },
 };
+
+module.exports = nextConfig;

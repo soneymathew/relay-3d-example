@@ -1,46 +1,34 @@
-# Relay and Data-Driven Dependencies
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-This is a reference implementation of the Relay integration with the Next.js framework
+## Getting Started
 
-## Overview
-
-This version contains an exploration of a few advanced features used in Relay:
-
-- Data-Driven Dependencies: API, designed to load the code based on the data availability:
-  - GraphQL Server `js` field
-  - Client directive `@module`
-  - Relay MatchContainer - React component responsible for dynamic loading and rendering Relay components.
-- Server Rendering with Next.js and Query Preloading.
-
-Please note, that this is just an example, that demonstrates how various pieces are connected together. The actual implementation on the production-ready GraphQL server and the implementation of module loading on the client may need more attention.
-
-## How Data-Driven Dependencies work:
-
-GraphQL types that need a special render strategy on the client that is not always required for the initial loa (or may not be loaded at all), can be excluded from the initial JS bundle. Later these modules (React Component and Relay artifact for data processing) can be loaded one the server determines that a type is about to be rendered.
-
-### What’s needed on the GraphQL Schema
-
-- Type or Interface that have `js(module: String!, id: String): JSDependency `
-- Scalar Type `JSDependency`
-
-On the client (Relay)
-
-- Environment and Store has to have `operationLoader` - and object with two methods `get` and `load` that return a JS module or React Component.
-- Network Layer able to process `extensions` field that contains the list of required modules to render/process the data in the response.
-
-### Server and Client Integration
-
-- Relay compiler replaces @module calls with `js` field selections on fragment spread types
-- On the server, `js` field resolvers collecting the list of requested JS modules from the client, and send them in the `extensions` field once the response is completed
-- Relay’s network layer initiates loading of requested JS modules, once Relay 3D ($normalization) artifacts are downloaded the `graphql` response for these fragments are normalized to the store
-- Relay MatchContainer renders the requested @module component with the data for the 3D fragment.
-
-### Run the example
-
-Run the project
+First, run the development server:
 
 ```bash
 npm run dev
 # or
 yarn dev
 ```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+
+[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+
+The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
