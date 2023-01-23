@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<87a18927e21ee8c0f95fdf9fe5b933a7>>
+ * @generated SignedSource<<43508df6d6862e2460d0573a5dfa1fc9>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -35,13 +35,6 @@ const node: NormalizationSplitOperation = {
           "alias": null,
           "args": null,
           "kind": "ScalarField",
-          "name": "key",
-          "storageKey": null
-        },
-        {
-          "alias": null,
-          "args": null,
-          "kind": "ScalarField",
           "name": "id",
           "storageKey": null
         }
@@ -51,6 +44,6 @@ const node: NormalizationSplitOperation = {
   ]
 };
 
-(node as any).hash = "790cd5ee07d9c682fc7b60b01b00c0e5";
+(node as any).hash = "1e7fea69ba4f605ac7545dc27604e894";
 
 export default node;

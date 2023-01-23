@@ -2,25 +2,68 @@ type Query {
   jira: JiraQuery
 }
 
+type PageInfo {
+  hasNextPage: Boolean
+  hasPreviousPage: Boolean
+  startCursor: String
+  endCursor: String
+}
+
 scalar JSDependency
 
+enum SortDirection {
+  ASC
+  DESC
+}
+
+enum JiraDirectoryFilterCriteriaType {
+  KEYWORD
+  MULTISELECT
+  SELECT
+}
+
+input JiraDirectoryFilterCriteriaInput {
+  type: JiraDirectoryFilterCriteriaType!
+  id: String!
+  value: String
+  values: [String!]
+}
+
+input JiraDirectoryFilterInput {
+  criteria: [JiraDirectoryFilterCriteriaInput!]
+  page: Int
+  sortField: String
+  sortDirection: SortDirection
+}
+
 type JiraQuery {
-  directory(cloudId: ID!, id: ID!, supported: [String]): JiraDirectory!
+  directory(
+    cloudId: ID!
+    id: ID!
+    supported: [String]
+    filter: JiraDirectoryFilterInput
+  ): JiraDirectory!
+  projectCategories(
+    cloudId: ID!
+    searchText: String
+    first: Int
+    last: Int
+    before: String
+    after: String
+  ): JiraProjectCategoryConnection
+  projectTypes(
+    cloudId: ID!
+    searchText: String
+    first: Int
+    last: Int
+    before: String
+    after: String
+  ): JiraProjectTypeDetailsConnection
 }
 
 interface JiraDirectory {
   title: String!
-  createDirectoryItem(supported: [String]): JiraDirectoryCreateItem
-  filterCriteria(supported: [String]): [JiraDirectoryFilterCriteria!]!
-  # What criteria to render (search text, project types, categories)
-  # What is already specified by the uses searchText=Perf projectTypes=software,jsm categories=abcm,def
-  # which component should be used to render each item
-  result: JiraDirectoryResult
-  js(module: String!, id: String): JSDependency!
-}
-
-type JiraProjectDirectory implements JiraDirectory {
-  title: String!
+  description: String
   createDirectoryItem(supported: [String]): JiraDirectoryCreateItem
   filterCriteria(supported: [String]): [JiraDirectoryFilterCriteria!]!
   result: JiraDirectoryResult
@@ -32,6 +75,15 @@ interface JiraDirectoryCreateItem {
   js(module: String!, id: String): JSDependency!
 }
 
+type JiraProjectDirectory implements JiraDirectory {
+  title: String!
+  description: String
+  createDirectoryItem(supported: [String]): JiraDirectoryCreateItem
+  filterCriteria(supported: [String]): [JiraDirectoryFilterCriteria!]!
+  result: JiraDirectoryResult
+  js(module: String!, id: String): JSDependency!
+}
+
 type JiraProjectDirectoryCreateItem implements JiraDirectoryCreateItem {
   canCreate: Boolean!
   js(module: String!, id: String): JSDependency!
@@ -39,8 +91,20 @@ type JiraProjectDirectoryCreateItem implements JiraDirectoryCreateItem {
 
 type JiraProjectCategory {
   id: ID!
+  categoryId: String!
   name: String!
   description: String
+}
+
+type JiraProjectCategoryConnection {
+  totalCount: Int
+  pageInfo: PageInfo!
+  edges: [JiraProjectCategoryEdge]
+}
+
+type JiraProjectCategoryEdge {
+  node: JiraProjectCategory
+  cursor: String!
 }
 
 interface JiraDirectoryFilterCriteria {
@@ -66,21 +130,29 @@ type JiraProjectDirectoryProjectCategoriesFilterCriteria implements JiraDirector
   js(module: String!, id: String): JSDependency!
 }
 
-enum SortDirection {
-  ASC
-  DESC
-}
-
 interface JiraDirectoryResultHeader {
   title: String
   isSortable: Boolean
   sortDirection: SortDirection
+  sortKey: String
 }
 
-type JiraProjectDirectoryResultHeader implements JiraDirectoryResultHeader {
+type JiraDirectoryResultHeaderConnection {
+  totalCount: Int
+  pageInfo: PageInfo!
+  edges: [JiraDirectoryResultHeaderEdge]
+}
+
+type JiraDirectoryResultHeaderEdge {
+  node: JiraDirectoryResultHeader
+  cursor: String!
+}
+
+type JiraDirectoryDefaultResultHeader implements JiraDirectoryResultHeader {
   title: String
   isSortable: Boolean
   sortDirection: SortDirection
+  sortKey: String
 }
 
 interface JiraDirectoryResultCell {
@@ -93,23 +165,45 @@ type JiraProjectDirectoryResultCell implements JiraDirectoryResultCell {
 }
 
 interface JiraDirectoryResult {
-  headers: [JiraDirectoryResultHeader]
-  rows: [JiraDirectoryResultValues]
+  headers: JiraDirectoryResultHeaderConnection
+  rows: JiraDirectoryResultValuesConnection
   js(module: String!, id: String): JSDependency!
 }
 
 interface JiraDirectoryResultValues {
-  columns: [JiraDirectoryResultCell]
+  columns: JiraDirectoryResultCellConnection
 }
 
 type JiraProjectDirectoryResult implements JiraDirectoryResult {
-  headers: [JiraDirectoryResultHeader]
-  rows: [JiraDirectoryResultValues]
+  headers: JiraDirectoryResultHeaderConnection
+  rows: JiraDirectoryResultValuesConnection
   js(module: String!, id: String): JSDependency!
 }
 
+type JiraDirectoryResultValuesConnection {
+  totalCount: Int
+  pageInfo: PageInfo!
+  edges: [JiraDirectoryResultValuesEdge]
+}
+
+type JiraDirectoryResultValuesEdge {
+  node: JiraDirectoryResultValues
+  cursor: String!
+}
+
 type JiraProjectDirectoryResultValues implements JiraDirectoryResultValues {
-  columns: [JiraDirectoryResultCell]
+  columns: JiraDirectoryResultCellConnection
+}
+
+type JiraDirectoryResultCellConnection {
+  totalCount: Int
+  pageInfo: PageInfo!
+  edges: [JiraDirectoryResultCellEdge]
+}
+
+type JiraDirectoryResultCellEdge {
+  node: JiraDirectoryResultCell
+  cursor: String!
 }
 
 type ProjectLead {
@@ -121,11 +215,11 @@ type ProjectLead {
 }
 
 enum JiraProjectType {
-    SOFTWARE
-    SERVICE_DESK
-    BUSINESS
-    PRODUCT_DISCOVERY
-    UNKNOWN
+  SOFTWARE
+  SERVICE_DESK
+  BUSINESS
+  PRODUCT_DISCOVERY
+  UNKNOWN
 }
 
 type JiraProjectTypeDetails {
@@ -140,7 +234,17 @@ type JiraProjectTypeDetails {
   color: String!
 }
 
-# TODO: match this to current design later
+type JiraProjectTypeDetailsConnection {
+  totalCount: Int
+  pageInfo: PageInfo!
+  edges: [JiraProjectTypeDetailsEdge]
+}
+
+type JiraProjectTypeDetailsEdge {
+  node: JiraProjectTypeDetails
+  cursor: String!
+}
+
 type JiraProject {
   self: String
   id: ID!

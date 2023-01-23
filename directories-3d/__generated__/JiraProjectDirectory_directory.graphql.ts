@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<3fd754bf91f04274b15fc8994452d5b7>>
+ * @generated SignedSource<<ced98737601b9e7bbc4346399f60dbb4>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -20,6 +20,7 @@ export type JiraProjectDirectory_directory$data = {
     readonly __module_component?: string | null;
     readonly " $fragmentSpreads": FragmentRefs<"JiraProjectDirectoryCreateItem_directory">;
   } | null;
+  readonly description: string | null;
   readonly filterCriteria: ReadonlyArray<{
     readonly __fragmentPropName?: string | null;
     readonly __module_component?: string | null;
@@ -49,6 +50,13 @@ const node: ReaderFragment = {
       "args": null,
       "kind": "ScalarField",
       "name": "title",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "description",
       "storageKey": null
     },
     {
@@ -177,6 +185,6 @@ const node: ReaderFragment = {
   "abstractKey": null
 };
 
-(node as any).hash = "0f69082ea5ed7039471114b1f2ee392d";
+(node as any).hash = "91fea1bf6787555c928af93be8cdb022";
 
 export default node;

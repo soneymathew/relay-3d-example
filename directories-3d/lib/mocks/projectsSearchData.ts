@@ -3,18 +3,15 @@ import Chance from 'chance';
 const chance = new Chance(12345678);
 
 export const projectCategories = {
-  maxResults: 25,
-  startAt: 0,
-  total: 50,
-  isLast: false,
   values: Array(15)
     .fill(0)
     .map((_v, i) => {
-      // const leadEmail = chance.email({ domain: "example.com" });
+      const paddedIndex = `${i > 9 ? '' : '0'}${i}`;
       return {
         id: chance.guid() + i,
-        name: `Cat-${i}`,
-        description: `Cat-${i}`,
+        categoryId: `c${i}`,
+        name: `Cat-${paddedIndex}`,
+        description: `Cat-${paddedIndex}`,
       };
     }),
 };
@@ -38,42 +35,26 @@ const projectTypes = [
     teamManagedDisplayName: 'Team-managed business',
     companyManagedDisplayName: 'Company-managed business',
   },
-  {
-    type: 'PRODUCT_DISCOVERY',
-    displayName: 'Jira Product Discovery',
-    teamManagedDisplayName: 'Product Discovery',
-    companyManagedDisplayName: 'Product Discovery',
-  },
 ];
 
 export const projectTypeDetails = {
-  maxResults: 25,
-  startAt: 0,
-  total: 50,
-  isLast: false,
-  values: Array(15)
-    .fill(0)
-    .map((_v, _i) => {
-      const projectType = chance.pickone(projectTypes);
-      return {
-        id: chance.guid() + projectType,
-        type: projectType.type,
-        key: projectType.type,
-        displayName: projectType.displayName,
-        description: projectType.displayName,
-        teamManagedDisplayName: projectType.teamManagedDisplayName,
-        companyManagedDisplayName: projectType.companyManagedDisplayName,
-        // icon: String!
-        // color: String!
-      };
-    }),
+  values: projectTypes.map((projectType, _i) => {
+    return {
+      id: `${chance.guid()}-${projectType.type}`,
+      type: projectType.type,
+      key: projectType.type,
+      displayName: projectType.displayName,
+      description: projectType.displayName,
+      teamManagedDisplayName: projectType.teamManagedDisplayName,
+      companyManagedDisplayName: projectType.companyManagedDisplayName,
+      // icon: String!
+      // color: String!
+    };
+  }),
 };
+
 export const DEFAULT_MOCK_DATA = {
-  maxResults: 25,
-  startAt: 0,
-  total: 2337,
-  isLast: false,
-  values: Array(25)
+  values: Array(98)
     .fill(0)
     .map((_v, i) => {
       const leadEmail = chance.email({domain: 'example.com'});
@@ -81,12 +62,15 @@ export const DEFAULT_MOCK_DATA = {
       const isSimplified = chance.bool({likelihood: 10});
       return {
         id: chance.guid() + i,
-        key: chance.unique(chance.state, 25)[i],
+        key: chance.unique(
+          () => chance.string({length: 3, pool: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'}),
+          98,
+        )[i],
         lead: {
           displayName: leadEmail,
           avatar: `https://i.pravatar.cc/150?u=${leadEmail}`,
         },
-        name: chance.company(),
+        name: `${i + 1 > 9 ? '' : '0'}${i + 1} - ${chance.company()}`,
         projectTypeKey: projectType.key,
         projectType,
         simplified: isSimplified,
@@ -107,12 +91,13 @@ export const DEFAULT_MOCK_DATA = {
 
 export const projectDirectoryHeaders = [
   {
-    title: '',
-    isSortable: true,
+    title: '★',
+    isSortable: false,
     sortDirection: 'ASC',
     renderer: 'JiraProjectFavouriteCell',
     showInAdmin: true,
     showInMain: true,
+    sortKey: null,
   },
   {
     title: 'Name',
@@ -121,6 +106,7 @@ export const projectDirectoryHeaders = [
     renderer: 'JiraProjectNameCell',
     showInAdmin: true,
     showInMain: true,
+    sortKey: 'name',
   },
   {
     title: 'Key',
@@ -129,6 +115,7 @@ export const projectDirectoryHeaders = [
     renderer: 'JiraProjectKeyCell',
     showInAdmin: true,
     showInMain: true,
+    sortKey: 'key',
   },
   {
     title: 'Type',
@@ -136,6 +123,7 @@ export const projectDirectoryHeaders = [
     renderer: 'JiraProjectTypeCell',
     showInAdmin: true,
     showInMain: true,
+    sortKey: null,
   },
   {
     title: 'Lead',
@@ -144,6 +132,7 @@ export const projectDirectoryHeaders = [
     renderer: 'JiraProjectLeadCell',
     showInAdmin: true,
     showInMain: true,
+    sortKey: 'owner',
   },
   {
     title: 'Category',
@@ -152,6 +141,7 @@ export const projectDirectoryHeaders = [
     renderer: 'JiraProjectCategoryCell',
     showInAdmin: true,
     showInMain: true,
+    sortKey: 'category',
   },
   {
     title: 'Last issue update',
@@ -160,6 +150,7 @@ export const projectDirectoryHeaders = [
     renderer: 'JiraProjectLastIssueUpdateCell',
     showInAdmin: true,
     showInMain: false,
+    sortKey: 'lastissueupdatedtime',
   },
   {
     title: '', // project link
@@ -167,6 +158,7 @@ export const projectDirectoryHeaders = [
     renderer: 'JiraProjectLinkCell',
     showInAdmin: false,
     showInMain: true,
+    sortKey: null,
   },
   {
     title: '', // Actions
@@ -174,6 +166,7 @@ export const projectDirectoryHeaders = [
     renderer: 'JiraProjectActionsCell',
     showInAdmin: true,
     showInMain: true,
+    sortKey: null,
   },
 ];
 
@@ -181,6 +174,8 @@ export const PROJECT_DIRECTORY_CONFIG = (isAdmin: boolean, canCreate = false) =>
   isAdmin
     ? {
         title: 'Manage Projects',
+        description:
+          'This is the view for a user that is an admin. Notice that the columns are different and the user can create a project',
         hasCreatePermission: true,
         headers: projectDirectoryHeaders.filter(
           (project) => project.showInAdmin,
@@ -189,6 +184,8 @@ export const PROJECT_DIRECTORY_CONFIG = (isAdmin: boolean, canCreate = false) =>
       }
     : {
         title: 'Projects',
+        description:
+          'This is the view for a user that is not an admin. This user also do not have permission to create a project',
         hasCreatePermission: false,
         headers: projectDirectoryHeaders.filter(
           (project) => project.showInMain,

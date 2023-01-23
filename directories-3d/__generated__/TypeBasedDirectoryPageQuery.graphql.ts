@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<5db068054be49b80eb334a6f0c0f8d0f>>
+ * @generated SignedSource<<e51fe0a054d98266e7b4ad84fc151db7>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,8 +15,15 @@
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
+export type SortDirection = "ASC" | "DESC" | "%future added value";
 export type TypeBasedDirectoryPageQuery$variables = {
   id: string;
+  page?: number | null;
+  searchText?: string | null;
+  selectedCategory?: string | null;
+  selectedTypes?: ReadonlyArray<string> | null;
+  sortDirection?: SortDirection | null;
+  sortField?: string | null;
 };
 export type TypeBasedDirectoryPageQuery$data = {
   readonly jira: {
@@ -33,18 +40,136 @@ export type TypeBasedDirectoryPageQuery = {
 };
 
 const node: ConcreteRequest = (function(){
-var v0 = [
-  {
-    "defaultValue": null,
-    "kind": "LocalArgument",
-    "name": "id"
-  }
-],
-v1 = [
+var v0 = {
+  "defaultValue": null,
+  "kind": "LocalArgument",
+  "name": "id"
+},
+v1 = {
+  "defaultValue": null,
+  "kind": "LocalArgument",
+  "name": "page"
+},
+v2 = {
+  "defaultValue": null,
+  "kind": "LocalArgument",
+  "name": "searchText"
+},
+v3 = {
+  "defaultValue": null,
+  "kind": "LocalArgument",
+  "name": "selectedCategory"
+},
+v4 = {
+  "defaultValue": null,
+  "kind": "LocalArgument",
+  "name": "selectedTypes"
+},
+v5 = {
+  "defaultValue": null,
+  "kind": "LocalArgument",
+  "name": "sortDirection"
+},
+v6 = {
+  "defaultValue": null,
+  "kind": "LocalArgument",
+  "name": "sortField"
+},
+v7 = [
   {
     "kind": "Literal",
     "name": "cloudId",
-    "value": "cid-123"
+    "value": ""
+  },
+  {
+    "fields": [
+      {
+        "items": [
+          {
+            "fields": [
+              {
+                "kind": "Literal",
+                "name": "id",
+                "value": "JiraDirectorySearchTextFilterCriteria"
+              },
+              {
+                "kind": "Literal",
+                "name": "type",
+                "value": "KEYWORD"
+              },
+              {
+                "kind": "Variable",
+                "name": "value",
+                "variableName": "searchText"
+              }
+            ],
+            "kind": "ObjectValue",
+            "name": "criteria.0"
+          },
+          {
+            "fields": [
+              {
+                "kind": "Literal",
+                "name": "id",
+                "value": "JiraProjectDirectoryProjectTypesFilterCriteria"
+              },
+              {
+                "kind": "Literal",
+                "name": "type",
+                "value": "MULTISELECT"
+              },
+              {
+                "kind": "Variable",
+                "name": "values",
+                "variableName": "selectedTypes"
+              }
+            ],
+            "kind": "ObjectValue",
+            "name": "criteria.1"
+          },
+          {
+            "fields": [
+              {
+                "kind": "Literal",
+                "name": "id",
+                "value": "JiraProjectDirectoryProjectCategoriesFilterCriteria"
+              },
+              {
+                "kind": "Literal",
+                "name": "type",
+                "value": "SELECT"
+              },
+              {
+                "kind": "Variable",
+                "name": "value",
+                "variableName": "selectedCategory"
+              }
+            ],
+            "kind": "ObjectValue",
+            "name": "criteria.2"
+          }
+        ],
+        "kind": "ListValue",
+        "name": "criteria"
+      },
+      {
+        "kind": "Variable",
+        "name": "page",
+        "variableName": "page"
+      },
+      {
+        "kind": "Variable",
+        "name": "sortDirection",
+        "variableName": "sortDirection"
+      },
+      {
+        "kind": "Variable",
+        "name": "sortField",
+        "variableName": "sortField"
+      }
+    ],
+    "kind": "ObjectValue",
+    "name": "filter"
   },
   {
     "kind": "Variable",
@@ -59,7 +184,7 @@ v1 = [
     ]
   }
 ],
-v2 = {
+v8 = {
   "kind": "InlineFragment",
   "selections": [
     {
@@ -75,7 +200,15 @@ v2 = {
 };
 return {
   "fragment": {
-    "argumentDefinitions": (v0/*: any*/),
+    "argumentDefinitions": [
+      (v0/*: any*/),
+      (v1/*: any*/),
+      (v2/*: any*/),
+      (v3/*: any*/),
+      (v4/*: any*/),
+      (v5/*: any*/),
+      (v6/*: any*/)
+    ],
     "kind": "Fragment",
     "metadata": null,
     "name": "TypeBasedDirectoryPageQuery",
@@ -90,13 +223,13 @@ return {
         "selections": [
           {
             "alias": null,
-            "args": (v1/*: any*/),
+            "args": (v7/*: any*/),
             "concreteType": null,
             "kind": "LinkedField",
             "name": "directory",
             "plural": false,
             "selections": [
-              (v2/*: any*/)
+              (v8/*: any*/)
             ],
             "storageKey": null
           }
@@ -109,7 +242,15 @@ return {
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": (v0/*: any*/),
+    "argumentDefinitions": [
+      (v0/*: any*/),
+      (v2/*: any*/),
+      (v4/*: any*/),
+      (v3/*: any*/),
+      (v1/*: any*/),
+      (v6/*: any*/),
+      (v5/*: any*/)
+    ],
     "kind": "Operation",
     "name": "TypeBasedDirectoryPageQuery",
     "selections": [
@@ -123,7 +264,7 @@ return {
         "selections": [
           {
             "alias": null,
-            "args": (v1/*: any*/),
+            "args": (v7/*: any*/),
             "concreteType": null,
             "kind": "LinkedField",
             "name": "directory",
@@ -136,7 +277,7 @@ return {
                 "name": "__typename",
                 "storageKey": null
               },
-              (v2/*: any*/)
+              (v8/*: any*/)
             ],
             "storageKey": null
           }
@@ -146,16 +287,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "cb3ff7be134e3c812354e40da4f4f14c",
+    "cacheID": "6c4dcef38954d9e50cda901242573090",
     "id": null,
     "metadata": {},
     "name": "TypeBasedDirectoryPageQuery",
     "operationKind": "query",
-    "text": "query TypeBasedDirectoryPageQuery(\n  $id: ID!\n) {\n  jira {\n    directory(cloudId: \"cid-123\", id: $id, supported: [\"JiraProjectDirectory\"]) {\n      __typename\n      ... on JiraProjectDirectory {\n        ...JiraProjectDirectory_directory\n        __module_operation_TypeBasedDirectoryPageQuery: js(module: \"JiraProjectDirectory_directory$normalization.graphql\", id: \"TypeBasedDirectoryPageQuery.jira.directory\")\n        __module_component_TypeBasedDirectoryPageQuery: js(module: \"JiraProjectDirectory\", id: \"TypeBasedDirectoryPageQuery.jira.directory\")\n      }\n    }\n  }\n}\n\nfragment JiraDirectorySearchTextFilterCriteria_content on JiraDirectorySearchTextFilterCriteria {\n  type\n}\n\nfragment JiraProjectActionsCell_content on JiraProjectActionsCell {\n  project {\n    isPrivate\n    id\n  }\n}\n\nfragment JiraProjectCategoryCell_content on JiraProjectCategoryCell {\n  project {\n    category {\n      name\n      id\n    }\n    id\n  }\n}\n\nfragment JiraProjectDirectoryCreateItem_directory on JiraProjectDirectoryCreateItem {\n  canCreate\n}\n\nfragment JiraProjectDirectoryProjectCategoriesFilterCriteria_content on JiraProjectDirectoryProjectCategoriesFilterCriteria {\n  selectedItems {\n    name\n    id\n  }\n}\n\nfragment JiraProjectDirectoryProjectTypesFilterCriteria_content on JiraProjectDirectoryProjectTypesFilterCriteria {\n  selectedItems {\n    displayName\n    id\n  }\n}\n\nfragment JiraProjectDirectoryResults_content on JiraProjectDirectoryResult {\n  headers {\n    __typename\n    title\n    isSortable\n    sortDirection\n  }\n  rows {\n    __typename\n    columns {\n      __typename\n      renderer(supported: [\"JiraProjectFavouriteCell\", \"JiraProjectNameCell\", \"JiraProjectKeyCell\", \"JiraProjectTypeCell\", \"JiraProjectLeadCell\", \"JiraProjectLastIssueUpdateCell\", \"JiraProjectCategoryCell\", \"JiraProjectLinkCell\", \"JiraProjectActionsCell\"]) {\n        __typename\n        ... on JiraProjectFavouriteCell {\n          ...JiraProjectFavouriteCell_content\n          __module_operation_JiraProjectDirectoryResults_content: js(module: \"JiraProjectFavouriteCell_content$normalization.graphql\", id: \"JiraProjectDirectoryResults_content.rows.columns.renderer\")\n          __module_component_JiraProjectDirectoryResults_content: js(module: \"JiraProjectFavouriteCell\", id: \"JiraProjectDirectoryResults_content.rows.columns.renderer\")\n        }\n        ... on JiraProjectNameCell {\n          ...JiraProjectNameCell_content\n          __module_operation_JiraProjectDirectoryResults_content: js(module: \"JiraProjectNameCell_content$normalization.graphql\", id: \"JiraProjectDirectoryResults_content.rows.columns.renderer\")\n          __module_component_JiraProjectDirectoryResults_content: js(module: \"JiraProjectNameCell\", id: \"JiraProjectDirectoryResults_content.rows.columns.renderer\")\n        }\n        ... on JiraProjectKeyCell {\n          ...JiraProjectKeyCell_content\n          __module_operation_JiraProjectDirectoryResults_content: js(module: \"JiraProjectKeyCell_content$normalization.graphql\", id: \"JiraProjectDirectoryResults_content.rows.columns.renderer\")\n          __module_component_JiraProjectDirectoryResults_content: js(module: \"JiraProjectKeyCell\", id: \"JiraProjectDirectoryResults_content.rows.columns.renderer\")\n        }\n        ... on JiraProjectTypeCell {\n          ...JiraProjectTypeCell_content\n          __module_operation_JiraProjectDirectoryResults_content: js(module: \"JiraProjectTypeCell_content$normalization.graphql\", id: \"JiraProjectDirectoryResults_content.rows.columns.renderer\")\n          __module_component_JiraProjectDirectoryResults_content: js(module: \"JiraProjectTypeCell\", id: \"JiraProjectDirectoryResults_content.rows.columns.renderer\")\n        }\n        ... on JiraProjectLeadCell {\n          ...JiraProjectLeadCell_content\n          __module_operation_JiraProjectDirectoryResults_content: js(module: \"JiraProjectLeadCell_content$normalization.graphql\", id: \"JiraProjectDirectoryResults_content.rows.columns.renderer\")\n          __module_component_JiraProjectDirectoryResults_content: js(module: \"JiraProjectLeadCell\", id: \"JiraProjectDirectoryResults_content.rows.columns.renderer\")\n        }\n        ... on JiraProjectLastIssueUpdateCell {\n          ...JiraProjectLastIssueUpdateCell_content\n          __module_operation_JiraProjectDirectoryResults_content: js(module: \"JiraProjectLastIssueUpdateCell_content$normalization.graphql\", id: \"JiraProjectDirectoryResults_content.rows.columns.renderer\")\n          __module_component_JiraProjectDirectoryResults_content: js(module: \"JiraProjectLastIssueUpdateCell\", id: \"JiraProjectDirectoryResults_content.rows.columns.renderer\")\n        }\n        ... on JiraProjectCategoryCell {\n          ...JiraProjectCategoryCell_content\n          __module_operation_JiraProjectDirectoryResults_content: js(module: \"JiraProjectCategoryCell_content$normalization.graphql\", id: \"JiraProjectDirectoryResults_content.rows.columns.renderer\")\n          __module_component_JiraProjectDirectoryResults_content: js(module: \"JiraProjectCategoryCell\", id: \"JiraProjectDirectoryResults_content.rows.columns.renderer\")\n        }\n        ... on JiraProjectLinkCell {\n          ...JiraProjectLinkCell_content\n          __module_operation_JiraProjectDirectoryResults_content: js(module: \"JiraProjectLinkCell_content$normalization.graphql\", id: \"JiraProjectDirectoryResults_content.rows.columns.renderer\")\n          __module_component_JiraProjectDirectoryResults_content: js(module: \"JiraProjectLinkCell\", id: \"JiraProjectDirectoryResults_content.rows.columns.renderer\")\n        }\n        ... on JiraProjectActionsCell {\n          ...JiraProjectActionsCell_content\n          __module_operation_JiraProjectDirectoryResults_content: js(module: \"JiraProjectActionsCell_content$normalization.graphql\", id: \"JiraProjectDirectoryResults_content.rows.columns.renderer\")\n          __module_component_JiraProjectDirectoryResults_content: js(module: \"JiraProjectActionsCell\", id: \"JiraProjectDirectoryResults_content.rows.columns.renderer\")\n        }\n      }\n    }\n  }\n}\n\nfragment JiraProjectDirectory_directory on JiraProjectDirectory {\n  title\n  createDirectoryItem(supported: [\"JiraProjectDirectoryCreateItem\"]) {\n    __typename\n    ... on JiraProjectDirectoryCreateItem {\n      ...JiraProjectDirectoryCreateItem_directory\n      __module_operation_JiraProjectDirectory_directory_createDirectoryItem: js(module: \"JiraProjectDirectoryCreateItem_directory$normalization.graphql\", id: \"JiraProjectDirectory_directory.createDirectoryItem\")\n      __module_component_JiraProjectDirectory_directory_createDirectoryItem: js(module: \"JiraProjectDirectoryCreateItem\", id: \"JiraProjectDirectory_directory.createDirectoryItem\")\n    }\n  }\n  filterCriteria(supported: [\"JiraDirectorySearchTextFilterCriteria\", \"JiraProjectDirectoryProjectTypesFilterCriteria\", \"JiraProjectDirectoryProjectCategoriesFilterCriteria\"]) {\n    __typename\n    ... on JiraDirectorySearchTextFilterCriteria {\n      ...JiraDirectorySearchTextFilterCriteria_content\n      __module_operation_JiraProjectDirectory_directory_filterCriteria: js(module: \"JiraDirectorySearchTextFilterCriteria_content$normalization.graphql\", id: \"JiraProjectDirectory_directory.filterCriteria\")\n      __module_component_JiraProjectDirectory_directory_filterCriteria: js(module: \"JiraDirectorySearchTextFilterCriteria\", id: \"JiraProjectDirectory_directory.filterCriteria\")\n    }\n    ... on JiraProjectDirectoryProjectTypesFilterCriteria {\n      ...JiraProjectDirectoryProjectTypesFilterCriteria_content\n      __module_operation_JiraProjectDirectory_directory_filterCriteria: js(module: \"JiraProjectDirectoryProjectTypesFilterCriteria_content$normalization.graphql\", id: \"JiraProjectDirectory_directory.filterCriteria\")\n      __module_component_JiraProjectDirectory_directory_filterCriteria: js(module: \"JiraProjectDirectoryProjectTypesFilterCriteria\", id: \"JiraProjectDirectory_directory.filterCriteria\")\n    }\n    ... on JiraProjectDirectoryProjectCategoriesFilterCriteria {\n      ...JiraProjectDirectoryProjectCategoriesFilterCriteria_content\n      __module_operation_JiraProjectDirectory_directory_filterCriteria: js(module: \"JiraProjectDirectoryProjectCategoriesFilterCriteria_content$normalization.graphql\", id: \"JiraProjectDirectory_directory.filterCriteria\")\n      __module_component_JiraProjectDirectory_directory_filterCriteria: js(module: \"JiraProjectDirectoryProjectCategoriesFilterCriteria\", id: \"JiraProjectDirectory_directory.filterCriteria\")\n    }\n  }\n  result {\n    __typename\n    ... on JiraProjectDirectoryResult {\n      ...JiraProjectDirectoryResults_content\n      __module_operation_JiraProjectDirectory_directory_result: js(module: \"JiraProjectDirectoryResults_content$normalization.graphql\", id: \"JiraProjectDirectory_directory.result\")\n      __module_component_JiraProjectDirectory_directory_result: js(module: \"JiraProjectDirectoryResult\", id: \"JiraProjectDirectory_directory.result\")\n    }\n  }\n}\n\nfragment JiraProjectFavouriteCell_content on JiraProjectFavouriteCell {\n  project {\n    favourite\n    id\n  }\n}\n\nfragment JiraProjectKeyCell_content on JiraProjectKeyCell {\n  project {\n    key\n    id\n  }\n}\n\nfragment JiraProjectLastIssueUpdateCell_content on JiraProjectLastIssueUpdateCell {\n  project {\n    lastIssueUpdateDate\n    id\n  }\n}\n\nfragment JiraProjectLeadCell_content on JiraProjectLeadCell {\n  project {\n    lead {\n      displayName\n    }\n    id\n  }\n}\n\nfragment JiraProjectLinkCell_content on JiraProjectLinkCell {\n  project {\n    url\n    id\n  }\n}\n\nfragment JiraProjectNameCell_content on JiraProjectNameCell {\n  project {\n    name\n    key\n    id\n  }\n}\n\nfragment JiraProjectTypeCell_content on JiraProjectTypeCell {\n  project {\n    simplified\n    projectType {\n      teamManagedDisplayName\n      companyManagedDisplayName\n      id\n    }\n    id\n  }\n}\n"
+    "text": "query TypeBasedDirectoryPageQuery(\n  $id: ID!\n  $searchText: String\n  $selectedTypes: [String!]\n  $selectedCategory: String\n  $page: Int\n  $sortField: String\n  $sortDirection: SortDirection\n) {\n  jira {\n    directory(cloudId: \"\", id: $id, filter: {criteria: [{id: \"JiraDirectorySearchTextFilterCriteria\", type: KEYWORD, value: $searchText}, {id: \"JiraProjectDirectoryProjectTypesFilterCriteria\", type: MULTISELECT, values: $selectedTypes}, {id: \"JiraProjectDirectoryProjectCategoriesFilterCriteria\", type: SELECT, value: $selectedCategory}], page: $page, sortField: $sortField, sortDirection: $sortDirection}, supported: [\"JiraProjectDirectory\"]) {\n      __typename\n      ... on JiraProjectDirectory {\n        ...JiraProjectDirectory_directory\n        __module_operation_TypeBasedDirectoryPageQuery: js(module: \"JiraProjectDirectory_directory$normalization.graphql\", id: \"TypeBasedDirectoryPageQuery.jira.directory\")\n        __module_component_TypeBasedDirectoryPageQuery: js(module: \"JiraProjectDirectory\", id: \"TypeBasedDirectoryPageQuery.jira.directory\")\n      }\n    }\n  }\n}\n\nfragment JiraDirectorySearchTextFilterCriteria_content on JiraDirectorySearchTextFilterCriteria {\n  type\n  searchText\n}\n\nfragment JiraProjectActionsCell_content on JiraProjectActionsCell {\n  project {\n    isPrivate\n    id\n  }\n}\n\nfragment JiraProjectCategoryCell_content on JiraProjectCategoryCell {\n  project {\n    category {\n      name\n      id\n    }\n    id\n  }\n}\n\nfragment JiraProjectDirectoryCreateItem_directory on JiraProjectDirectoryCreateItem {\n  canCreate\n}\n\nfragment JiraProjectDirectoryProjectCategoriesFilterCriteria_content on JiraProjectDirectoryProjectCategoriesFilterCriteria {\n  selectedItems {\n    id\n    categoryId\n    name\n  }\n}\n\nfragment JiraProjectDirectoryProjectTypesFilterCriteria_content on JiraProjectDirectoryProjectTypesFilterCriteria {\n  selectedItems {\n    id\n    type\n    displayName\n  }\n}\n\nfragment JiraProjectDirectoryResults_content on JiraProjectDirectoryResult {\n  headers {\n    edges {\n      node {\n        __typename\n        title\n        isSortable\n        sortDirection\n        sortKey\n      }\n    }\n  }\n  rows {\n    edges {\n      node {\n        __typename\n        columns {\n          edges {\n            node {\n              __typename\n              renderer(supported: [\"JiraProjectFavouriteCell\", \"JiraProjectNameCell\", \"JiraProjectKeyCell\", \"JiraProjectTypeCell\", \"JiraProjectLeadCell\", \"JiraProjectLastIssueUpdateCell\", \"JiraProjectCategoryCell\", \"JiraProjectLinkCell\", \"JiraProjectActionsCell\"]) {\n                __typename\n                ... on JiraProjectFavouriteCell {\n                  ...JiraProjectFavouriteCell_content\n                  __module_operation_JiraProjectDirectoryResults_content: js(module: \"JiraProjectFavouriteCell_content$normalization.graphql\", id: \"JiraProjectDirectoryResults_content.rows.edges.node.columns.edges.node.renderer\")\n                  __module_component_JiraProjectDirectoryResults_content: js(module: \"JiraProjectFavouriteCell\", id: \"JiraProjectDirectoryResults_content.rows.edges.node.columns.edges.node.renderer\")\n                }\n                ... on JiraProjectNameCell {\n                  ...JiraProjectNameCell_content\n                  __module_operation_JiraProjectDirectoryResults_content: js(module: \"JiraProjectNameCell_content$normalization.graphql\", id: \"JiraProjectDirectoryResults_content.rows.edges.node.columns.edges.node.renderer\")\n                  __module_component_JiraProjectDirectoryResults_content: js(module: \"JiraProjectNameCell\", id: \"JiraProjectDirectoryResults_content.rows.edges.node.columns.edges.node.renderer\")\n                }\n                ... on JiraProjectKeyCell {\n                  ...JiraProjectKeyCell_content\n                  __module_operation_JiraProjectDirectoryResults_content: js(module: \"JiraProjectKeyCell_content$normalization.graphql\", id: \"JiraProjectDirectoryResults_content.rows.edges.node.columns.edges.node.renderer\")\n                  __module_component_JiraProjectDirectoryResults_content: js(module: \"JiraProjectKeyCell\", id: \"JiraProjectDirectoryResults_content.rows.edges.node.columns.edges.node.renderer\")\n                }\n                ... on JiraProjectTypeCell {\n                  ...JiraProjectTypeCell_content\n                  __module_operation_JiraProjectDirectoryResults_content: js(module: \"JiraProjectTypeCell_content$normalization.graphql\", id: \"JiraProjectDirectoryResults_content.rows.edges.node.columns.edges.node.renderer\")\n                  __module_component_JiraProjectDirectoryResults_content: js(module: \"JiraProjectTypeCell\", id: \"JiraProjectDirectoryResults_content.rows.edges.node.columns.edges.node.renderer\")\n                }\n                ... on JiraProjectLeadCell {\n                  ...JiraProjectLeadCell_content\n                  __module_operation_JiraProjectDirectoryResults_content: js(module: \"JiraProjectLeadCell_content$normalization.graphql\", id: \"JiraProjectDirectoryResults_content.rows.edges.node.columns.edges.node.renderer\")\n                  __module_component_JiraProjectDirectoryResults_content: js(module: \"JiraProjectLeadCell\", id: \"JiraProjectDirectoryResults_content.rows.edges.node.columns.edges.node.renderer\")\n                }\n                ... on JiraProjectLastIssueUpdateCell {\n                  ...JiraProjectLastIssueUpdateCell_content\n                  __module_operation_JiraProjectDirectoryResults_content: js(module: \"JiraProjectLastIssueUpdateCell_content$normalization.graphql\", id: \"JiraProjectDirectoryResults_content.rows.edges.node.columns.edges.node.renderer\")\n                  __module_component_JiraProjectDirectoryResults_content: js(module: \"JiraProjectLastIssueUpdateCell\", id: \"JiraProjectDirectoryResults_content.rows.edges.node.columns.edges.node.renderer\")\n                }\n                ... on JiraProjectCategoryCell {\n                  ...JiraProjectCategoryCell_content\n                  __module_operation_JiraProjectDirectoryResults_content: js(module: \"JiraProjectCategoryCell_content$normalization.graphql\", id: \"JiraProjectDirectoryResults_content.rows.edges.node.columns.edges.node.renderer\")\n                  __module_component_JiraProjectDirectoryResults_content: js(module: \"JiraProjectCategoryCell\", id: \"JiraProjectDirectoryResults_content.rows.edges.node.columns.edges.node.renderer\")\n                }\n                ... on JiraProjectLinkCell {\n                  ...JiraProjectLinkCell_content\n                  __module_operation_JiraProjectDirectoryResults_content: js(module: \"JiraProjectLinkCell_content$normalization.graphql\", id: \"JiraProjectDirectoryResults_content.rows.edges.node.columns.edges.node.renderer\")\n                  __module_component_JiraProjectDirectoryResults_content: js(module: \"JiraProjectLinkCell\", id: \"JiraProjectDirectoryResults_content.rows.edges.node.columns.edges.node.renderer\")\n                }\n                ... on JiraProjectActionsCell {\n                  ...JiraProjectActionsCell_content\n                  __module_operation_JiraProjectDirectoryResults_content: js(module: \"JiraProjectActionsCell_content$normalization.graphql\", id: \"JiraProjectDirectoryResults_content.rows.edges.node.columns.edges.node.renderer\")\n                  __module_component_JiraProjectDirectoryResults_content: js(module: \"JiraProjectActionsCell\", id: \"JiraProjectDirectoryResults_content.rows.edges.node.columns.edges.node.renderer\")\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n    totalCount\n  }\n}\n\nfragment JiraProjectDirectory_directory on JiraProjectDirectory {\n  title\n  description\n  createDirectoryItem(supported: [\"JiraProjectDirectoryCreateItem\"]) {\n    __typename\n    ... on JiraProjectDirectoryCreateItem {\n      ...JiraProjectDirectoryCreateItem_directory\n      __module_operation_JiraProjectDirectory_directory_createDirectoryItem: js(module: \"JiraProjectDirectoryCreateItem_directory$normalization.graphql\", id: \"JiraProjectDirectory_directory.createDirectoryItem\")\n      __module_component_JiraProjectDirectory_directory_createDirectoryItem: js(module: \"JiraProjectDirectoryCreateItem\", id: \"JiraProjectDirectory_directory.createDirectoryItem\")\n    }\n  }\n  filterCriteria(supported: [\"JiraDirectorySearchTextFilterCriteria\", \"JiraProjectDirectoryProjectTypesFilterCriteria\", \"JiraProjectDirectoryProjectCategoriesFilterCriteria\"]) {\n    __typename\n    ... on JiraDirectorySearchTextFilterCriteria {\n      ...JiraDirectorySearchTextFilterCriteria_content\n      __module_operation_JiraProjectDirectory_directory_filterCriteria: js(module: \"JiraDirectorySearchTextFilterCriteria_content$normalization.graphql\", id: \"JiraProjectDirectory_directory.filterCriteria\")\n      __module_component_JiraProjectDirectory_directory_filterCriteria: js(module: \"JiraDirectorySearchTextFilterCriteria\", id: \"JiraProjectDirectory_directory.filterCriteria\")\n    }\n    ... on JiraProjectDirectoryProjectTypesFilterCriteria {\n      ...JiraProjectDirectoryProjectTypesFilterCriteria_content\n      __module_operation_JiraProjectDirectory_directory_filterCriteria: js(module: \"JiraProjectDirectoryProjectTypesFilterCriteria_content$normalization.graphql\", id: \"JiraProjectDirectory_directory.filterCriteria\")\n      __module_component_JiraProjectDirectory_directory_filterCriteria: js(module: \"JiraProjectDirectoryProjectTypesFilterCriteria\", id: \"JiraProjectDirectory_directory.filterCriteria\")\n    }\n    ... on JiraProjectDirectoryProjectCategoriesFilterCriteria {\n      ...JiraProjectDirectoryProjectCategoriesFilterCriteria_content\n      __module_operation_JiraProjectDirectory_directory_filterCriteria: js(module: \"JiraProjectDirectoryProjectCategoriesFilterCriteria_content$normalization.graphql\", id: \"JiraProjectDirectory_directory.filterCriteria\")\n      __module_component_JiraProjectDirectory_directory_filterCriteria: js(module: \"JiraProjectDirectoryProjectCategoriesFilterCriteria\", id: \"JiraProjectDirectory_directory.filterCriteria\")\n    }\n  }\n  result {\n    __typename\n    ... on JiraProjectDirectoryResult {\n      ...JiraProjectDirectoryResults_content\n      __module_operation_JiraProjectDirectory_directory_result: js(module: \"JiraProjectDirectoryResults_content$normalization.graphql\", id: \"JiraProjectDirectory_directory.result\")\n      __module_component_JiraProjectDirectory_directory_result: js(module: \"JiraProjectDirectoryResult\", id: \"JiraProjectDirectory_directory.result\")\n    }\n  }\n}\n\nfragment JiraProjectFavouriteCell_content on JiraProjectFavouriteCell {\n  project {\n    favourite\n    id\n  }\n}\n\nfragment JiraProjectKeyCell_content on JiraProjectKeyCell {\n  project {\n    key\n    id\n  }\n}\n\nfragment JiraProjectLastIssueUpdateCell_content on JiraProjectLastIssueUpdateCell {\n  project {\n    lastIssueUpdateDate\n    id\n  }\n}\n\nfragment JiraProjectLeadCell_content on JiraProjectLeadCell {\n  project {\n    lead {\n      displayName\n    }\n    id\n  }\n}\n\nfragment JiraProjectLinkCell_content on JiraProjectLinkCell {\n  project {\n    url\n    id\n  }\n}\n\nfragment JiraProjectNameCell_content on JiraProjectNameCell {\n  project {\n    name\n    id\n  }\n}\n\nfragment JiraProjectTypeCell_content on JiraProjectTypeCell {\n  project {\n    simplified\n    projectType {\n      teamManagedDisplayName\n      companyManagedDisplayName\n      id\n    }\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "5a96e514efd9cbb3e334e7645d7ac8f8";
+(node as any).hash = "595afac332cc341ec49be547f765f5e2";
 
 export default node;

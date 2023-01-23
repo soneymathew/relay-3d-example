@@ -11,14 +11,13 @@ const JiraProjectNameCell = ({
       fragment JiraProjectNameCell_content on JiraProjectNameCell {
         project {
           name
-          key
         }
       }
     `,
     content,
   );
 
-  return <a href={`/browse/${data?.project?.key}`}>{data?.project?.name}</a>;
+  return <span>{data?.project?.name}</span>;
 };
 
 export default JiraProjectNameCell;

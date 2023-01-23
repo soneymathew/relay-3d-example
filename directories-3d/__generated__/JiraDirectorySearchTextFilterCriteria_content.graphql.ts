@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d24aeda1eaeb40cbaf0d2e5cb2bf36cf>>
+ * @generated SignedSource<<1b65471e958e990dfbf90f4cff1434eb>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,6 +11,7 @@
 import { Fragment, ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type JiraDirectorySearchTextFilterCriteria_content$data = {
+  readonly searchText: string | null;
   readonly type: string | null;
   readonly " $fragmentType": "JiraDirectorySearchTextFilterCriteria_content";
 };
@@ -31,12 +32,19 @@ const node: ReaderFragment = {
       "kind": "ScalarField",
       "name": "type",
       "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "searchText",
+      "storageKey": null
     }
   ],
   "type": "JiraDirectorySearchTextFilterCriteria",
   "abstractKey": null
 };
 
-(node as any).hash = "2e8affedd8f3b02c65c7d579843585b4";
+(node as any).hash = "602bd15fc0045b04060219580d0f82e0";
 
 export default node;

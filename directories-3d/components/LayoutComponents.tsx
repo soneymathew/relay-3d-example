@@ -22,10 +22,6 @@ export function Title(props: any) {
   );
 }
 
-export function Text(props: any) {
-  return <p className="mt-4 text-xl text-gray-500" {...props}></p>;
-}
-
 type ButtonProps = JSX.IntrinsicElements['button'] & {size: 'small'};
 export function Button({size, ...props}: ButtonProps) {
   const sizeClasses = size === 'small' ? 'px-2' : 'py-3 px-8 font-medium';

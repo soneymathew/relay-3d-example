@@ -18,9 +18,42 @@ interface DirectoryProps {
 }
 
 const query = graphql`
-  query TypeBasedDirectoryPageQuery($id: ID!) @preloadable {
+  query TypeBasedDirectoryPageQuery(
+    $id: ID!
+    $searchText: String
+    $selectedTypes: [String!]
+    $selectedCategory: String
+    $page: Int
+    $sortField: String
+    $sortDirection: SortDirection
+  ) @preloadable {
     jira {
-      directory(cloudId: "cid-123", id: $id) @match {
+      directory(
+        cloudId: ""
+        id: $id
+        filter: {
+          criteria: [
+            {
+              id: "JiraDirectorySearchTextFilterCriteria"
+              type: KEYWORD
+              value: $searchText
+            }
+            {
+              id: "JiraProjectDirectoryProjectTypesFilterCriteria"
+              type: MULTISELECT
+              values: $selectedTypes
+            }
+            {
+              id: "JiraProjectDirectoryProjectCategoriesFilterCriteria"
+              type: SELECT
+              value: $selectedCategory
+            }
+          ]
+          page: $page
+          sortField: $sortField
+          sortDirection: $sortDirection
+        }
+      ) @match {
         ...JiraProjectDirectory_directory @module(name: "JiraProjectDirectory")
       }
     }
@@ -32,12 +65,11 @@ export default function Directory(props: DirectoryProps) {
     query,
     props.queryRefs.query,
   );
-  // console.log('*******jira', jira);
   return (
     <Fragment>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
       </Head>
       <Nav />
       <Content>
@@ -51,22 +83,19 @@ export default function Directory(props: DirectoryProps) {
   );
 }
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  // console.log('getServerSideProps', ctx.params.type);
-  // contains=<searchText>&page=1&selectedCategory=c1&selectedProjectType=service_desk%2Csoftware&sortKey=name&sortOrder=DESC
-  // console.log('getServerSideProps', ctx.query);
-  // [0] getServerSideProps {
-  // [0]   contains: '<searchText>',
-  // [0]   page: '1',
-  // [0]   selectedCategory: 'c1',
-  // [0]   selectedProjectType: 'service_desk,software',
-  // [0]   sortKey: 'name',
-  // [0]   sortOrder: 'DESC',
-  // [0]   type: 'projectsAdmin'
-  // [0] }
   return {
     props: {
       preloadedQueries: {
-        query: await getPreloadedQuery(preLoadedQuery, {id: ctx.query.type}),
+        query: await getPreloadedQuery(preLoadedQuery, {
+          id: ctx.query.type,
+          searchText: ctx.query.contains ?? null,
+          selectedTypes:
+            ctx.query.selectedProjectType?.toString().split(',') ?? null,
+          selectedCategory: ctx.query.selectedCategory ?? null,
+          page: ctx.query.page ? parseInt(ctx.query.page.toString()) : 1,
+          sortField: ctx.query.sortKey ?? 'name',
+          sortDirection: ctx.query.sortOrder ?? 'ASC',
+        }),
       },
     },
   };

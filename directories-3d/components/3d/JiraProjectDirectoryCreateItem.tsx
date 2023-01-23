@@ -14,7 +14,6 @@ const JiraProjectDirectoryCreateItem = ({
     `,
     directory,
   );
-  // console.log('************JiraProjectDirectoryCreateItem', data);
 
   return (
     <div>

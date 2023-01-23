@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<fe1f90ff2cdfe10e64e87a2c46f46128>>
+ * @generated SignedSource<<6847ddbda455f780dff258ffffb32835>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,11 +9,13 @@
 // @ts-nocheck
 
 import { Fragment, ReaderFragment } from 'relay-runtime';
+export type JiraProjectType = "BUSINESS" | "PRODUCT_DISCOVERY" | "SERVICE_DESK" | "SOFTWARE" | "UNKNOWN" | "%future added value";
 import { FragmentRefs } from "relay-runtime";
 export type JiraProjectDirectoryProjectTypesFilterCriteria_content$data = {
   readonly selectedItems: ReadonlyArray<{
     readonly displayName: string;
     readonly id: string;
+    readonly type: JiraProjectType;
   } | null> | null;
   readonly " $fragmentType": "JiraProjectDirectoryProjectTypesFilterCriteria_content";
 };
@@ -40,14 +42,21 @@ const node: ReaderFragment = {
           "alias": null,
           "args": null,
           "kind": "ScalarField",
-          "name": "displayName",
+          "name": "id",
           "storageKey": null
         },
         {
           "alias": null,
           "args": null,
           "kind": "ScalarField",
-          "name": "id",
+          "name": "type",
+          "storageKey": null
+        },
+        {
+          "alias": null,
+          "args": null,
+          "kind": "ScalarField",
+          "name": "displayName",
           "storageKey": null
         }
       ],
@@ -58,6 +67,6 @@ const node: ReaderFragment = {
   "abstractKey": null
 };
 
-(node as any).hash = "491637a0cd94053c51a45b49b6448caf";
+(node as any).hash = "de6864a677ec1d75d55464ada3aacab6";
 
 export default node;

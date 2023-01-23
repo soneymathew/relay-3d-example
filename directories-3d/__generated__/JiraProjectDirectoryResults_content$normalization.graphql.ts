@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f36c7dc5812e0c3ba29722fdd65cc589>>
+ * @generated SignedSource<<6d2879a3d5d7a40dc1d1cb29025a7a8c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -27,31 +27,60 @@ return {
     {
       "alias": null,
       "args": null,
-      "concreteType": null,
+      "concreteType": "JiraDirectoryResultHeaderConnection",
       "kind": "LinkedField",
       "name": "headers",
-      "plural": true,
+      "plural": false,
       "selections": [
-        (v0/*: any*/),
         {
           "alias": null,
           "args": null,
-          "kind": "ScalarField",
-          "name": "title",
-          "storageKey": null
-        },
-        {
-          "alias": null,
-          "args": null,
-          "kind": "ScalarField",
-          "name": "isSortable",
-          "storageKey": null
-        },
-        {
-          "alias": null,
-          "args": null,
-          "kind": "ScalarField",
-          "name": "sortDirection",
+          "concreteType": "JiraDirectoryResultHeaderEdge",
+          "kind": "LinkedField",
+          "name": "edges",
+          "plural": true,
+          "selections": [
+            {
+              "alias": null,
+              "args": null,
+              "concreteType": null,
+              "kind": "LinkedField",
+              "name": "node",
+              "plural": false,
+              "selections": [
+                (v0/*: any*/),
+                {
+                  "alias": null,
+                  "args": null,
+                  "kind": "ScalarField",
+                  "name": "title",
+                  "storageKey": null
+                },
+                {
+                  "alias": null,
+                  "args": null,
+                  "kind": "ScalarField",
+                  "name": "isSortable",
+                  "storageKey": null
+                },
+                {
+                  "alias": null,
+                  "args": null,
+                  "kind": "ScalarField",
+                  "name": "sortDirection",
+                  "storageKey": null
+                },
+                {
+                  "alias": null,
+                  "args": null,
+                  "kind": "ScalarField",
+                  "name": "sortKey",
+                  "storageKey": null
+                }
+              ],
+              "storageKey": null
+            }
+          ],
           "storageKey": null
         }
       ],
@@ -60,176 +89,227 @@ return {
     {
       "alias": null,
       "args": null,
-      "concreteType": null,
+      "concreteType": "JiraDirectoryResultValuesConnection",
       "kind": "LinkedField",
       "name": "rows",
-      "plural": true,
+      "plural": false,
       "selections": [
-        (v0/*: any*/),
         {
           "alias": null,
           "args": null,
-          "concreteType": null,
+          "concreteType": "JiraDirectoryResultValuesEdge",
           "kind": "LinkedField",
-          "name": "columns",
+          "name": "edges",
           "plural": true,
           "selections": [
-            (v0/*: any*/),
             {
               "alias": null,
-              "args": [
-                {
-                  "kind": "Literal",
-                  "name": "supported",
-                  "value": [
-                    "JiraProjectFavouriteCell",
-                    "JiraProjectNameCell",
-                    "JiraProjectKeyCell",
-                    "JiraProjectTypeCell",
-                    "JiraProjectLeadCell",
-                    "JiraProjectLastIssueUpdateCell",
-                    "JiraProjectCategoryCell",
-                    "JiraProjectLinkCell",
-                    "JiraProjectActionsCell"
-                  ]
-                }
-              ],
+              "args": null,
               "concreteType": null,
               "kind": "LinkedField",
-              "name": "renderer",
+              "name": "node",
               "plural": false,
               "selections": [
                 (v0/*: any*/),
                 {
-                  "kind": "InlineFragment",
+                  "alias": null,
+                  "args": null,
+                  "concreteType": "JiraDirectoryResultCellConnection",
+                  "kind": "LinkedField",
+                  "name": "columns",
+                  "plural": false,
                   "selections": [
                     {
+                      "alias": null,
                       "args": null,
-                      "documentName": "JiraProjectDirectoryResults_content",
-                      "fragmentName": "JiraProjectFavouriteCell_content",
-                      "fragmentPropName": "content",
-                      "kind": "ModuleImport"
+                      "concreteType": "JiraDirectoryResultCellEdge",
+                      "kind": "LinkedField",
+                      "name": "edges",
+                      "plural": true,
+                      "selections": [
+                        {
+                          "alias": null,
+                          "args": null,
+                          "concreteType": null,
+                          "kind": "LinkedField",
+                          "name": "node",
+                          "plural": false,
+                          "selections": [
+                            (v0/*: any*/),
+                            {
+                              "alias": null,
+                              "args": [
+                                {
+                                  "kind": "Literal",
+                                  "name": "supported",
+                                  "value": [
+                                    "JiraProjectFavouriteCell",
+                                    "JiraProjectNameCell",
+                                    "JiraProjectKeyCell",
+                                    "JiraProjectTypeCell",
+                                    "JiraProjectLeadCell",
+                                    "JiraProjectLastIssueUpdateCell",
+                                    "JiraProjectCategoryCell",
+                                    "JiraProjectLinkCell",
+                                    "JiraProjectActionsCell"
+                                  ]
+                                }
+                              ],
+                              "concreteType": null,
+                              "kind": "LinkedField",
+                              "name": "renderer",
+                              "plural": false,
+                              "selections": [
+                                (v0/*: any*/),
+                                {
+                                  "kind": "InlineFragment",
+                                  "selections": [
+                                    {
+                                      "args": null,
+                                      "documentName": "JiraProjectDirectoryResults_content",
+                                      "fragmentName": "JiraProjectFavouriteCell_content",
+                                      "fragmentPropName": "content",
+                                      "kind": "ModuleImport"
+                                    }
+                                  ],
+                                  "type": "JiraProjectFavouriteCell",
+                                  "abstractKey": null
+                                },
+                                {
+                                  "kind": "InlineFragment",
+                                  "selections": [
+                                    {
+                                      "args": null,
+                                      "documentName": "JiraProjectDirectoryResults_content",
+                                      "fragmentName": "JiraProjectNameCell_content",
+                                      "fragmentPropName": "content",
+                                      "kind": "ModuleImport"
+                                    }
+                                  ],
+                                  "type": "JiraProjectNameCell",
+                                  "abstractKey": null
+                                },
+                                {
+                                  "kind": "InlineFragment",
+                                  "selections": [
+                                    {
+                                      "args": null,
+                                      "documentName": "JiraProjectDirectoryResults_content",
+                                      "fragmentName": "JiraProjectKeyCell_content",
+                                      "fragmentPropName": "content",
+                                      "kind": "ModuleImport"
+                                    }
+                                  ],
+                                  "type": "JiraProjectKeyCell",
+                                  "abstractKey": null
+                                },
+                                {
+                                  "kind": "InlineFragment",
+                                  "selections": [
+                                    {
+                                      "args": null,
+                                      "documentName": "JiraProjectDirectoryResults_content",
+                                      "fragmentName": "JiraProjectTypeCell_content",
+                                      "fragmentPropName": "content",
+                                      "kind": "ModuleImport"
+                                    }
+                                  ],
+                                  "type": "JiraProjectTypeCell",
+                                  "abstractKey": null
+                                },
+                                {
+                                  "kind": "InlineFragment",
+                                  "selections": [
+                                    {
+                                      "args": null,
+                                      "documentName": "JiraProjectDirectoryResults_content",
+                                      "fragmentName": "JiraProjectLeadCell_content",
+                                      "fragmentPropName": "content",
+                                      "kind": "ModuleImport"
+                                    }
+                                  ],
+                                  "type": "JiraProjectLeadCell",
+                                  "abstractKey": null
+                                },
+                                {
+                                  "kind": "InlineFragment",
+                                  "selections": [
+                                    {
+                                      "args": null,
+                                      "documentName": "JiraProjectDirectoryResults_content",
+                                      "fragmentName": "JiraProjectLastIssueUpdateCell_content",
+                                      "fragmentPropName": "content",
+                                      "kind": "ModuleImport"
+                                    }
+                                  ],
+                                  "type": "JiraProjectLastIssueUpdateCell",
+                                  "abstractKey": null
+                                },
+                                {
+                                  "kind": "InlineFragment",
+                                  "selections": [
+                                    {
+                                      "args": null,
+                                      "documentName": "JiraProjectDirectoryResults_content",
+                                      "fragmentName": "JiraProjectCategoryCell_content",
+                                      "fragmentPropName": "content",
+                                      "kind": "ModuleImport"
+                                    }
+                                  ],
+                                  "type": "JiraProjectCategoryCell",
+                                  "abstractKey": null
+                                },
+                                {
+                                  "kind": "InlineFragment",
+                                  "selections": [
+                                    {
+                                      "args": null,
+                                      "documentName": "JiraProjectDirectoryResults_content",
+                                      "fragmentName": "JiraProjectLinkCell_content",
+                                      "fragmentPropName": "content",
+                                      "kind": "ModuleImport"
+                                    }
+                                  ],
+                                  "type": "JiraProjectLinkCell",
+                                  "abstractKey": null
+                                },
+                                {
+                                  "kind": "InlineFragment",
+                                  "selections": [
+                                    {
+                                      "args": null,
+                                      "documentName": "JiraProjectDirectoryResults_content",
+                                      "fragmentName": "JiraProjectActionsCell_content",
+                                      "fragmentPropName": "content",
+                                      "kind": "ModuleImport"
+                                    }
+                                  ],
+                                  "type": "JiraProjectActionsCell",
+                                  "abstractKey": null
+                                }
+                              ],
+                              "storageKey": "renderer(supported:[\"JiraProjectFavouriteCell\",\"JiraProjectNameCell\",\"JiraProjectKeyCell\",\"JiraProjectTypeCell\",\"JiraProjectLeadCell\",\"JiraProjectLastIssueUpdateCell\",\"JiraProjectCategoryCell\",\"JiraProjectLinkCell\",\"JiraProjectActionsCell\"])"
+                            }
+                          ],
+                          "storageKey": null
+                        }
+                      ],
+                      "storageKey": null
                     }
                   ],
-                  "type": "JiraProjectFavouriteCell",
-                  "abstractKey": null
-                },
-                {
-                  "kind": "InlineFragment",
-                  "selections": [
-                    {
-                      "args": null,
-                      "documentName": "JiraProjectDirectoryResults_content",
-                      "fragmentName": "JiraProjectNameCell_content",
-                      "fragmentPropName": "content",
-                      "kind": "ModuleImport"
-                    }
-                  ],
-                  "type": "JiraProjectNameCell",
-                  "abstractKey": null
-                },
-                {
-                  "kind": "InlineFragment",
-                  "selections": [
-                    {
-                      "args": null,
-                      "documentName": "JiraProjectDirectoryResults_content",
-                      "fragmentName": "JiraProjectKeyCell_content",
-                      "fragmentPropName": "content",
-                      "kind": "ModuleImport"
-                    }
-                  ],
-                  "type": "JiraProjectKeyCell",
-                  "abstractKey": null
-                },
-                {
-                  "kind": "InlineFragment",
-                  "selections": [
-                    {
-                      "args": null,
-                      "documentName": "JiraProjectDirectoryResults_content",
-                      "fragmentName": "JiraProjectTypeCell_content",
-                      "fragmentPropName": "content",
-                      "kind": "ModuleImport"
-                    }
-                  ],
-                  "type": "JiraProjectTypeCell",
-                  "abstractKey": null
-                },
-                {
-                  "kind": "InlineFragment",
-                  "selections": [
-                    {
-                      "args": null,
-                      "documentName": "JiraProjectDirectoryResults_content",
-                      "fragmentName": "JiraProjectLeadCell_content",
-                      "fragmentPropName": "content",
-                      "kind": "ModuleImport"
-                    }
-                  ],
-                  "type": "JiraProjectLeadCell",
-                  "abstractKey": null
-                },
-                {
-                  "kind": "InlineFragment",
-                  "selections": [
-                    {
-                      "args": null,
-                      "documentName": "JiraProjectDirectoryResults_content",
-                      "fragmentName": "JiraProjectLastIssueUpdateCell_content",
-                      "fragmentPropName": "content",
-                      "kind": "ModuleImport"
-                    }
-                  ],
-                  "type": "JiraProjectLastIssueUpdateCell",
-                  "abstractKey": null
-                },
-                {
-                  "kind": "InlineFragment",
-                  "selections": [
-                    {
-                      "args": null,
-                      "documentName": "JiraProjectDirectoryResults_content",
-                      "fragmentName": "JiraProjectCategoryCell_content",
-                      "fragmentPropName": "content",
-                      "kind": "ModuleImport"
-                    }
-                  ],
-                  "type": "JiraProjectCategoryCell",
-                  "abstractKey": null
-                },
-                {
-                  "kind": "InlineFragment",
-                  "selections": [
-                    {
-                      "args": null,
-                      "documentName": "JiraProjectDirectoryResults_content",
-                      "fragmentName": "JiraProjectLinkCell_content",
-                      "fragmentPropName": "content",
-                      "kind": "ModuleImport"
-                    }
-                  ],
-                  "type": "JiraProjectLinkCell",
-                  "abstractKey": null
-                },
-                {
-                  "kind": "InlineFragment",
-                  "selections": [
-                    {
-                      "args": null,
-                      "documentName": "JiraProjectDirectoryResults_content",
-                      "fragmentName": "JiraProjectActionsCell_content",
-                      "fragmentPropName": "content",
-                      "kind": "ModuleImport"
-                    }
-                  ],
-                  "type": "JiraProjectActionsCell",
-                  "abstractKey": null
+                  "storageKey": null
                 }
               ],
-              "storageKey": "renderer(supported:[\"JiraProjectFavouriteCell\",\"JiraProjectNameCell\",\"JiraProjectKeyCell\",\"JiraProjectTypeCell\",\"JiraProjectLeadCell\",\"JiraProjectLastIssueUpdateCell\",\"JiraProjectCategoryCell\",\"JiraProjectLinkCell\",\"JiraProjectActionsCell\"])"
+              "storageKey": null
             }
           ],
+          "storageKey": null
+        },
+        {
+          "alias": null,
+          "args": null,
+          "kind": "ScalarField",
+          "name": "totalCount",
           "storageKey": null
         }
       ],
@@ -239,6 +319,6 @@ return {
 };
 })();
 
-(node as any).hash = "5beb13be055c81aed366b0efc44eb3a3";
+(node as any).hash = "44439f892b3104ee86a12972a3807080";
 
 export default node;
