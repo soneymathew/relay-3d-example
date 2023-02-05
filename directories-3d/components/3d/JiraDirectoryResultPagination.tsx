@@ -19,20 +19,17 @@ const getUrl = (urlPath: string, pageNum: number) => {
 const pageSize = 10;
 export default function JiraDirectoryResultPagination({
   totalCount,
-  page,
 }: {
   totalCount: number;
-  page: number;
 }) {
   const router = useRouter();
-  const [currentPage, setCurrentPage] = useState<number>(page);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   useEffect(() => {
     const pageString = router.query.page?.toString() ?? '';
-    setCurrentPage(pageString ? parseInt(pageString) : page);
-  }, [router.query.page, setCurrentPage, page]);
-
+    setCurrentPage(pageString ? parseInt(pageString) : currentPage);
+  }, [router.query.page, setCurrentPage, currentPage]);
   const pages = Math.ceil(totalCount / pageSize);
-  return (
+  return totalCount < 1 ? null : (
     <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
       <div className="flex flex-1 justify-between sm:hidden">
         <Link
@@ -55,7 +52,7 @@ export default function JiraDirectoryResultPagination({
             </span>{' '}
             to{' '}
             <span className="font-medium">
-              {pageSize * (currentPage - 1) + pageSize}
+              {Math.min(pageSize * (currentPage - 1) + pageSize, totalCount)}
             </span>{' '}
             of <span className="font-medium">{totalCount}</span> results
           </p>
@@ -70,45 +67,21 @@ export default function JiraDirectoryResultPagination({
               <span className="sr-only">Previous</span>
               <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
             </Link>
-            {/* Current: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" */}
-            {/* TODO: render pages in a loop */}
-            <Link
-              href={getUrl(router.asPath, 1)}
-              aria-current="page"
-              className="relative z-10 inline-flex items-center border border-indigo-500 bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20">
-              1
-            </Link>
-            <Link
-              href={getUrl(router.asPath, 2)}
-              className="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">
-              2
-            </Link>
-            <Link
-              href={getUrl(router.asPath, 3)}
-              className="relative hidden items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 md:inline-flex">
-              3
-            </Link>
-            <span className="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700">
-              ...
-            </span>
-            <Link
-              href={getUrl(router.asPath, 8)}
-              className="relative hidden items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 md:inline-flex">
-              8
-            </Link>
-            <Link
-              href={getUrl(router.asPath, 9)}
-              className="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">
-              9
-            </Link>
-            <Link
-              href={getUrl(router.asPath, 10)}
-              className="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">
-              10
-            </Link>
+            {[...Array(pages)].map((_, i) => (
+              <Link
+                href={getUrl(router.asPath, i + 1)}
+                key={`page-${i}`}
+                className={`${
+                  i + 1 === currentPage
+                    ? 'bg-indigo-50 border-indigo-500 text-indigo-600'
+                    : 'bg-white border-gray-300 hover:bg-gray-50 text-gray-500'
+                } border focus:z-20 font-medium inline-flex items-center px-4 py-2 relative text-sm`}>
+                {i + 1}
+              </Link>
+            ))}
             <Link
               href={getUrl(router.asPath, Math.min(currentPage + 1, pages))}
-              className="relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">
+              className="bg-white border border-gray-300 focus:z-20 font-medium hover:bg-gray-50 inline-flex items-center px-2 py-2 relative rounded-r-md text-gray-500 text-sm">
               <span className="sr-only">Next</span>
               <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
             </Link>

@@ -40,7 +40,7 @@ function Hydrate({Component, props}: ComponentProps) {
         .getNetwork()
         // @ts-ignore Property 'responseCache' does not exist on type 'Network'
         .responseCache.set(params.id, variables, response);
-      // @ts-ignore TODO: create using a function exported from react-relay package
+      // @ts-ignore FIX-ME: create using a function exported from react-relay package
       queryRefs[queryName] = {
         environment,
         fetchKey: params.id,

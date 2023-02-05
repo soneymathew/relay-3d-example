@@ -1,13 +1,13 @@
 import {Fragment} from 'react';
 import {graphql, usePreloadedQuery} from 'react-relay';
-import RelayMatchContainer from '../../components/RelayMatchContainer';
-import {Content} from '../../components/LayoutComponents';
-import Nav from '../../components/Nav';
-import {getPreloadedQuery} from '../../lib/relay/getServerSideProps';
+import RelayMatchContainer from '../../../components/RelayMatchContainer';
+import {Content} from '../../../components/LayoutComponents';
+import Nav from '../../../components/Nav';
+import {getPreloadedQuery} from '../../../lib/relay/getServerSideProps';
 import Head from 'next/head';
 import preLoadedQuery, {
   TypeBasedDirectoryPageQuery,
-} from '../../__generated__/TypeBasedDirectoryPageQuery.graphql';
+} from '../../../__generated__/TypeBasedDirectoryPageQuery.graphql';
 import {GetServerSideProps} from 'next';
 import {PreloadedQuery} from 'react-relay';
 
@@ -15,10 +15,12 @@ interface DirectoryProps {
   queryRefs: {
     query: PreloadedQuery<TypeBasedDirectoryPageQuery>;
   };
+  cloudId: string;
 }
 
 const query = graphql`
   query TypeBasedDirectoryPageQuery(
+    $cloudId: ID!
     $id: ID!
     $searchText: String
     $selectedTypes: [String!]
@@ -29,7 +31,7 @@ const query = graphql`
   ) @preloadable {
     jira {
       directory(
-        cloudId: ""
+        cloudId: $cloudId
         id: $id
         filter: {
           criteria: [
@@ -70,6 +72,7 @@ export default function Directory(props: DirectoryProps) {
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
+        <meta name="cloudId" content={props.cloudId} />
       </Head>
       <Nav />
       <Content>
@@ -87,6 +90,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     props: {
       preloadedQueries: {
         query: await getPreloadedQuery(preLoadedQuery, {
+          cloudId: ctx.query.cloudId,
           id: ctx.query.type,
           searchText: ctx.query.contains ?? null,
           selectedTypes:

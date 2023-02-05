@@ -246,7 +246,6 @@ type JiraProjectTypeDetailsEdge {
 }
 
 type JiraProject {
-  self: String
   id: ID!
   key: String
   lead: ProjectLead
@@ -273,41 +272,42 @@ type JiraProjectNameCell {
   project: JiraProject
   js(module: String!, id: String): JSDependency!
 }
+
 type JiraProjectKeyCell {
   project: JiraProject
   js(module: String!, id: String): JSDependency!
 }
+
 type JiraProjectTypeCell {
   project: JiraProject
-
   js(module: String!, id: String): JSDependency!
 }
+
 type JiraProjectLeadCell {
   project: JiraProject
-
   js(module: String!, id: String): JSDependency!
 }
+
 type JiraProjectLastIssueUpdateCell {
   project: JiraProject
-
   js(module: String!, id: String): JSDependency!
 }
+
 type JiraProjectCategoryCell {
   project: JiraProject
-
   js(module: String!, id: String): JSDependency!
 }
+
 type JiraProjectLinkCell {
   project: JiraProject
-
   js(module: String!, id: String): JSDependency!
 }
 
 type JiraProjectActionsCell {
   project: JiraProject
-
   js(module: String!, id: String): JSDependency!
 }
+
 union JiraDirectoryResultCellDataUnion =
     JiraProjectFavouriteCell
   | JiraProjectKeyCell

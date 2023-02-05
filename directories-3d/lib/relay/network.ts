@@ -47,9 +47,6 @@ export function createNetwork() {
 }
 
 export async function networkFetch(id: any, variables: any, query: any) {
-  // const url = process.env.VERCEL_URL ?
-  //   `'https://${process.env.VERCEL_URL}/api/graphql'` :
-  //   process.env.GRAPHQL_ENDPOINT ?? 'http://localhost:3000/api/graphql';
   const IS_SERVER = typeof window === typeof undefined;
   const url = IS_SERVER
     ? process.env.VERCEL_URL

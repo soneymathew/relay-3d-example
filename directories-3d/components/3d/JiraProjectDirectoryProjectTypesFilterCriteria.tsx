@@ -27,15 +27,16 @@ const JiraProjectDirectoryProjectTypesFilterCriteria = ({
     `,
     content,
   );
-  // TODO: Replace useLazyLoadQuery with EntryPoint approach
+  // FIX-ME: Replace useLazyLoadQuery with EntryPoint approach
   const pickerData =
     useLazyLoadQuery<JiraProjectDirectoryProjectTypesFilterCriteriaPickerQuery>(
       graphql`
         query JiraProjectDirectoryProjectTypesFilterCriteriaPickerQuery(
+          $cloudId: ID!
           $searchText: String
         ) {
           jira {
-            projectTypes(cloudId: "", searchText: $searchText) {
+            projectTypes(cloudId: $cloudId, searchText: $searchText) {
               edges {
                 node {
                   id
@@ -48,7 +49,7 @@ const JiraProjectDirectoryProjectTypesFilterCriteria = ({
           }
         }
       `,
-      {searchText: ''},
+      {searchText: '', cloudId: ''}, // FIX-ME: Pass cloudId from route param
     );
   const currentSelectedProjectTypes = data.selectedItems?.map(
     (item) => item?.id,
@@ -69,12 +70,19 @@ const JiraProjectDirectoryProjectTypesFilterCriteria = ({
         .join(',')
         .toLowerCase() ?? '';
     if (
-      url.searchParams.get('selectedProjectType') !==
-        selectedProjectTypeParam &&
-      selectedProjectTypes !== null
+      url.searchParams.get('selectedProjectType') !== selectedProjectTypeParam
     ) {
-      url.searchParams.set('selectedProjectType', selectedProjectTypeParam);
-      router.push(url);
+      if (selectedProjectTypeParam.length > 0) {
+        url.searchParams.set('selectedProjectType', selectedProjectTypeParam);
+      } else if (
+        selectedProjectTypeParam === '' &&
+        url.searchParams.get('selectedProjectType') != null
+      ) {
+        url.searchParams.delete('selectedProjectType');
+      }
+      if (url.toString() !== document.location.href) {
+        router.push(url);
+      }
     }
   }, [selectedProjectTypes, router]);
 
@@ -90,7 +98,7 @@ const JiraProjectDirectoryProjectTypesFilterCriteria = ({
               {selectedProjectTypes?.length !== undefined &&
               selectedProjectTypes?.length > 0
                 ? selectedProjectTypes?.map((item, index) => (
-                    <button
+                    <span
                       key={`item-${index}`}
                       className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 hover:bg-gray-400 hover:text-white font-medium mr-2 py-0.5 px-2.5 rounded-full inline-flex items-center">
                       <span>
@@ -101,7 +109,7 @@ const JiraProjectDirectoryProjectTypesFilterCriteria = ({
                         }
                       </span>
                       <XCircleIcon className="h-5 w-5 dark:text-blue-300 text-blue-800" />
-                    </button>
+                    </span>
                   ))
                 : 'All Jira products'}
             </span>

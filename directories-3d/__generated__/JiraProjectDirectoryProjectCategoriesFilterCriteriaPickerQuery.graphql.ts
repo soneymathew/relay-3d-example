@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<0ba357e7e50148d18ab4066f60cf9d9c>>
+ * @generated SignedSource<<566f8f614c8d1565e26eb6d4732604b3>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,6 +10,7 @@
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 export type JiraProjectDirectoryProjectCategoriesFilterCriteriaPickerQuery$variables = {
+  cloudId: string;
   searchText?: string | null;
 };
 export type JiraProjectDirectoryProjectCategoriesFilterCriteriaPickerQuery$data = {
@@ -36,6 +37,11 @@ var v0 = [
   {
     "defaultValue": null,
     "kind": "LocalArgument",
+    "name": "cloudId"
+  },
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
     "name": "searchText"
   }
 ],
@@ -52,9 +58,9 @@ v1 = [
         "alias": null,
         "args": [
           {
-            "kind": "Literal",
+            "kind": "Variable",
             "name": "cloudId",
-            "value": ""
+            "variableName": "cloudId"
           },
           {
             "kind": "Literal",
@@ -147,16 +153,16 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "ce862d1326c4d5c3cdcfca93c6aa51c7",
+    "cacheID": "2be0b11ef3fe5d504522926814cc2faf",
     "id": null,
     "metadata": {},
     "name": "JiraProjectDirectoryProjectCategoriesFilterCriteriaPickerQuery",
     "operationKind": "query",
-    "text": "query JiraProjectDirectoryProjectCategoriesFilterCriteriaPickerQuery(\n  $searchText: String\n) {\n  jira {\n    projectCategories(cloudId: \"\", first: 10, searchText: $searchText) {\n      edges {\n        node {\n          id\n          categoryId\n          name\n        }\n      }\n      totalCount\n    }\n  }\n}\n"
+    "text": "query JiraProjectDirectoryProjectCategoriesFilterCriteriaPickerQuery(\n  $cloudId: ID!\n  $searchText: String\n) {\n  jira {\n    projectCategories(cloudId: $cloudId, first: 10, searchText: $searchText) {\n      edges {\n        node {\n          id\n          categoryId\n          name\n        }\n      }\n      totalCount\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "c6cd7757d82e43b35e3bf001ed535428";
+(node as any).hash = "fa9bcc2e3a9f487a1df60c11089da9fe";
 
 export default node;

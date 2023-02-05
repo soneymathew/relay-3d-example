@@ -23,15 +23,20 @@ const JiraProjectDirectoryProjectCategoriesFilterCriteria = ({
     `,
     content,
   );
-  // TODO: Replace useLazyLoadQuery with EntryPoint approach
+  // FIX-ME: Replace useLazyLoadQuery with EntryPoint approach
   const pickerData =
     useLazyLoadQuery<JiraProjectDirectoryProjectCategoriesFilterCriteriaPickerQuery>(
       graphql`
         query JiraProjectDirectoryProjectCategoriesFilterCriteriaPickerQuery(
+          $cloudId: ID!
           $searchText: String
         ) {
           jira {
-            projectCategories(cloudId: "", first: 10, searchText: $searchText) {
+            projectCategories(
+              cloudId: $cloudId
+              first: 10
+              searchText: $searchText
+            ) {
               edges {
                 node {
                   id
@@ -44,7 +49,7 @@ const JiraProjectDirectoryProjectCategoriesFilterCriteria = ({
           }
         }
       `,
-      {searchText: ''},
+      {searchText: '', cloudId: ''}, // FIX-ME: Pass cloudId from route param
     );
   const currentSelectedCategoryId = data.selectedItems?.map(
     (item) => item?.categoryId,
@@ -56,12 +61,18 @@ const JiraProjectDirectoryProjectCategoriesFilterCriteria = ({
   const router = useRouter();
   useEffect(() => {
     const url = new URL(document.location.href);
-    if (
-      url.searchParams.get('selectedCategory') !== selectedCategories &&
-      selectedCategories !== null
-    ) {
-      url.searchParams.set('selectedCategory', selectedCategories);
-      router.push(url);
+    if (url.searchParams.get('selectedCategory') !== selectedCategories) {
+      if (selectedCategories.length > 0) {
+        url.searchParams.set('selectedCategory', selectedCategories);
+      } else if (
+        selectedCategories === '' &&
+        url.searchParams.get('selectedCategory') != null
+      ) {
+        url.searchParams.delete('selectedCategory');
+      }
+      if (url.toString() !== document.location.href) {
+        router.push(url);
+      }
     }
   }, [selectedCategories, router]);
   return (

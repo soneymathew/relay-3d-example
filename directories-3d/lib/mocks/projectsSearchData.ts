@@ -53,7 +53,7 @@ export const projectTypeDetails = {
   }),
 };
 
-export const DEFAULT_MOCK_DATA = {
+const DEFAULT_MOCK_DATA = {
   values: Array(98)
     .fill(0)
     .map((_v, i) => {
@@ -82,6 +82,7 @@ export const DEFAULT_MOCK_DATA = {
           'en-US',
         ),
         url: chance.bool({likelihood: 20}) ? chance.url() : undefined,
+        isPublic: chance.bool({likelihood: 20}),
         category: chance.bool({likelihood: 30})
           ? chance.pickone(projectCategories.values)
           : undefined,
@@ -89,6 +90,11 @@ export const DEFAULT_MOCK_DATA = {
     }),
 };
 
+const projectDirectoryFilters = [
+  {type: 'JiraDirectorySearchTextFilterCriteria'},
+  {type: 'JiraProjectDirectoryProjectTypesFilterCriteria'},
+  {type: 'JiraProjectDirectoryProjectCategoriesFilterCriteria'},
+];
 export const projectDirectoryHeaders = [
   {
     title: '★',
@@ -170,9 +176,10 @@ export const projectDirectoryHeaders = [
   },
 ];
 
-export const PROJECT_DIRECTORY_CONFIG = (isAdmin: boolean, canCreate = false) =>
-  isAdmin
-    ? {
+export const PROJECT_DIRECTORY_CONFIG = (cloudId: string) => {
+  switch (cloudId) {
+    case 'admin-user':
+      return {
         title: 'Manage Projects',
         description:
           'This is the view for a user that is an admin. Notice that the columns are different and the user can create a project',
@@ -180,9 +187,74 @@ export const PROJECT_DIRECTORY_CONFIG = (isAdmin: boolean, canCreate = false) =>
         headers: projectDirectoryHeaders.filter(
           (project) => project.showInAdmin,
         ),
+        projectTypeDetails,
+        projectCategories,
+        filters: projectDirectoryFilters,
         data: DEFAULT_MOCK_DATA,
-      }
-    : {
+      };
+    case 'no-categories':
+      return {
+        title: 'Projects with no categories',
+        description:
+          'In this instance there are no project categories. Note that categories picker and categories column are not loaded.',
+        hasCreatePermission: false,
+        headers: projectDirectoryHeaders.filter(
+          (project) =>
+            project.showInMain &&
+            project.renderer !== 'JiraProjectCategoryCell',
+        ),
+        projectTypeDetails,
+        projectCategories: {values: []},
+        filters: projectDirectoryFilters.slice(0, 2),
+        data: DEFAULT_MOCK_DATA,
+      };
+    case 'only-software':
+      return {
+        title: 'Only software project license',
+        description:
+          'In this instance there are only software projects. All Jira Products picker need not be shown',
+        hasCreatePermission: false,
+        headers: projectDirectoryHeaders.filter(
+          (project) =>
+            project.showInMain &&
+            project.renderer !== 'JiraProjectCategoryCell',
+        ),
+        projectTypeDetails: {
+          values: projectTypeDetails.values.filter(
+            (projectType) => projectType.type === 'SOFTWARE',
+          ),
+        },
+        projectCategories,
+        filters: [projectDirectoryFilters[0], projectDirectoryFilters[2]],
+        data: {
+          values: DEFAULT_MOCK_DATA.values.filter(
+            (project) => project.projectType.type === 'SOFTWARE',
+          ),
+        },
+      };
+    case 'anonymous-user':
+      return {
+        title: 'Projects for anonymous user',
+        description:
+          'In this case project categories should not be shown as user is not logged in. Note that categories picker and categories column are not loaded. There is also less number of projects that are available to be seen',
+        hasCreatePermission: false,
+        headers: projectDirectoryHeaders.filter(
+          (project) =>
+            project.showInMain &&
+            project.renderer !== 'JiraProjectCategoryCell',
+        ),
+        projectTypeDetails,
+        projectCategories: {values: []},
+        filters: projectDirectoryFilters.slice(0, 2),
+        data: {
+          values: DEFAULT_MOCK_DATA.values.filter(
+            (project) => project.isPublic,
+          ),
+        },
+      };
+    case 'normal-user': // fall thru
+    default:
+      return {
         title: 'Projects',
         description:
           'This is the view for a user that is not an admin. This user also do not have permission to create a project',
@@ -190,5 +262,10 @@ export const PROJECT_DIRECTORY_CONFIG = (isAdmin: boolean, canCreate = false) =>
         headers: projectDirectoryHeaders.filter(
           (project) => project.showInMain,
         ),
+        projectTypeDetails,
+        projectCategories,
+        filters: projectDirectoryFilters,
         data: DEFAULT_MOCK_DATA,
       };
+  }
+};

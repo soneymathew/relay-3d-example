@@ -4,6 +4,7 @@ import {useRouter} from 'next/router';
 import {
   ArrowUpCircleIcon,
   ArrowDownCircleIcon,
+  DocumentMagnifyingGlassIcon,
 } from '@heroicons/react/20/solid';
 import RelayMatchContainer from '../RelayMatchContainer';
 import {JiraProjectDirectoryResults_content$key} from '../../__generated__/JiraProjectDirectoryResults_content.graphql';
@@ -102,7 +103,16 @@ const JiraProjectDirectoryResult = ({
     `,
     content,
   );
-  return (
+  return data.rows?.totalCount !== undefined &&
+    data.rows.totalCount !== null &&
+    data.rows.totalCount < 1 ? (
+    <div className="text-center">
+      <DocumentMagnifyingGlassIcon className="mx-auto h-56 w-56 text-gray-400" />
+      <h3 className="mt-2 text-sm font-medium text-gray-900">
+        No matches for your filter criteria
+      </h3>
+    </div>
+  ) : (
     <div className="flex flex-col">
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
@@ -212,9 +222,8 @@ const JiraProjectDirectoryResult = ({
           data.rows.totalCount !== null &&
           data.rows.totalCount > 0
             ? data.rows?.totalCount
-            : 97
+            : 0
         }
-        page={1}
       />
     </div>
   );

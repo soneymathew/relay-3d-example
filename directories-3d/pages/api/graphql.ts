@@ -5,11 +5,7 @@ import {connectionFromArray, type ConnectionArguments} from 'graphql-relay';
 // @ts-ignore Cannot find module or its corresponding type declarations
 import typeDefs from '../../lib/schema/schema.graphql';
 import type {NextApiRequest, NextApiResponse} from 'next';
-import {
-  PROJECT_DIRECTORY_CONFIG,
-  projectTypeDetails,
-  projectCategories,
-} from '../../lib/mocks/projectsSearchData';
+import {PROJECT_DIRECTORY_CONFIG} from '../../lib/mocks/projectsSearchData';
 
 import {projectFilter} from '../../lib/schema/utils';
 
@@ -73,28 +69,34 @@ const resolvers = {
   JSDependency: JSDependencyScalar,
   Query: {
     jira: () => ({
-      projectCategories: (args: {searchText: string} & ConnectionArguments) => {
-        const filteredProjectCategories = projectCategories.values.filter(
-          (projectCategory) =>
-            args?.searchText?.length > 0
-              ? projectCategory.name
-                  .toLowerCase()
-                  .search(args?.searchText.toLowerCase()) !== -1
-              : true,
+      projectCategories: (
+        args: {searchText: string; cloudId: string} & ConnectionArguments,
+      ) => {
+        const filteredProjectCategories = PROJECT_DIRECTORY_CONFIG(
+          args.cloudId,
+        ).projectCategories.values.filter((projectCategory) =>
+          args?.searchText?.length > 0
+            ? projectCategory.name
+                .toLowerCase()
+                .search(args?.searchText.toLowerCase()) !== -1
+            : true,
         );
         return {
           ...connectionFromArray(filteredProjectCategories, args),
           totalCount: filteredProjectCategories.length,
         };
       },
-      projectTypes: (args: {searchText: string} & ConnectionArguments) => {
-        const filteredProjectTypeDetails = projectTypeDetails.values.filter(
-          (projectTypeDetail) =>
-            args?.searchText?.length > 0
-              ? projectTypeDetail.displayName
-                  .toLowerCase()
-                  .search(args?.searchText.toLowerCase()) !== -1
-              : true,
+      projectTypes: (
+        args: {searchText: string; cloudId: string} & ConnectionArguments,
+      ) => {
+        const filteredProjectTypeDetails = PROJECT_DIRECTORY_CONFIG(
+          args.cloudId,
+        ).projectTypeDetails.values.filter((projectTypeDetail) =>
+          args?.searchText?.length > 0
+            ? projectTypeDetail.displayName
+                .toLowerCase()
+                .search(args?.searchText.toLowerCase()) !== -1
+            : true,
         );
         return {
           ...connectionFromArray(filteredProjectTypeDetails, args),
@@ -102,7 +104,8 @@ const resolvers = {
         };
       },
       directory: (args: {
-        id: 'projects' | 'projectsAdmin';
+        cloudId: string;
+        id: 'projects';
         filter: {
           criteria: Criteria[];
           sortField: string;
@@ -110,12 +113,11 @@ const resolvers = {
           page: number;
         };
       }) => {
-        if (args.id == 'projects' || args.id == 'projectsAdmin') {
-          const directoryConfig =
-            args.id == 'projectsAdmin'
-              ? PROJECT_DIRECTORY_CONFIG(true)
-              : PROJECT_DIRECTORY_CONFIG(false);
-
+        const directoryConfig =
+          args.id === 'projects'
+            ? PROJECT_DIRECTORY_CONFIG(args.cloudId)
+            : null;
+        if (directoryConfig) {
           const {
             criteria = [],
             sortField = 'name',
@@ -139,26 +141,27 @@ const resolvers = {
                 : null;
             },
             filterCriteria: (args: {supported: string[]}) => {
-              return args.supported.map((type) => {
+              return directoryConfig.filters.map((filter) => {
                 // Drive this based on request params and directoryConfig
                 const data = {
                   JiraProjectDirectoryProjectTypesFilterCriteria:
-                    projectTypeDetails.values.filter((projectTypeDetail) =>
-                      selectedProjectTypes?.length > 0
-                        ? selectedProjectTypes.includes(
-                            projectTypeDetail.type.toLowerCase(),
-                          )
-                        : false,
+                    directoryConfig.projectTypeDetails.values.filter(
+                      (projectTypeDetail) =>
+                        selectedProjectTypes?.length > 0
+                          ? selectedProjectTypes.includes(
+                              projectTypeDetail.type.toLowerCase(),
+                            )
+                          : false,
                     ),
                   JiraProjectDirectoryProjectCategoriesFilterCriteria:
-                    projectCategories.values.filter(
+                    directoryConfig.projectCategories.values.filter(
                       (category) => category.categoryId === selectedCategory,
                     ),
-                }[type];
+                }[filter.type];
 
                 return {
-                  __typename: type,
-                  type,
+                  __typename: filter.type,
+                  type: filter.type,
                   searchText,
                   selectedItems: data,
                   js: JSFieldResolver,
@@ -179,7 +182,7 @@ const resolvers = {
                   }),
                 );
                 return {
-                  ...connectionFromArray(headerData, {first: 100}), // TODO: use connectionArgs
+                  ...connectionFromArray(headerData, {first: 100}), // FIX-ME: use connectionArgs
                   totalCount: headerData.length,
                 };
               },
@@ -251,22 +254,40 @@ const resolvers = {
                       ? -1
                       : 1;
                   })
-                  //.slice((page - 1) * page_size, page * page_size)
                   .map((project) => ({
                     __typename: 'JiraProjectDirectoryResultValues',
                     columns: () => {
                       const columnsData = directoryConfig.headers.map(
-                        ({renderer}) => ({
-                          __typename: 'JiraProjectDirectoryResultCell',
-                          renderer: {
-                            __typename: renderer,
-                            js: JSFieldResolver,
-                            project,
-                          },
-                        }),
+                        ({renderer}) => {
+                          const defaultReturn = {
+                            __typename: 'JiraProjectDirectoryResultCell',
+                            renderer: {
+                              __typename: renderer,
+                              js: JSFieldResolver,
+                              project,
+                            },
+                          };
+                          switch (renderer) {
+                            case 'JiraProjectCategoryCell':
+                              return project.category ? defaultReturn : null;
+                            case 'JiraProjectLinkCell':
+                              return project.url ? defaultReturn : null;
+                            case 'JiraProjectActionsCell':
+                            case 'JiraProjectFavouriteCell':
+                            case 'JiraProjectNameCell':
+                            case 'JiraProjectKeyCell':
+                            case 'JiraProjectTypeCell':
+                            case 'JiraProjectLeadCell':
+                            case 'JiraProjectLastIssueUpdateCell':
+                            default:
+                              return defaultReturn;
+                          }
+                        },
                       );
                       return {
-                        ...connectionFromArray(columnsData, {first: 10}), // TODO: use connectionArgs
+                        ...connectionFromArray(columnsData, {
+                          first: directoryConfig.headers.length,
+                        }), // FIX-ME: use connectionArgs
                         totalCount: columnsData.length,
                       };
                     },
@@ -277,7 +298,7 @@ const resolvers = {
                     after: Buffer.from(
                       `arrayconnection:${(page - 1) * page_size - 1}`,
                     ).toString('base64'),
-                    // TODO: fix edge case when page > max-page-size
+                    // FIX-ME: fix edge case when page > max-page-size
                   }),
                   totalCount: matchedProjects.length,
                 };

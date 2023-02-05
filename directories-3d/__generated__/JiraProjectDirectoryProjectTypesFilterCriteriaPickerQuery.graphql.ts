@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<5eb4324dc60c67f9b5ba6b025cebfa0c>>
+ * @generated SignedSource<<7102a59f14c6939ddc99f19afec36904>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,6 +11,7 @@
 import { ConcreteRequest, Query } from 'relay-runtime';
 export type JiraProjectType = "BUSINESS" | "PRODUCT_DISCOVERY" | "SERVICE_DESK" | "SOFTWARE" | "UNKNOWN" | "%future added value";
 export type JiraProjectDirectoryProjectTypesFilterCriteriaPickerQuery$variables = {
+  cloudId: string;
   searchText?: string | null;
 };
 export type JiraProjectDirectoryProjectTypesFilterCriteriaPickerQuery$data = {
@@ -37,6 +38,11 @@ var v0 = [
   {
     "defaultValue": null,
     "kind": "LocalArgument",
+    "name": "cloudId"
+  },
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
     "name": "searchText"
   }
 ],
@@ -53,9 +59,9 @@ v1 = [
         "alias": null,
         "args": [
           {
-            "kind": "Literal",
+            "kind": "Variable",
             "name": "cloudId",
-            "value": ""
+            "variableName": "cloudId"
           },
           {
             "kind": "Variable",
@@ -143,16 +149,16 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "18f791306124ae6323a90b7f2d09d565",
+    "cacheID": "9c2547087f9f0d262343f1f5f5753413",
     "id": null,
     "metadata": {},
     "name": "JiraProjectDirectoryProjectTypesFilterCriteriaPickerQuery",
     "operationKind": "query",
-    "text": "query JiraProjectDirectoryProjectTypesFilterCriteriaPickerQuery(\n  $searchText: String\n) {\n  jira {\n    projectTypes(cloudId: \"\", searchText: $searchText) {\n      edges {\n        node {\n          id\n          type\n          displayName\n        }\n      }\n      totalCount\n    }\n  }\n}\n"
+    "text": "query JiraProjectDirectoryProjectTypesFilterCriteriaPickerQuery(\n  $cloudId: ID!\n  $searchText: String\n) {\n  jira {\n    projectTypes(cloudId: $cloudId, searchText: $searchText) {\n      edges {\n        node {\n          id\n          type\n          displayName\n        }\n      }\n      totalCount\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "5e3ee4ce0899060dfeec0287b41b3f8a";
+(node as any).hash = "fefd8d91f1646c846c659215e6fa7b97";
 
 export default node;
