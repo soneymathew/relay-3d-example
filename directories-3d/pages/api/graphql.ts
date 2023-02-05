@@ -326,6 +326,7 @@ const dataDrivenDependencies = {
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
+  introspection: true,
   // mocks: true,
   // mockEntireSchema: false,
   csrfPrevention: true,
