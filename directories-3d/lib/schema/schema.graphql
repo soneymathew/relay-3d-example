@@ -16,6 +16,10 @@ enum SortDirection {
   DESC
 }
 
+interface HasTotalCount {
+  totalCount: Int
+}
+
 enum JiraDirectoryFilterCriteriaType {
   KEYWORD
   MULTISELECT
@@ -96,7 +100,7 @@ type JiraProjectCategory {
   description: String
 }
 
-type JiraProjectCategoryConnection {
+type JiraProjectCategoryConnection implements HasTotalCount {
   totalCount: Int
   pageInfo: PageInfo!
   edges: [JiraProjectCategoryEdge]
@@ -137,7 +141,7 @@ interface JiraDirectoryResultHeader {
   sortKey: String
 }
 
-type JiraDirectoryResultHeaderConnection {
+type JiraDirectoryResultHeaderConnection implements HasTotalCount {
   totalCount: Int
   pageInfo: PageInfo!
   edges: [JiraDirectoryResultHeaderEdge]
@@ -180,7 +184,7 @@ type JiraProjectDirectoryResult implements JiraDirectoryResult {
   js(module: String!, id: String): JSDependency!
 }
 
-type JiraDirectoryResultValuesConnection {
+type JiraDirectoryResultValuesConnection implements HasTotalCount {
   totalCount: Int
   pageInfo: PageInfo!
   edges: [JiraDirectoryResultValuesEdge]
@@ -195,7 +199,7 @@ type JiraProjectDirectoryResultValues implements JiraDirectoryResultValues {
   columns: JiraDirectoryResultCellConnection
 }
 
-type JiraDirectoryResultCellConnection {
+type JiraDirectoryResultCellConnection implements HasTotalCount {
   totalCount: Int
   pageInfo: PageInfo!
   edges: [JiraDirectoryResultCellEdge]
@@ -234,7 +238,7 @@ type JiraProjectTypeDetails {
   color: String!
 }
 
-type JiraProjectTypeDetailsConnection {
+type JiraProjectTypeDetailsConnection implements HasTotalCount {
   totalCount: Int
   pageInfo: PageInfo!
   edges: [JiraProjectTypeDetailsEdge]

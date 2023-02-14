@@ -97,15 +97,15 @@ const JiraProjectDirectoryResult = ({
               }
             }
           }
-          totalCount
+          ...JiraDirectoryResultPagination_content
         }
       }
     `,
     content,
   );
-  return data.rows?.totalCount !== undefined &&
-    data.rows.totalCount !== null &&
-    data.rows.totalCount < 1 ? (
+  return data.rows?.edges !== undefined &&
+    data.rows.edges !== null &&
+    data.rows.edges.length < 1 ? (
     <div className="text-center">
       <DocumentMagnifyingGlassIcon className="mx-auto h-56 w-56 text-gray-400" />
       <h3 className="mt-2 text-sm font-medium text-gray-900">
@@ -216,15 +216,7 @@ const JiraProjectDirectoryResult = ({
           </div>
         </div>
       </div>
-      <JiraDirectoryResultPagination
-        totalCount={
-          data.rows?.totalCount !== undefined &&
-          data.rows.totalCount !== null &&
-          data.rows.totalCount > 0
-            ? data.rows?.totalCount
-            : 0
-        }
-      />
+      {data?.rows && <JiraDirectoryResultPagination content={data.rows} />}
     </div>
   );
 };

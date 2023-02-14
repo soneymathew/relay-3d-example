@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<6d2879a3d5d7a40dc1d1cb29025a7a8c>>
+ * @generated SignedSource<<405029288b5277efdfd68e06eee8edc5>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -306,11 +306,18 @@ return {
           "storageKey": null
         },
         {
-          "alias": null,
-          "args": null,
-          "kind": "ScalarField",
-          "name": "totalCount",
-          "storageKey": null
+          "kind": "InlineFragment",
+          "selections": [
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "totalCount",
+              "storageKey": null
+            }
+          ],
+          "type": "HasTotalCount",
+          "abstractKey": "__isHasTotalCount"
         }
       ],
       "storageKey": null
@@ -319,6 +326,6 @@ return {
 };
 })();
 
-(node as any).hash = "44439f892b3104ee86a12972a3807080";
+(node as any).hash = "13e2c5e906da8e74f6fbb52163b2665b";
 
 export default node;

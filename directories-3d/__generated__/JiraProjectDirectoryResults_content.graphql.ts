@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d3944d979d1fdfed841eb56743e573c6>>
+ * @generated SignedSource<<0877b5f2551c8159fe713568034b8ea4>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -40,7 +40,7 @@ export type JiraProjectDirectoryResults_content$data = {
         } | null;
       } | null;
     } | null> | null;
-    readonly totalCount: number | null;
+    readonly " $fragmentSpreads": FragmentRefs<"JiraDirectoryResultPagination_content">;
   } | null;
   readonly " $fragmentType": "JiraProjectDirectoryResults_content";
 };
@@ -333,11 +333,9 @@ const node: ReaderFragment = {
           "storageKey": null
         },
         {
-          "alias": null,
           "args": null,
-          "kind": "ScalarField",
-          "name": "totalCount",
-          "storageKey": null
+          "kind": "FragmentSpread",
+          "name": "JiraDirectoryResultPagination_content"
         }
       ],
       "storageKey": null
@@ -347,6 +345,6 @@ const node: ReaderFragment = {
   "abstractKey": null
 };
 
-(node as any).hash = "44439f892b3104ee86a12972a3807080";
+(node as any).hash = "13e2c5e906da8e74f6fbb52163b2665b";
 
 export default node;

@@ -2,6 +2,9 @@ import {ChevronLeftIcon, ChevronRightIcon} from '@heroicons/react/20/solid';
 import {useRouter} from 'next/router';
 import Link from 'next/link';
 import {useEffect, useState} from 'react';
+import {useFragment, graphql} from 'react-relay';
+
+import {JiraDirectoryResultPagination_content$key} from '../../__generated__/JiraDirectoryResultPagination_content.graphql';
 
 const getUrl = (urlPath: string, pageNum: number) => {
   let url;
@@ -18,12 +21,26 @@ const getUrl = (urlPath: string, pageNum: number) => {
 
 const pageSize = 10;
 export default function JiraDirectoryResultPagination({
-  totalCount,
+  content,
 }: {
-  totalCount: number;
+  content: JiraDirectoryResultPagination_content$key;
 }) {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const data = useFragment(
+    graphql`
+      fragment JiraDirectoryResultPagination_content on HasTotalCount {
+        totalCount
+      }
+    `,
+    content,
+  );
+  const totalCount =
+    data.totalCount !== undefined &&
+    data.totalCount !== null &&
+    data.totalCount > 0
+      ? data?.totalCount
+      : 0;
   useEffect(() => {
     const pageString = router.query.page?.toString() ?? '';
     setCurrentPage(pageString ? parseInt(pageString) : currentPage);
