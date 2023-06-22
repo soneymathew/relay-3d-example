@@ -1,10 +1,11 @@
-import {ApolloServer} from 'apollo-server-micro';
-import {ApolloServerPluginLandingPageLocalDefault} from 'apollo-server-core';
+import {ApolloServer} from '@apollo/server';
+import {startServerAndCreateNextHandler} from '@as-integrations/next';
+import {makeExecutableSchema} from '@graphql-tools/schema';
+
 import {GraphQLScalarType} from 'graphql';
 import {connectionFromArray, type ConnectionArguments} from 'graphql-relay';
 // @ts-ignore Cannot find module or its corresponding type declarations
 import typeDefs from '../../lib/schema/schema.graphql';
-import type {NextApiRequest, NextApiResponse} from 'next';
 import {PROJECT_DIRECTORY_CONFIG} from '../../lib/mocks/projectsSearchData';
 
 import {projectFilter} from '../../lib/schema/utils';
@@ -327,26 +328,22 @@ const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
   introspection: true,
-  // mocks: true,
-  // mockEntireSchema: false,
-  csrfPrevention: true,
-  cache: 'bounded',
   plugins: [
-    ApolloServerPluginLandingPageLocalDefault({embed: true}),
     {
-      async requestDidStart(_requestContext) {
-        dataDrivenDependencies.reset();
+      async requestDidStart() {
         return {
-          async willSendResponse({response}) {
+          async willSendResponse(requestContext) {
+            const {response} = requestContext;
             const dddModules = dataDrivenDependencies.getModules();
-            if (dddModules.length > 0) {
-              const extensions =
-                response.extensions ||
-                (response.extensions = Object.create(null));
-              if (typeof extensions.modules !== 'undefined') {
-                throw new Error('The `modules` extension was already present.');
-              }
-              extensions.modules = dddModules;
+            if (
+              dddModules.length > 0 &&
+              response.body.kind === 'single' &&
+              'data' in response.body.singleResult
+            ) {
+              response.body.singleResult.extensions = {
+                ...response.body.singleResult.extensions,
+                modules: dddModules,
+              };
             }
           },
         };
@@ -355,20 +352,4 @@ const apolloServer = new ApolloServer({
   ],
 });
 
-const startServer = apolloServer.start();
-
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<any>,
-) {
-  await startServer;
-  await apolloServer.createHandler({
-    path: '/api/graphql',
-  })(req, res);
-}
-
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+export default startServerAndCreateNextHandler(apolloServer);

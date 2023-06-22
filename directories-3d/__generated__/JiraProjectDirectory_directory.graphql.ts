@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<ced98737601b9e7bbc4346399f60dbb4>>
+ * @generated SignedSource<<0a7db3146eca9000cc5d457d6dbbdb3e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -65,9 +65,7 @@ const node: ReaderFragment = {
         {
           "kind": "Literal",
           "name": "supported",
-          "value": [
-            "JiraProjectDirectoryCreateItem"
-          ]
+          "value": "4xwvlE"
         }
       ],
       "concreteType": null,
@@ -90,7 +88,7 @@ const node: ReaderFragment = {
           "abstractKey": null
         }
       ],
-      "storageKey": "createDirectoryItem(supported:[\"JiraProjectDirectoryCreateItem\"])"
+      "storageKey": "createDirectoryItem(supported:\"4xwvlE\")"
     },
     {
       "alias": null,
@@ -98,11 +96,7 @@ const node: ReaderFragment = {
         {
           "kind": "Literal",
           "name": "supported",
-          "value": [
-            "JiraDirectorySearchTextFilterCriteria",
-            "JiraProjectDirectoryProjectTypesFilterCriteria",
-            "JiraProjectDirectoryProjectCategoriesFilterCriteria"
-          ]
+          "value": "c4ZDC"
         }
       ],
       "concreteType": null,
@@ -153,7 +147,7 @@ const node: ReaderFragment = {
           "abstractKey": null
         }
       ],
-      "storageKey": "filterCriteria(supported:[\"JiraDirectorySearchTextFilterCriteria\",\"JiraProjectDirectoryProjectTypesFilterCriteria\",\"JiraProjectDirectoryProjectCategoriesFilterCriteria\"])"
+      "storageKey": "filterCriteria(supported:\"c4ZDC\")"
     },
     {
       "alias": null,

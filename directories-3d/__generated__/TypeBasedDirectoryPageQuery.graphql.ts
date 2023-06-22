@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<611c2a4ba70066931fb87e790139a0a7>>
+ * @generated SignedSource<<b64666089d77ce4ccf7040cfada44cbd>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -185,9 +185,7 @@ v8 = [
   {
     "kind": "Literal",
     "name": "supported",
-    "value": [
-      "JiraProjectDirectory"
-    ]
+    "value": "h1WvD"
   }
 ],
 v9 = {

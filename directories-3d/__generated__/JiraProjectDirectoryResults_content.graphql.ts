@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<0877b5f2551c8159fe713568034b8ea4>>
+ * @generated SignedSource<<a044a0d0ec59e146f81cc470a0b328b6>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -170,17 +170,7 @@ const node: ReaderFragment = {
                                 {
                                   "kind": "Literal",
                                   "name": "supported",
-                                  "value": [
-                                    "JiraProjectFavouriteCell",
-                                    "JiraProjectNameCell",
-                                    "JiraProjectKeyCell",
-                                    "JiraProjectTypeCell",
-                                    "JiraProjectLeadCell",
-                                    "JiraProjectLastIssueUpdateCell",
-                                    "JiraProjectCategoryCell",
-                                    "JiraProjectLinkCell",
-                                    "JiraProjectActionsCell"
-                                  ]
+                                  "value": "1NuNET"
                                 }
                               ],
                               "concreteType": null,
@@ -315,7 +305,7 @@ const node: ReaderFragment = {
                                   "abstractKey": null
                                 }
                               ],
-                              "storageKey": "renderer(supported:[\"JiraProjectFavouriteCell\",\"JiraProjectNameCell\",\"JiraProjectKeyCell\",\"JiraProjectTypeCell\",\"JiraProjectLeadCell\",\"JiraProjectLastIssueUpdateCell\",\"JiraProjectCategoryCell\",\"JiraProjectLinkCell\",\"JiraProjectActionsCell\"])"
+                              "storageKey": "renderer(supported:\"1NuNET\")"
                             }
                           ],
                           "storageKey": null

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<405029288b5277efdfd68e06eee8edc5>>
+ * @generated SignedSource<<bb4f1ed74e0c55a254eb7a352635ae7f>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -142,17 +142,7 @@ return {
                                 {
                                   "kind": "Literal",
                                   "name": "supported",
-                                  "value": [
-                                    "JiraProjectFavouriteCell",
-                                    "JiraProjectNameCell",
-                                    "JiraProjectKeyCell",
-                                    "JiraProjectTypeCell",
-                                    "JiraProjectLeadCell",
-                                    "JiraProjectLastIssueUpdateCell",
-                                    "JiraProjectCategoryCell",
-                                    "JiraProjectLinkCell",
-                                    "JiraProjectActionsCell"
-                                  ]
+                                  "value": "1NuNET"
                                 }
                               ],
                               "concreteType": null,
@@ -288,7 +278,7 @@ return {
                                   "abstractKey": null
                                 }
                               ],
-                              "storageKey": "renderer(supported:[\"JiraProjectFavouriteCell\",\"JiraProjectNameCell\",\"JiraProjectKeyCell\",\"JiraProjectTypeCell\",\"JiraProjectLeadCell\",\"JiraProjectLastIssueUpdateCell\",\"JiraProjectCategoryCell\",\"JiraProjectLinkCell\",\"JiraProjectActionsCell\"])"
+                              "storageKey": "renderer(supported:\"1NuNET\")"
                             }
                           ],
                           "storageKey": null

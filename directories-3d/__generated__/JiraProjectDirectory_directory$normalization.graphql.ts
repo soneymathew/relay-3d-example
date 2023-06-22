@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<a21dbf6684e8f59fd34bb48427cfcfba>>
+ * @generated SignedSource<<af9df2e44413cc6a803e230b065ded69>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -44,9 +44,7 @@ return {
         {
           "kind": "Literal",
           "name": "supported",
-          "value": [
-            "JiraProjectDirectoryCreateItem"
-          ]
+          "value": "4xwvlE"
         }
       ],
       "concreteType": null,
@@ -70,7 +68,7 @@ return {
           "abstractKey": null
         }
       ],
-      "storageKey": "createDirectoryItem(supported:[\"JiraProjectDirectoryCreateItem\"])"
+      "storageKey": "createDirectoryItem(supported:\"4xwvlE\")"
     },
     {
       "alias": null,
@@ -78,11 +76,7 @@ return {
         {
           "kind": "Literal",
           "name": "supported",
-          "value": [
-            "JiraDirectorySearchTextFilterCriteria",
-            "JiraProjectDirectoryProjectTypesFilterCriteria",
-            "JiraProjectDirectoryProjectCategoriesFilterCriteria"
-          ]
+          "value": "c4ZDC"
         }
       ],
       "concreteType": null,
@@ -134,7 +128,7 @@ return {
           "abstractKey": null
         }
       ],
-      "storageKey": "filterCriteria(supported:[\"JiraDirectorySearchTextFilterCriteria\",\"JiraProjectDirectoryProjectTypesFilterCriteria\",\"JiraProjectDirectoryProjectCategoriesFilterCriteria\"])"
+      "storageKey": "filterCriteria(supported:\"c4ZDC\")"
     },
     {
       "alias": null,

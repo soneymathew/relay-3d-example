@@ -14,10 +14,12 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@apollo/server": "^4.7.3",
+    "@as-integrations/next": "^2.0.0",
+    "@graphql-tools/schema": "^10.0.0",
     "@headlessui/react": "^1.7.2",
     "@heroicons/react": "^2.0.11",
     "@testing-library/jest-dom": "^5.16.5",
-    "apollo-server-micro": "^3.10.2",
     "chance": "^1.1.8",
     "graphql": "^16.6.0",
     "graphql-relay": "^0.10.0",
