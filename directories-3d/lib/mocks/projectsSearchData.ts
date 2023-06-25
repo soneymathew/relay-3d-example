@@ -92,8 +92,8 @@ const DEFAULT_MOCK_DATA = {
 
 const projectDirectoryFilters = [
   {type: 'JiraDirectorySearchTextFilterCriteria'},
-  {type: 'JiraProjectDirectoryProjectTypesFilterCriteria'},
-  {type: 'JiraProjectDirectoryProjectCategoriesFilterCriteria'},
+  {type: 'JiraGenericDirectoryProjectTypesFilterCriteria'},
+  {type: 'JiraGenericDirectoryProjectCategoriesFilterCriteria'},
 ];
 export const projectDirectoryHeaders = [
   {

@@ -79,7 +79,7 @@ interface JiraDirectoryCreateItem {
   js(module: String!, id: String): JSDependency!
 }
 
-type JiraProjectDirectory implements JiraDirectory {
+type JiraGenericDirectory implements JiraDirectory {
   title: String!
   description: String
   createDirectoryItem(supported: [String]): JiraDirectoryCreateItem
@@ -88,7 +88,7 @@ type JiraProjectDirectory implements JiraDirectory {
   js(module: String!, id: String): JSDependency!
 }
 
-type JiraProjectDirectoryCreateItem implements JiraDirectoryCreateItem {
+type JiraGenericDirectoryCreateItem implements JiraDirectoryCreateItem {
   canCreate: Boolean!
   js(module: String!, id: String): JSDependency!
 }
@@ -122,13 +122,13 @@ type JiraDirectorySearchTextFilterCriteria implements JiraDirectoryFilterCriteri
   js(module: String!, id: String): JSDependency!
 }
 
-type JiraProjectDirectoryProjectTypesFilterCriteria implements JiraDirectoryFilterCriteria {
+type JiraGenericDirectoryProjectTypesFilterCriteria implements JiraDirectoryFilterCriteria {
   type: String
   selectedItems: [JiraProjectTypeDetails]
   js(module: String!, id: String): JSDependency!
 }
 
-type JiraProjectDirectoryProjectCategoriesFilterCriteria implements JiraDirectoryFilterCriteria {
+type JiraGenericDirectoryProjectCategoriesFilterCriteria implements JiraDirectoryFilterCriteria {
   type: String
   selectedItems: [JiraProjectCategory]
   js(module: String!, id: String): JSDependency!
@@ -163,7 +163,7 @@ interface JiraDirectoryResultCell {
   renderer(supported: [String]): JiraDirectoryResultCellDataUnion
 }
 
-type JiraProjectDirectoryResultCell implements JiraDirectoryResultCell {
+type JiraGenericDirectoryResultCell implements JiraDirectoryResultCell {
   type: String
   renderer(supported: [String]): JiraDirectoryResultCellDataUnion
 }
@@ -178,7 +178,7 @@ interface JiraDirectoryResultValues {
   columns: JiraDirectoryResultCellConnection
 }
 
-type JiraProjectDirectoryResult implements JiraDirectoryResult {
+type JiraGenericDirectoryResult implements JiraDirectoryResult {
   headers: JiraDirectoryResultHeaderConnection
   rows: JiraDirectoryResultValuesConnection
   js(module: String!, id: String): JSDependency!
@@ -195,7 +195,7 @@ type JiraDirectoryResultValuesEdge {
   cursor: String!
 }
 
-type JiraProjectDirectoryResultValues implements JiraDirectoryResultValues {
+type JiraGenericDirectoryResultValues implements JiraDirectoryResultValues {
   columns: JiraDirectoryResultCellConnection
 }
 
@@ -272,41 +272,6 @@ type JiraProjectFavouriteCell {
   js(module: String!, id: String): JSDependency!
 }
 
-type JiraProjectNameCell {
-  project: JiraProject
-  js(module: String!, id: String): JSDependency!
-}
-
-type JiraProjectKeyCell {
-  project: JiraProject
-  js(module: String!, id: String): JSDependency!
-}
-
-type JiraProjectTypeCell {
-  project: JiraProject
-  js(module: String!, id: String): JSDependency!
-}
-
-type JiraProjectLeadCell {
-  project: JiraProject
-  js(module: String!, id: String): JSDependency!
-}
-
-type JiraProjectLastIssueUpdateCell {
-  project: JiraProject
-  js(module: String!, id: String): JSDependency!
-}
-
-type JiraProjectCategoryCell {
-  project: JiraProject
-  js(module: String!, id: String): JSDependency!
-}
-
-type JiraProjectLinkCell {
-  project: JiraProject
-  js(module: String!, id: String): JSDependency!
-}
-
 type JiraProjectActionsCell {
   project: JiraProject
   js(module: String!, id: String): JSDependency!
@@ -314,11 +279,59 @@ type JiraProjectActionsCell {
 
 union JiraDirectoryResultCellDataUnion =
     JiraProjectFavouriteCell
-  | JiraProjectKeyCell
-  | JiraProjectNameCell
-  | JiraProjectTypeCell
-  | JiraProjectLeadCell
-  | JiraProjectLastIssueUpdateCell
-  | JiraProjectCategoryCell
-  | JiraProjectLinkCell
   | JiraProjectActionsCell
+  | JiraGenericField
+  | JiraGenericFieldArray
+
+scalar URL
+
+enum JiraLabelDecoration {
+  NORMAL
+  STRIKE_THRU
+}
+
+enum JiraTextTransform {
+  UPPER
+}
+
+type JiraIconImage {
+  xsmall: String
+  small: String
+  medium: String
+  large: String
+}
+
+type JiraIcon {
+  image: JiraIconImage
+  altText: String
+}
+
+type JiraLabel {
+  stringValue: String
+  decoration: JiraLabelDecoration
+  textTransform: JiraTextTransform # status is uppercase
+  altText: String
+  linkUrl: URL
+}
+
+type JiraGenericField {
+  js(module: String!, id: String): JSDependency!
+  altText: String
+  label: JiraLabel
+  icon: JiraIcon
+  color: String
+}
+
+type JiraGenericFieldArray {
+  values: [JiraGenericField]
+  delimiter: String
+}
+
+type JiraIssueDirectory implements JiraDirectory {
+  title: String!
+  description: String
+  createDirectoryItem(supported: [String]): JiraDirectoryCreateItem
+  filterCriteria(supported: [String]): [JiraDirectoryFilterCriteria!]!
+  result: JiraDirectoryResult
+  js(module: String!, id: String): JSDependency!
+}

@@ -39,6 +39,12 @@ const features = [
     href: '/anonymous-user/directory/projects',
     icon: FolderIcon,
   },
+  {
+    name: 'normal-user',
+    description: 'View issues as a normal user',
+    href: '/normal-user/directory/issues',
+    icon: FolderIcon,
+  },
 ];
 
 const Index: NextPage = () => {

@@ -1,12 +1,12 @@
 import {ApolloServer} from '@apollo/server';
 import {startServerAndCreateNextHandler} from '@as-integrations/next';
-import {makeExecutableSchema} from '@graphql-tools/schema';
 
 import {GraphQLScalarType} from 'graphql';
 import {connectionFromArray, type ConnectionArguments} from 'graphql-relay';
 // @ts-ignore Cannot find module or its corresponding type declarations
 import typeDefs from '../../lib/schema/schema.graphql';
 import {PROJECT_DIRECTORY_CONFIG} from '../../lib/mocks/projectsSearchData';
+import {ISSUE_DIRECTORY_CONFIG} from '../../lib/mocks/issueSearchData';
 
 import {projectFilter} from '../../lib/schema/utils';
 
@@ -49,13 +49,13 @@ const getFilterCriteria = (criteria: Criteria[]) => {
             : '';
         break;
       case 'MULTISELECT':
-        if (criterion.id === 'JiraProjectDirectoryProjectTypesFilterCriteria') {
+        if (criterion.id === 'JiraGenericDirectoryProjectTypesFilterCriteria') {
           selectedProjectTypes = criterion.values ? [...criterion.values] : [];
         }
         break;
       case 'SELECT':
         selectedCategory =
-          criterion.id === 'JiraProjectDirectoryProjectCategoriesFilterCriteria'
+          criterion.id === 'JiraGenericDirectoryProjectCategoriesFilterCriteria'
             ? criterion.value
             : '';
         break;
@@ -106,7 +106,7 @@ const resolvers = {
       },
       directory: (args: {
         cloudId: string;
-        id: 'projects';
+        id: 'projects' | 'issues';
         filter: {
           criteria: Criteria[];
           sortField: string;
@@ -114,201 +114,320 @@ const resolvers = {
           page: number;
         };
       }) => {
-        const directoryConfig =
-          args.id === 'projects'
-            ? PROJECT_DIRECTORY_CONFIG(args.cloudId)
-            : null;
-        if (directoryConfig) {
-          const {
-            criteria = [],
-            sortField = 'name',
-            sortDirection = 'ASC',
-            page = 1,
-          } = args.filter;
-          const page_size = 10;
-          const {searchText, selectedCategory, selectedProjectTypes} =
-            getFilterCriteria(criteria);
-          return {
-            __typename: 'JiraProjectDirectory',
-            title: `${directoryConfig.title}`,
-            description: `${directoryConfig.description}`,
-            createDirectoryItem: () => {
-              return directoryConfig.hasCreatePermission
-                ? {
-                    __typename: 'JiraProjectDirectoryCreateItem',
-                    canCreate: directoryConfig.hasCreatePermission,
-                    js: JSFieldResolver,
-                  }
+        switch (args.id) {
+          case 'projects': {
+            const directoryConfig =
+              args.id === 'projects'
+                ? PROJECT_DIRECTORY_CONFIG(args.cloudId)
                 : null;
-            },
-            filterCriteria: (args: {supported: string[]}) => {
-              return directoryConfig.filters.map((filter) => {
-                // Drive this based on request params and directoryConfig
-                const data = {
-                  JiraProjectDirectoryProjectTypesFilterCriteria:
-                    directoryConfig.projectTypeDetails.values.filter(
-                      (projectTypeDetail) =>
-                        selectedProjectTypes?.length > 0
-                          ? selectedProjectTypes.includes(
-                              projectTypeDetail.type.toLowerCase(),
-                            )
-                          : false,
-                    ),
-                  JiraProjectDirectoryProjectCategoriesFilterCriteria:
-                    directoryConfig.projectCategories.values.filter(
-                      (category) => category.categoryId === selectedCategory,
-                    ),
-                }[filter.type];
+            if (directoryConfig) {
+              const {
+                criteria = [],
+                sortField = 'name',
+                sortDirection = 'ASC',
+                page = 1,
+              } = args.filter;
+              const page_size = 10;
+              const {searchText, selectedCategory, selectedProjectTypes} =
+                getFilterCriteria(criteria);
+              return {
+                __typename: 'JiraGenericDirectory',
+                title: `${directoryConfig.title}`,
+                description: `${directoryConfig.description}`,
+                createDirectoryItem: () => {
+                  return directoryConfig.hasCreatePermission
+                    ? {
+                        __typename: 'JiraGenericDirectoryCreateItem',
+                        canCreate: directoryConfig.hasCreatePermission,
+                        js: JSFieldResolver,
+                      }
+                    : null;
+                },
+                filterCriteria: (args: {supported: string[]}) => {
+                  return directoryConfig.filters.map((filter) => {
+                    // Drive this based on request params and directoryConfig
+                    const data = {
+                      JiraGenericDirectoryProjectTypesFilterCriteria:
+                        directoryConfig.projectTypeDetails.values.filter(
+                          (projectTypeDetail) =>
+                            selectedProjectTypes?.length > 0
+                              ? selectedProjectTypes.includes(
+                                  projectTypeDetail.type.toLowerCase(),
+                                )
+                              : false,
+                        ),
+                      JiraGenericDirectoryProjectCategoriesFilterCriteria:
+                        directoryConfig.projectCategories.values.filter(
+                          (category) =>
+                            category.categoryId === selectedCategory,
+                        ),
+                    }[filter.type];
 
-                return {
-                  __typename: filter.type,
-                  type: filter.type,
-                  searchText,
-                  selectedItems: data,
+                    return {
+                      __typename: filter.type,
+                      type: filter.type,
+                      searchText,
+                      selectedItems: data,
+                      js: JSFieldResolver,
+                    };
+                  });
+                },
+                result: {
+                  __typename: 'JiraGenericDirectoryResult',
                   js: JSFieldResolver,
-                };
-              });
-            },
-            result: {
-              __typename: 'JiraProjectDirectoryResult',
-              js: JSFieldResolver,
-              headers: () => {
-                const headerData = directoryConfig.headers.map(
-                  ({title, isSortable, sortDirection, sortKey}) => ({
-                    __typename: 'JiraDirectoryDefaultResultHeader',
-                    title,
-                    isSortable,
-                    sortDirection,
-                    sortKey,
-                  }),
-                );
-                return {
-                  ...connectionFromArray(headerData, {first: 100}), // FIX-ME: use connectionArgs
-                  totalCount: headerData.length,
-                };
-              },
-              rows: () => {
-                const matchedProjects = directoryConfig.data.values
-                  .filter((project) => {
-                    const hasSearchText = searchText?.length > 0;
-                    const hasSelectedCategory = selectedCategory?.length > 0;
-                    const hasSelectedProjectTypes =
-                      selectedProjectTypes?.join('').length > 0;
-                    const matchesSearchText = hasSearchText
-                      ? project.name
-                          .toLowerCase()
-                          .search(searchText.toLowerCase()) !== -1
-                      : false;
-                    const matchesSelectedCategory = hasSelectedCategory
-                      ? project.category?.categoryId === selectedCategory
-                      : false;
-                    const matchesSelectedProjectTypes = hasSelectedProjectTypes
-                      ? selectedProjectTypes.includes(
-                          project.projectType.type.toLowerCase(),
-                        )
-                      : false;
-                    return projectFilter(
-                      hasSearchText,
-                      hasSelectedCategory,
-                      hasSelectedProjectTypes,
-                      matchesSearchText,
-                      matchesSelectedCategory,
-                      matchesSelectedProjectTypes,
+                  headers: () => {
+                    const headerData = directoryConfig.headers.map(
+                      ({title, isSortable, sortDirection, sortKey}) => ({
+                        __typename: 'JiraDirectoryDefaultResultHeader',
+                        title,
+                        isSortable,
+                        sortDirection,
+                        sortKey,
+                      }),
                     );
-                  })
-                  .sort((a, b) => {
-                    let firstValue: string = '';
-                    let secondValue: string = '';
-                    switch (sortField.toLowerCase()) {
-                      case 'key':
-                        firstValue = a.key.toUpperCase();
-                        secondValue = b.key.toUpperCase();
-                        break;
-                      case 'owner':
-                        firstValue = a.lead.displayName.toUpperCase();
-                        secondValue = b.lead.displayName.toUpperCase();
-                        break;
-                      case 'category':
-                        firstValue = a.category
-                          ? a.category?.name.toUpperCase()
-                          : '';
-                        secondValue = b.category
-                          ? b.category?.name.toUpperCase()
-                          : '';
-                        break;
-                      case 'lastissueupdatedtime':
-                        firstValue = a.lastIssueUpdateDate;
-                        secondValue = b.lastIssueUpdateDate;
-                        break;
-                      case 'name': // fallthru to default
-                      default:
-                        firstValue = a.name.toUpperCase();
-                        secondValue = b.name.toUpperCase();
-                    }
-                    return firstValue === secondValue
-                      ? 0
-                      : sortDirection === 'DESC'
-                      ? firstValue > secondValue
-                        ? -1
-                        : 1
-                      : firstValue < secondValue
-                      ? -1
-                      : 1;
-                  })
-                  .map((project) => ({
-                    __typename: 'JiraProjectDirectoryResultValues',
-                    columns: () => {
-                      const columnsData = directoryConfig.headers.map(
-                        ({renderer}) => {
-                          const defaultReturn = {
-                            __typename: 'JiraProjectDirectoryResultCell',
-                            renderer: {
-                              __typename: renderer,
-                              js: JSFieldResolver,
-                              project,
+                    return {
+                      ...connectionFromArray(headerData, {first: 100}), // FIX-ME: use connectionArgs
+                      totalCount: headerData.length,
+                    };
+                  },
+                  rows: () => {
+                    const matchedProjects = directoryConfig.data.values
+                      .filter((project) => {
+                        const hasSearchText = searchText?.length > 0;
+                        const hasSelectedCategory =
+                          selectedCategory?.length > 0;
+                        const hasSelectedProjectTypes =
+                          selectedProjectTypes?.join('').length > 0;
+                        const matchesSearchText = hasSearchText
+                          ? project.name
+                              .toLowerCase()
+                              .search(searchText.toLowerCase()) !== -1
+                          : false;
+                        const matchesSelectedCategory = hasSelectedCategory
+                          ? project.category?.categoryId === selectedCategory
+                          : false;
+                        const matchesSelectedProjectTypes =
+                          hasSelectedProjectTypes
+                            ? selectedProjectTypes.includes(
+                                project.projectType.type.toLowerCase(),
+                              )
+                            : false;
+                        return projectFilter(
+                          hasSearchText,
+                          hasSelectedCategory,
+                          hasSelectedProjectTypes,
+                          matchesSearchText,
+                          matchesSelectedCategory,
+                          matchesSelectedProjectTypes,
+                        );
+                      })
+                      .sort((a, b) => {
+                        let firstValue: string = '';
+                        let secondValue: string = '';
+                        switch (sortField.toLowerCase()) {
+                          case 'key':
+                            firstValue = a.key.toUpperCase();
+                            secondValue = b.key.toUpperCase();
+                            break;
+                          case 'owner':
+                            firstValue = a.lead.displayName.toUpperCase();
+                            secondValue = b.lead.displayName.toUpperCase();
+                            break;
+                          case 'category':
+                            firstValue = a.category
+                              ? a.category?.name.toUpperCase()
+                              : '';
+                            secondValue = b.category
+                              ? b.category?.name.toUpperCase()
+                              : '';
+                            break;
+                          case 'lastissueupdatedtime':
+                            firstValue = a.lastIssueUpdateDate;
+                            secondValue = b.lastIssueUpdateDate;
+                            break;
+                          case 'name': // fallthru to default
+                          default:
+                            firstValue = a.name.toUpperCase();
+                            secondValue = b.name.toUpperCase();
+                        }
+                        return firstValue === secondValue
+                          ? 0
+                          : sortDirection === 'DESC'
+                          ? firstValue > secondValue
+                            ? -1
+                            : 1
+                          : firstValue < secondValue
+                          ? -1
+                          : 1;
+                      })
+                      .map((project) => ({
+                        __typename: 'JiraGenericDirectoryResultValues',
+                        columns: () => {
+                          const columnsData = directoryConfig.headers.map(
+                            ({renderer}) => {
+                              const defaultGenericFieldReturn = {
+                                __typename: 'JiraGenericDirectoryResultCell',
+                                renderer: {
+                                  __typename: 'JiraGenericField',
+                                  js: JSFieldResolver,
+                                  label: {
+                                    stringValue: '',
+                                    linkUrl: '',
+                                  },
+                                },
+                              };
+                              switch (renderer) {
+                                case 'JiraProjectCategoryCell':
+                                  if (project.category) {
+                                    defaultGenericFieldReturn.renderer.label.stringValue =
+                                      project.category.name;
+                                    return defaultGenericFieldReturn;
+                                  }
+                                  return null;
+                                case 'JiraProjectLinkCell':
+                                  if (project.url) {
+                                    defaultGenericFieldReturn.renderer.label.linkUrl =
+                                      project.url;
+                                    return defaultGenericFieldReturn;
+                                  }
+                                  return null;
+                                case 'JiraProjectNameCell':
+                                  defaultGenericFieldReturn.renderer.label.stringValue =
+                                    project.name;
+                                  return defaultGenericFieldReturn;
+                                case 'JiraProjectKeyCell':
+                                  defaultGenericFieldReturn.renderer.label.stringValue =
+                                    project.key;
+                                  return defaultGenericFieldReturn;
+                                case 'JiraProjectTypeCell':
+                                  defaultGenericFieldReturn.renderer.label.stringValue =
+                                    project.simplified
+                                      ? project?.projectType
+                                          ?.teamManagedDisplayName
+                                      : project?.projectType
+                                          ?.companyManagedDisplayName;
+                                  return defaultGenericFieldReturn;
+                                case 'JiraProjectLeadCell':
+                                  defaultGenericFieldReturn.renderer.label.stringValue =
+                                    project?.lead?.displayName;
+                                  return defaultGenericFieldReturn;
+                                case 'JiraProjectLastIssueUpdateCell':
+                                  defaultGenericFieldReturn.renderer.label.stringValue =
+                                    project?.lastIssueUpdateDate;
+                                  return defaultGenericFieldReturn;
+                                case 'JiraProjectActionsCell':
+                                case 'JiraProjectFavouriteCell':
+                                default:
+                                  return {
+                                    __typename:
+                                      'JiraGenericDirectoryResultCell',
+                                    renderer: {
+                                      __typename: renderer,
+                                      js: JSFieldResolver,
+                                      project,
+                                    },
+                                  };
+                              }
                             },
+                          );
+                          return {
+                            ...connectionFromArray(columnsData, {
+                              first: directoryConfig.headers.length,
+                            }), // FIX-ME: use connectionArgs
+                            totalCount: columnsData.length,
                           };
-                          switch (renderer) {
-                            case 'JiraProjectCategoryCell':
-                              return project.category ? defaultReturn : null;
-                            case 'JiraProjectLinkCell':
-                              return project.url ? defaultReturn : null;
-                            case 'JiraProjectActionsCell':
-                            case 'JiraProjectFavouriteCell':
-                            case 'JiraProjectNameCell':
-                            case 'JiraProjectKeyCell':
-                            case 'JiraProjectTypeCell':
-                            case 'JiraProjectLeadCell':
-                            case 'JiraProjectLastIssueUpdateCell':
-                            default:
-                              return defaultReturn;
-                          }
                         },
-                      );
-                      return {
-                        ...connectionFromArray(columnsData, {
-                          first: directoryConfig.headers.length,
-                        }), // FIX-ME: use connectionArgs
-                        totalCount: columnsData.length,
-                      };
-                    },
-                  }));
-                return {
-                  ...connectionFromArray(matchedProjects, {
-                    first: page_size,
-                    after: Buffer.from(
-                      `arrayconnection:${(page - 1) * page_size - 1}`,
-                    ).toString('base64'),
-                    // FIX-ME: fix edge case when page > max-page-size
-                  }),
-                  totalCount: matchedProjects.length,
-                };
-              },
-            },
-            js: JSFieldResolver,
-          };
+                      }));
+                    return {
+                      ...connectionFromArray(matchedProjects, {
+                        first: page_size,
+                        after: Buffer.from(
+                          `arrayconnection:${(page - 1) * page_size - 1}`,
+                        ).toString('base64'),
+                        // FIX-ME: fix edge case when page > max-page-size
+                      }),
+                      totalCount: matchedProjects.length,
+                    };
+                  },
+                },
+                js: JSFieldResolver,
+              };
+            }
+          }
+          case 'issues': {
+            const directoryConfig = ISSUE_DIRECTORY_CONFIG(args.cloudId);
+            if (directoryConfig) {
+              return {
+                __typename: 'JiraIssueDirectory',
+                js: JSFieldResolver,
+                title: `${directoryConfig.title}`,
+                description: `${directoryConfig.description}`,
+                createDirectoryItem: null,
+                filterCriteria: [],
+                result: {
+                  __typename: 'JiraGenericDirectoryResult',
+                  js: JSFieldResolver,
+                  headers: () => {
+                    const headerData = directoryConfig.headers.map(
+                      ({title, isSortable, sortDirection, sortKey}) => ({
+                        __typename: 'JiraDirectoryDefaultResultHeader',
+                        title,
+                        isSortable,
+                        sortDirection,
+                        sortKey,
+                      }),
+                    );
+                    return {
+                      ...connectionFromArray(headerData, {first: 100}), // FIX-ME: use connectionArgs
+                      totalCount: headerData.length,
+                    };
+                  },
+                  rows: () => {
+                    const matchedIssues = directoryConfig.data.issues.map(
+                      (issue) => ({
+                        __typename: 'JiraGenericDirectoryResultValues',
+                        columns: () => {
+                          const columnsData = directoryConfig.headers.map(
+                            ({mapper}) => {
+                              return {
+                                __typename: 'JiraGenericDirectoryResultCell',
+                                renderer: {
+                                  __typename: 'JiraGenericField',
+                                  js: JSFieldResolver,
+                                  ...mapper(issue),
+                                },
+                              };
+                            },
+                          );
+                          return {
+                            ...connectionFromArray(columnsData, {
+                              first: directoryConfig.headers.length,
+                            }), // FIX-ME: use connectionArgs
+                            totalCount: columnsData.length,
+                          };
+                        },
+                      }),
+                    );
+                    const page_size = 20;
+                    const page = 1;
+                    return {
+                      ...connectionFromArray(matchedIssues, {
+                        first: page_size,
+                        after: Buffer.from(
+                          `arrayconnection:${(page - 1) * page_size - 1}`,
+                        ).toString('base64'),
+                        // FIX-ME: fix edge case when page > max-page-size
+                      }),
+                      totalCount: matchedIssues.length,
+                    };
+                  },
+                },
+              };
+            }
+          }
+          default:
+            return null;
         }
-        return null;
       },
     }),
   },

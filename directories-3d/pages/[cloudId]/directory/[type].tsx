@@ -41,12 +41,12 @@ const query = graphql`
               value: $searchText
             }
             {
-              id: "JiraProjectDirectoryProjectTypesFilterCriteria"
+              id: "JiraGenericDirectoryProjectTypesFilterCriteria"
               type: MULTISELECT
               values: $selectedTypes
             }
             {
-              id: "JiraProjectDirectoryProjectCategoriesFilterCriteria"
+              id: "JiraGenericDirectoryProjectCategoriesFilterCriteria"
               type: SELECT
               value: $selectedCategory
             }
@@ -56,7 +56,8 @@ const query = graphql`
           sortDirection: $sortDirection
         }
       ) @match {
-        ...JiraProjectDirectory_directory @module(name: "JiraProjectDirectory")
+        ...JiraGenericDirectory_directory @module(name: "JiraGenericDirectory")
+        ...JiraIssueDirectory_directory @module(name: "JiraIssueDirectory")
       }
     }
   }
