@@ -23,12 +23,8 @@ const JiraIssueDirectory = ({
         }
         filterCriteria
           @match(key: "JiraIssueDirectory_directory_filterCriteria") {
-          ...JiraDirectorySearchTextFilterCriteria_content
-            @module(name: "JiraDirectorySearchTextFilterCriteria")
-          ...JiraGenericDirectoryProjectTypesFilterCriteria_content
-            @module(name: "JiraGenericDirectoryProjectTypesFilterCriteria")
-          ...JiraGenericDirectoryProjectCategoriesFilterCriteria_content
-            @module(name: "JiraGenericDirectoryProjectCategoriesFilterCriteria")
+          ...JiraDirectoryJqlBuilderAdvancedCriteria_content
+            @module(name: "JiraDirectoryJqlBuilderAdvancedCriteria")
         }
         result @match(key: "JiraIssueDirectory_directory_result") {
           ...JiraGenericDirectoryResults_content
@@ -74,7 +70,7 @@ const JiraIssueDirectory = ({
         )}
       </Disclosure>
       <div className="flex flex-wrap items-center gap-2">
-        {data.filterCriteria.map((criteria, index) =>
+        {data.filterCriteria?.map((criteria, index) =>
           criteria ? (
             <RelayMatchContainer key={`criteria-${index}`} match={criteria} />
           ) : (

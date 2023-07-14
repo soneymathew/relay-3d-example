@@ -4,7 +4,7 @@ import Link from 'next/link';
 import {useEffect, useState} from 'react';
 import {useFragment, graphql} from 'react-relay';
 
-import {JiraDirectoryResultPagination_content$key} from '../../__generated__/JiraDirectoryResultPagination_content.graphql';
+import {JiraDirectoryResultPagination_content$key} from '../__generated__/JiraDirectoryResultPagination_content.graphql';
 
 const getUrl = (urlPath: string, pageNum: number) => {
   let url;
@@ -47,22 +47,22 @@ export default function JiraDirectoryResultPagination({
   }, [router.query.page, setCurrentPage, currentPage]);
   const pages = Math.ceil(totalCount / pageSize);
   return totalCount < 1 ? null : (
-    <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+    <div className="flex items-center justify-between border-t border-gray-200 bg-white dark:bg-gray-900 px-4 py-3 sm:px-6">
       <div className="flex flex-1 justify-between sm:hidden">
         <Link
           href={getUrl(router.asPath, Math.max(currentPage - 1, 1))}
-          className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
+          className="relative inline-flex items-center rounded-md border border-gray-300 bg-white dark:bg-gray-900 px-4 py-2 text-sm font-medium text-gray-700 dark:text-white hover:bg-gray-50">
           Previous
         </Link>
         <Link
           href={getUrl(router.asPath, Math.min(currentPage + 1, pages))}
-          className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
+          className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white dark:bg-gray-900 px-4 py-2 text-sm font-medium text-gray-700 dark:text-white hover:bg-gray-50">
           Next
         </Link>
       </div>
       <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div>
-          <p className="text-sm text-gray-700">
+          <p className="text-sm text-gray-700 dark:text-white">
             Showing{' '}
             <span className="font-medium">
               {pageSize * (currentPage - 1) + 1}
@@ -80,7 +80,7 @@ export default function JiraDirectoryResultPagination({
             aria-label="Pagination">
             <Link
               href={getUrl(router.asPath, Math.max(currentPage - 1, 1))}
-              className="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20">
+              className="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white dark:bg-gray-900 px-2 py-2 text-sm font-medium text-gray-500 dark:text-white hover:bg-gray-50 focus:z-20">
               <span className="sr-only">Previous</span>
               <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
             </Link>
@@ -91,14 +91,14 @@ export default function JiraDirectoryResultPagination({
                 className={`${
                   i + 1 === currentPage
                     ? 'bg-indigo-50 border-indigo-500 text-indigo-600'
-                    : 'bg-white border-gray-300 hover:bg-gray-50 text-gray-500'
+                    : 'bg-white dark:bg-gray-900 border-gray-300 hover:bg-gray-50 text-gray-500 dark:text-white'
                 } border focus:z-20 font-medium inline-flex items-center px-4 py-2 relative text-sm`}>
                 {i + 1}
               </Link>
             ))}
             <Link
               href={getUrl(router.asPath, Math.min(currentPage + 1, pages))}
-              className="bg-white border border-gray-300 focus:z-20 font-medium hover:bg-gray-50 inline-flex items-center px-2 py-2 relative rounded-r-md text-gray-500 text-sm">
+              className="bg-white dark:bg-gray-900 border border-gray-300 focus:z-20 font-medium hover:bg-gray-50 inline-flex items-center px-2 py-2 relative rounded-r-md text-gray-500 dark:text-white text-sm">
               <span className="sr-only">Next</span>
               <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
             </Link>

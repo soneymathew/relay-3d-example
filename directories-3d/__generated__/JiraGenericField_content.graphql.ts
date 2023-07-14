@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<e814e45584512d266853440767428510>>
+ * @generated SignedSource<<ebc5e13011800ed35a2bd2c96ce61667>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,6 +9,7 @@
 // @ts-nocheck
 
 import { Fragment, ReaderFragment } from 'relay-runtime';
+export type JiraIconStyle = "CIRCLE" | "SQUARE" | "%future added value";
 export type JiraTextTransform = "UPPER" | "%future added value";
 import { FragmentRefs } from "relay-runtime";
 export type JiraGenericField_content$data = {
@@ -18,8 +19,10 @@ export type JiraGenericField_content$data = {
     readonly image: {
       readonly medium: string | null;
     } | null;
+    readonly style: JiraIconStyle | null;
   } | null;
   readonly label: {
+    readonly altText: string | null;
     readonly linkUrl: any | null;
     readonly stringValue: string | null;
     readonly textTransform: JiraTextTransform | null;
@@ -31,7 +34,15 @@ export type JiraGenericField_content$key = {
   readonly " $fragmentSpreads": FragmentRefs<"JiraGenericField_content">;
 };
 
-const node: ReaderFragment = {
+const node: ReaderFragment = (function(){
+var v0 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "altText",
+  "storageKey": null
+};
+return {
   "argumentDefinitions": [],
   "kind": "Fragment",
   "metadata": null,
@@ -63,11 +74,12 @@ const node: ReaderFragment = {
           ],
           "storageKey": null
         },
+        (v0/*: any*/),
         {
           "alias": null,
           "args": null,
           "kind": "ScalarField",
-          "name": "altText",
+          "name": "style",
           "storageKey": null
         }
       ],
@@ -101,7 +113,8 @@ const node: ReaderFragment = {
           "kind": "ScalarField",
           "name": "textTransform",
           "storageKey": null
-        }
+        },
+        (v0/*: any*/)
       ],
       "storageKey": null
     },
@@ -116,7 +129,8 @@ const node: ReaderFragment = {
   "type": "JiraGenericField",
   "abstractKey": null
 };
+})();
 
-(node as any).hash = "9cb2c4c9aadd494997f1515a41e33ecc";
+(node as any).hash = "eee59123a00fa8500d9787d9f8a5c92f";
 
 export default node;

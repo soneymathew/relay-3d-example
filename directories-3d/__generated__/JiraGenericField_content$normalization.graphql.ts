@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<629c404fbf962308d11f107755315aec>>
+ * @generated SignedSource<<4356061d79c6c47cc8cc45a3dd2a124f>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,7 +11,15 @@
 import { NormalizationSplitOperation } from 'relay-runtime';
 
 
-const node: NormalizationSplitOperation = {
+const node: NormalizationSplitOperation = (function(){
+var v0 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "altText",
+  "storageKey": null
+};
+return {
   "kind": "SplitOperation",
   "metadata": {},
   "name": "JiraGenericField_content$normalization",
@@ -42,11 +50,12 @@ const node: NormalizationSplitOperation = {
           ],
           "storageKey": null
         },
+        (v0/*: any*/),
         {
           "alias": null,
           "args": null,
           "kind": "ScalarField",
-          "name": "altText",
+          "name": "style",
           "storageKey": null
         }
       ],
@@ -80,7 +89,8 @@ const node: NormalizationSplitOperation = {
           "kind": "ScalarField",
           "name": "textTransform",
           "storageKey": null
-        }
+        },
+        (v0/*: any*/)
       ],
       "storageKey": null
     },
@@ -93,7 +103,8 @@ const node: NormalizationSplitOperation = {
     }
   ]
 };
+})();
 
-(node as any).hash = "9cb2c4c9aadd494997f1515a41e33ecc";
+(node as any).hash = "eee59123a00fa8500d9787d9f8a5c92f";
 
 export default node;

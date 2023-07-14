@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<261f478424583f67183d6e4425eab409>>
+ * @generated SignedSource<<c8ca89502d3c6dccd24318b407cd94dd>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -51,31 +51,49 @@ return {
                 (v0/*: any*/),
                 {
                   "alias": null,
-                  "args": null,
-                  "kind": "ScalarField",
-                  "name": "title",
-                  "storageKey": null
-                },
-                {
-                  "alias": null,
-                  "args": null,
-                  "kind": "ScalarField",
-                  "name": "isSortable",
-                  "storageKey": null
-                },
-                {
-                  "alias": null,
-                  "args": null,
-                  "kind": "ScalarField",
-                  "name": "sortDirection",
-                  "storageKey": null
-                },
-                {
-                  "alias": null,
-                  "args": null,
-                  "kind": "ScalarField",
-                  "name": "sortKey",
-                  "storageKey": null
+                  "args": [
+                    {
+                      "kind": "Literal",
+                      "name": "supported",
+                      "value": "1rhgR5"
+                    }
+                  ],
+                  "concreteType": null,
+                  "kind": "LinkedField",
+                  "name": "renderer",
+                  "plural": false,
+                  "selections": [
+                    (v0/*: any*/),
+                    {
+                      "kind": "InlineFragment",
+                      "selections": [
+                        {
+                          "args": null,
+                          "documentName": "JiraGenericDirectoryResults_content_headers",
+                          "fragmentName": "JiraDirectoryDefaultResultHeader_content",
+                          "fragmentPropName": "content",
+                          "kind": "ModuleImport"
+                        }
+                      ],
+                      "type": "JiraDirectoryDefaultResultHeader",
+                      "abstractKey": null
+                    },
+                    {
+                      "kind": "InlineFragment",
+                      "selections": [
+                        {
+                          "args": null,
+                          "documentName": "JiraGenericDirectoryResults_content_headers",
+                          "fragmentName": "JiraDirectoryIssueResultHeader_content",
+                          "fragmentPropName": "content",
+                          "kind": "ModuleImport"
+                        }
+                      ],
+                      "type": "JiraDirectoryIssueResultHeader",
+                      "abstractKey": null
+                    }
+                  ],
+                  "storageKey": "renderer(supported:\"1rhgR5\")"
                 }
               ],
               "storageKey": null
@@ -142,7 +160,7 @@ return {
                                 {
                                   "kind": "Literal",
                                   "name": "supported",
-                                  "value": "4nFVvF"
+                                  "value": "2JbIzI"
                                 }
                               ],
                               "concreteType": null,
@@ -156,13 +174,13 @@ return {
                                   "selections": [
                                     {
                                       "args": null,
-                                      "documentName": "JiraGenericDirectoryResults_content",
-                                      "fragmentName": "JiraProjectFavouriteCell_content",
+                                      "documentName": "JiraGenericDirectoryResults_content_columns",
+                                      "fragmentName": "JiraGenericFavouriteField_content",
                                       "fragmentPropName": "content",
                                       "kind": "ModuleImport"
                                     }
                                   ],
-                                  "type": "JiraProjectFavouriteCell",
+                                  "type": "JiraGenericFavouriteField",
                                   "abstractKey": null
                                 },
                                 {
@@ -170,13 +188,13 @@ return {
                                   "selections": [
                                     {
                                       "args": null,
-                                      "documentName": "JiraGenericDirectoryResults_content",
-                                      "fragmentName": "JiraProjectActionsCell_content",
+                                      "documentName": "JiraGenericDirectoryResults_content_columns",
+                                      "fragmentName": "JiraGenericActionsField_content",
                                       "fragmentPropName": "content",
                                       "kind": "ModuleImport"
                                     }
                                   ],
-                                  "type": "JiraProjectActionsCell",
+                                  "type": "JiraGenericActionsField",
                                   "abstractKey": null
                                 },
                                 {
@@ -184,7 +202,7 @@ return {
                                   "selections": [
                                     {
                                       "args": null,
-                                      "documentName": "JiraGenericDirectoryResults_content",
+                                      "documentName": "JiraGenericDirectoryResults_content_columns",
                                       "fragmentName": "JiraGenericField_content",
                                       "fragmentPropName": "content",
                                       "kind": "ModuleImport"
@@ -192,9 +210,23 @@ return {
                                   ],
                                   "type": "JiraGenericField",
                                   "abstractKey": null
+                                },
+                                {
+                                  "kind": "InlineFragment",
+                                  "selections": [
+                                    {
+                                      "args": null,
+                                      "documentName": "JiraGenericDirectoryResults_content_columns",
+                                      "fragmentName": "JiraGenericFieldCollection_content",
+                                      "fragmentPropName": "content",
+                                      "kind": "ModuleImport"
+                                    }
+                                  ],
+                                  "type": "JiraGenericFieldCollection",
+                                  "abstractKey": null
                                 }
                               ],
-                              "storageKey": "renderer(supported:\"4nFVvF\")"
+                              "storageKey": "renderer(supported:\"2JbIzI\")"
                             }
                           ],
                           "storageKey": null
@@ -232,6 +264,6 @@ return {
 };
 })();
 
-(node as any).hash = "e2bf785e61f2ccb692f9fab1f78f8db9";
+(node as any).hash = "b5fe7b7086e34a9237fb119467060320";
 
 export default node;

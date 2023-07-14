@@ -2,6 +2,14 @@ type Query {
   jira: JiraQuery
 }
 
+interface Node {
+  id: ID!
+}
+
+interface HasJsField {
+  js(module: String!, id: String): JSDependency!
+}
+
 type PageInfo {
   hasNextPage: Boolean
   hasPreviousPage: Boolean
@@ -24,6 +32,7 @@ enum JiraDirectoryFilterCriteriaType {
   KEYWORD
   MULTISELECT
   SELECT
+  JQL_BUILDER_ADVANCED
 }
 
 input JiraDirectoryFilterCriteriaInput {
@@ -79,7 +88,7 @@ interface JiraDirectoryCreateItem {
   js(module: String!, id: String): JSDependency!
 }
 
-type JiraGenericDirectory implements JiraDirectory {
+type JiraGenericDirectory implements JiraDirectory & HasJsField {
   title: String!
   description: String
   createDirectoryItem(supported: [String]): JiraDirectoryCreateItem
@@ -88,7 +97,16 @@ type JiraGenericDirectory implements JiraDirectory {
   js(module: String!, id: String): JSDependency!
 }
 
-type JiraGenericDirectoryCreateItem implements JiraDirectoryCreateItem {
+type JiraIssueDirectory implements JiraDirectory & HasJsField {
+  title: String!
+  description: String
+  createDirectoryItem(supported: [String]): JiraDirectoryCreateItem
+  filterCriteria(supported: [String]): [JiraDirectoryFilterCriteria!]!
+  result: JiraDirectoryResult
+  js(module: String!, id: String): JSDependency!
+}
+
+type JiraGenericDirectoryCreateItem implements JiraDirectoryCreateItem & HasJsField {
   canCreate: Boolean!
   js(module: String!, id: String): JSDependency!
 }
@@ -115,30 +133,46 @@ interface JiraDirectoryFilterCriteria {
   type: String
 }
 
-type JiraDirectorySearchTextFilterCriteria implements JiraDirectoryFilterCriteria {
+type JiraDirectorySearchTextFilterCriteria implements JiraDirectoryFilterCriteria & HasJsField {
   type: String
   # return the searchText specified by the user
   searchText: String
   js(module: String!, id: String): JSDependency!
 }
 
-type JiraGenericDirectoryProjectTypesFilterCriteria implements JiraDirectoryFilterCriteria {
+type JiraDirectoryJqlBuilderAdvancedCriteria implements JiraDirectoryFilterCriteria & HasJsField {
+  type: String
+  # return the jql specified by the user
+  jql: String
+  js(module: String!, id: String): JSDependency!
+}
+
+type JiraGenericDirectoryProjectTypesFilterCriteria implements JiraDirectoryFilterCriteria & HasJsField {
   type: String
   selectedItems: [JiraProjectTypeDetails]
   js(module: String!, id: String): JSDependency!
 }
 
-type JiraGenericDirectoryProjectCategoriesFilterCriteria implements JiraDirectoryFilterCriteria {
+type JiraGenericDirectoryProjectCategoriesFilterCriteria implements JiraDirectoryFilterCriteria & HasJsField {
   type: String
   selectedItems: [JiraProjectCategory]
   js(module: String!, id: String): JSDependency!
 }
 
-interface JiraDirectoryResultHeader {
+interface JiraDirectoryResultHeaderValue {
   title: String
   isSortable: Boolean
   sortDirection: SortDirection
   sortKey: String
+  js(module: String!, id: String): JSDependency!
+}
+
+interface JiraDirectoryResultHeader {
+  renderer(supported: [String]): JiraDirectoryResultHeaderValue
+}
+
+type JiraDirectoryGenericResultHeader implements JiraDirectoryResultHeader {
+  renderer(supported: [String]): JiraDirectoryResultHeaderValue
 }
 
 type JiraDirectoryResultHeaderConnection implements HasTotalCount {
@@ -152,20 +186,29 @@ type JiraDirectoryResultHeaderEdge {
   cursor: String!
 }
 
-type JiraDirectoryDefaultResultHeader implements JiraDirectoryResultHeader {
+type JiraDirectoryDefaultResultHeader implements JiraDirectoryResultHeaderValue & HasJsField {
   title: String
   isSortable: Boolean
   sortDirection: SortDirection
   sortKey: String
+  js(module: String!, id: String): JSDependency!
+}
+
+type JiraDirectoryIssueResultHeader implements JiraDirectoryResultHeaderValue & HasJsField {
+  title: String
+  isSortable: Boolean
+  sortDirection: SortDirection
+  sortKey: String
+  js(module: String!, id: String): JSDependency!
 }
 
 interface JiraDirectoryResultCell {
-  renderer(supported: [String]): JiraDirectoryResultCellDataUnion
+  renderer(supported: [String]): JiraDirectoryResultRenderer
 }
 
 type JiraGenericDirectoryResultCell implements JiraDirectoryResultCell {
   type: String
-  renderer(supported: [String]): JiraDirectoryResultCellDataUnion
+  renderer(supported: [String]): JiraDirectoryResultRenderer
 }
 
 interface JiraDirectoryResult {
@@ -178,7 +221,7 @@ interface JiraDirectoryResultValues {
   columns: JiraDirectoryResultCellConnection
 }
 
-type JiraGenericDirectoryResult implements JiraDirectoryResult {
+type JiraGenericDirectoryResult implements JiraDirectoryResult & HasJsField {
   headers: JiraDirectoryResultHeaderConnection
   rows: JiraDirectoryResultValuesConnection
   js(module: String!, id: String): JSDependency!
@@ -208,14 +251,6 @@ type JiraDirectoryResultCellConnection implements HasTotalCount {
 type JiraDirectoryResultCellEdge {
   node: JiraDirectoryResultCell
   cursor: String!
-}
-
-type ProjectLead {
-  self: String
-  accountId: String
-  accountType: String
-  displayName: String
-  active: Boolean
 }
 
 enum JiraProjectType {
@@ -249,39 +284,29 @@ type JiraProjectTypeDetailsEdge {
   cursor: String!
 }
 
-type JiraProject {
+type JiraGenericFavoriteInfo implements Node {
   id: ID!
-  key: String
-  lead: ProjectLead
+  isFavorite: Boolean
+}
+
+type JiraGenericFavouriteField implements JiraDirectoryResultRenderer & HasJsField {
+  favoriteInfo: JiraGenericFavoriteInfo
+  js(module: String!, id: String): JSDependency!
+}
+
+type JiraAction {
+  id: ID!
   name: String
-  projectTypeKey: String
-  projectType: JiraProjectTypeDetails
-  simplified: Boolean
-  style: String
-  favourite: Boolean
-  isPrivate: Boolean
-  entityId: String
-  uuid: String
-  url: String
-  lastIssueUpdateDate: String
-  category: JiraProjectCategory
 }
 
-type JiraProjectFavouriteCell {
-  project: JiraProject
+type JiraGenericActionsField implements JiraDirectoryResultRenderer & HasJsField {
+  actions: [JiraAction]
   js(module: String!, id: String): JSDependency!
 }
 
-type JiraProjectActionsCell {
-  project: JiraProject
+interface JiraDirectoryResultRenderer {
   js(module: String!, id: String): JSDependency!
 }
-
-union JiraDirectoryResultCellDataUnion =
-    JiraProjectFavouriteCell
-  | JiraProjectActionsCell
-  | JiraGenericField
-  | JiraGenericFieldArray
 
 scalar URL
 
@@ -294,6 +319,11 @@ enum JiraTextTransform {
   UPPER
 }
 
+enum JiraIconStyle {
+  CIRCLE
+  SQUARE
+}
+
 type JiraIconImage {
   xsmall: String
   small: String
@@ -304,6 +334,7 @@ type JiraIconImage {
 type JiraIcon {
   image: JiraIconImage
   altText: String
+  style: JiraIconStyle
 }
 
 type JiraLabel {
@@ -314,7 +345,7 @@ type JiraLabel {
   linkUrl: URL
 }
 
-type JiraGenericField {
+type JiraGenericField implements JiraDirectoryResultRenderer & HasJsField {
   js(module: String!, id: String): JSDependency!
   altText: String
   label: JiraLabel
@@ -322,16 +353,26 @@ type JiraGenericField {
   color: String
 }
 
-type JiraGenericFieldArray {
-  values: [JiraGenericField]
+type JiraGenericFieldCollection implements JiraDirectoryResultRenderer & HasJsField {
+  js(module: String!, id: String): JSDependency!
   delimiter: String
+  fields(
+    cloudId: ID!
+    searchText: String
+    first: Int
+    last: Int
+    before: String
+    after: String
+  ): JiraGenericFieldConnection
 }
 
-type JiraIssueDirectory implements JiraDirectory {
-  title: String!
-  description: String
-  createDirectoryItem(supported: [String]): JiraDirectoryCreateItem
-  filterCriteria(supported: [String]): [JiraDirectoryFilterCriteria!]!
-  result: JiraDirectoryResult
-  js(module: String!, id: String): JSDependency!
+type JiraGenericFieldConnection implements HasTotalCount {
+  edges: [JiraGenericFieldEdge]
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+type JiraGenericFieldEdge {
+  node: JiraGenericField
+  cursor: String!
 }

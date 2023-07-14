@@ -6,29 +6,21 @@ import Nav from '../../../components/Nav';
 import {getPreloadedQuery} from '../../../lib/relay/getServerSideProps';
 import Head from 'next/head';
 import preLoadedQuery, {
-  TypeBasedDirectoryPageQuery,
-} from '../../../__generated__/TypeBasedDirectoryPageQuery.graphql';
+  issuesPageQuery,
+} from '../../../__generated__/issuesPageQuery.graphql';
 import {GetServerSideProps} from 'next';
 import {PreloadedQuery} from 'react-relay';
 
 interface DirectoryProps {
   queryRefs: {
-    query: PreloadedQuery<TypeBasedDirectoryPageQuery>;
+    query: PreloadedQuery<issuesPageQuery>;
   };
   cloudId: string;
 }
 
 const query = graphql`
-  query TypeBasedDirectoryPageQuery(
-    $cloudId: ID!
-    $id: ID!
-    $searchText: String
-    $selectedTypes: [String!]
-    $selectedCategory: String
-    $page: Int
-    $sortField: String
-    $sortDirection: SortDirection
-  ) @preloadable {
+  query issuesPageQuery($cloudId: ID!, $id: ID!, $jql: String, $page: Int)
+  @preloadable {
     jira {
       directory(
         cloudId: $cloudId
@@ -36,34 +28,22 @@ const query = graphql`
         filter: {
           criteria: [
             {
-              id: "JiraDirectorySearchTextFilterCriteria"
-              type: KEYWORD
-              value: $searchText
-            }
-            {
-              id: "JiraGenericDirectoryProjectTypesFilterCriteria"
-              type: MULTISELECT
-              values: $selectedTypes
-            }
-            {
-              id: "JiraGenericDirectoryProjectCategoriesFilterCriteria"
-              type: SELECT
-              value: $selectedCategory
+              id: "JiraDirectoryJqlBuilderAdvancedCriteria"
+              type: JQL_BUILDER_ADVANCED
+              value: $jql
             }
           ]
           page: $page
-          sortField: $sortField
-          sortDirection: $sortDirection
         }
       ) @match {
-        ...JiraGenericDirectory_directory @module(name: "JiraGenericDirectory")
+        ...JiraIssueDirectory_directory @module(name: "JiraIssueDirectory")
       }
     }
   }
 `;
 
 export default function Directory(props: DirectoryProps) {
-  const {jira} = usePreloadedQuery<TypeBasedDirectoryPageQuery>(
+  const {jira} = usePreloadedQuery<issuesPageQuery>(
     query,
     props.queryRefs.query,
   );
@@ -91,14 +71,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       preloadedQueries: {
         query: await getPreloadedQuery(preLoadedQuery, {
           cloudId: ctx.query.cloudId,
-          id: ctx.query.type,
-          searchText: ctx.query.contains ?? null,
-          selectedTypes:
-            ctx.query.selectedProjectType?.toString().split(',') ?? null,
-          selectedCategory: ctx.query.selectedCategory ?? null,
+          id: 'issues',
+          jql: ctx.query.jql ?? null,
           page: ctx.query.page ? parseInt(ctx.query.page.toString()) : 1,
-          sortField: ctx.query.sortKey ?? 'name',
-          sortDirection: ctx.query.sortOrder ?? 'ASC',
         }),
       },
     },

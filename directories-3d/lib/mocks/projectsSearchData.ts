@@ -100,7 +100,7 @@ export const projectDirectoryHeaders = [
     title: '★',
     isSortable: false,
     sortDirection: 'ASC',
-    renderer: 'JiraProjectFavouriteCell',
+    renderer: 'JiraGenericFavouriteField',
     showInAdmin: true,
     showInMain: true,
     sortKey: null,
@@ -169,7 +169,7 @@ export const projectDirectoryHeaders = [
   {
     title: '', // Actions
     isSortable: false,
-    renderer: 'JiraProjectActionsCell',
+    renderer: 'JiraGenericActionsField',
     showInAdmin: true,
     showInMain: true,
     sortKey: null,

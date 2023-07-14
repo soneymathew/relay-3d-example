@@ -7,8 +7,9 @@ import {connectionFromArray, type ConnectionArguments} from 'graphql-relay';
 import typeDefs from '../../lib/schema/schema.graphql';
 import {PROJECT_DIRECTORY_CONFIG} from '../../lib/mocks/projectsSearchData';
 import {ISSUE_DIRECTORY_CONFIG} from '../../lib/mocks/issueSearchData';
-
-import {projectFilter} from '../../lib/schema/utils';
+import {type Issue} from '../../lib/mocks/types';
+import {getSortInfoFromJql} from '../../lib/utils';
+import {projectFilter, issueSorter} from '../../lib/schema/utils';
 
 const JSDependencyScalar = new GraphQLScalarType({
   name: 'JSDependency',
@@ -24,19 +25,30 @@ const JSDependencyScalar = new GraphQLScalarType({
   },
 });
 
+const seenDataDrivenDependencies = new Set();
+const dataDrivenDependencies = {
+  reset() {
+    seenDataDrivenDependencies.clear();
+  },
+  getModules() {
+    return Array.from(seenDataDrivenDependencies);
+  },
+};
+
 const JSFieldResolver = (args: {module: string}) => {
   seenDataDrivenDependencies.add(args.module);
   return args.module;
 };
 interface Criteria {
   id: string;
-  type: 'KEYWORD' | 'MULTISELECT' | 'SELECT';
+  type: 'KEYWORD' | 'MULTISELECT' | 'SELECT' | 'JQL_BUILDER_ADVANCED';
   value: string;
   values: string[];
 }
 
 const getFilterCriteria = (criteria: Criteria[]) => {
   let searchText = '';
+  let jql = '';
   let selectedCategory = '';
   let selectedProjectTypes: String[] = [];
   for (let index = 0; index < criteria.length; index++) {
@@ -45,6 +57,12 @@ const getFilterCriteria = (criteria: Criteria[]) => {
       case 'KEYWORD':
         searchText =
           criterion.id === 'JiraDirectorySearchTextFilterCriteria'
+            ? criterion.value
+            : '';
+        break;
+      case 'JQL_BUILDER_ADVANCED':
+        jql =
+          criterion.id === 'JiraDirectoryJqlBuilderAdvancedCriteria'
             ? criterion.value
             : '';
         break;
@@ -63,7 +81,7 @@ const getFilterCriteria = (criteria: Criteria[]) => {
         break;
     }
   }
-  return {searchText, selectedProjectTypes, selectedCategory};
+  return {searchText, selectedProjectTypes, selectedCategory, jql};
 };
 
 const resolvers = {
@@ -178,11 +196,15 @@ const resolvers = {
                   headers: () => {
                     const headerData = directoryConfig.headers.map(
                       ({title, isSortable, sortDirection, sortKey}) => ({
-                        __typename: 'JiraDirectoryDefaultResultHeader',
-                        title,
-                        isSortable,
-                        sortDirection,
-                        sortKey,
+                        __typename: 'JiraDirectoryGenericResultHeader',
+                        renderer: {
+                          __typename: 'JiraDirectoryDefaultResultHeader',
+                          title,
+                          isSortable,
+                          sortDirection,
+                          sortKey,
+                          js: JSFieldResolver,
+                        },
                       }),
                     );
                     return {
@@ -315,18 +337,49 @@ const resolvers = {
                                   defaultGenericFieldReturn.renderer.label.stringValue =
                                     project?.lastIssueUpdateDate;
                                   return defaultGenericFieldReturn;
-                                case 'JiraProjectActionsCell':
-                                case 'JiraProjectFavouriteCell':
-                                default:
+                                case 'JiraGenericFavouriteField':
+                                  return {
+                                    __typename:
+                                      'JiraGenericDirectoryResultCell',
+                                    renderer: {
+                                      favoriteInfo: {
+                                        __typename: 'JiraGenericFavoriteInfo',
+                                        id: project.id + '/favorite',
+                                        isFavorite: project.favourite,
+                                      },
+                                      __typename: 'JiraGenericFavouriteField',
+                                      js: JSFieldResolver,
+                                    },
+                                  };
+                                case 'JiraGenericActionsField':
                                   return {
                                     __typename:
                                       'JiraGenericDirectoryResultCell',
                                     renderer: {
                                       __typename: renderer,
                                       js: JSFieldResolver,
-                                      project,
+                                      ...(project.isPrivate
+                                        ? {}
+                                        : {
+                                            actions: [
+                                              ...(project.isPrivate
+                                                ? []
+                                                : [
+                                                    {
+                                                      __typename:
+                                                        'JiraGenericAction',
+                                                      id:
+                                                        project.id +
+                                                        '/createAction',
+                                                      name: 'Project Settings',
+                                                    },
+                                                  ]),
+                                            ],
+                                          }),
                                     },
                                   };
+                                default:
+                                  throw new Error('Unhandled cell type');
                               }
                             },
                           );
@@ -357,24 +410,45 @@ const resolvers = {
           case 'issues': {
             const directoryConfig = ISSUE_DIRECTORY_CONFIG(args.cloudId);
             if (directoryConfig) {
+              const {criteria = [], page = 1} = args.filter;
+              const page_size = 10;
+              const {jql} = getFilterCriteria(criteria);
               return {
                 __typename: 'JiraIssueDirectory',
                 js: JSFieldResolver,
                 title: `${directoryConfig.title}`,
                 description: `${directoryConfig.description}`,
                 createDirectoryItem: null,
-                filterCriteria: [],
+                filterCriteria: (_args: {supported: string[]}) => {
+                  return directoryConfig.filters.map((filter) => {
+                    return {
+                      __typename: filter.type,
+                      type: filter.type,
+                      jql,
+                      js: JSFieldResolver,
+                    };
+                  });
+                },
                 result: {
                   __typename: 'JiraGenericDirectoryResult',
                   js: JSFieldResolver,
                   headers: () => {
                     const headerData = directoryConfig.headers.map(
-                      ({title, isSortable, sortDirection, sortKey}) => ({
-                        __typename: 'JiraDirectoryDefaultResultHeader',
+                      ({
                         title,
                         isSortable,
                         sortDirection,
-                        sortKey,
+                        sortBy = 'created',
+                      }) => ({
+                        __typename: 'JiraDirectoryGenericResultHeader',
+                        renderer: {
+                          __typename: 'JiraDirectoryIssueResultHeader',
+                          title,
+                          isSortable,
+                          sortDirection,
+                          sortKey: sortBy,
+                          js: JSFieldResolver,
+                        },
                       }),
                     );
                     return {
@@ -383,17 +457,70 @@ const resolvers = {
                     };
                   },
                   rows: () => {
-                    const matchedIssues = directoryConfig.data.issues.map(
-                      (issue) => ({
+                    const sortParams = getSortInfoFromJql(
+                      jql ?? 'ORDER BY created ASC',
+                    );
+                    const sortField = sortParams[0] ?? 'created';
+                    const sortDirection = sortParams[1] ?? 'ASC';
+                    const matchedIssues = directoryConfig.data.issues
+                      .sort((a, b) =>
+                        issueSorter(a, b, sortField, sortDirection),
+                      )
+                      .map((issue: Issue) => ({
                         __typename: 'JiraGenericDirectoryResultValues',
                         columns: () => {
                           const columnsData = directoryConfig.headers.map(
-                            ({mapper}) => {
+                            ({mapper, __typename}) => {
+                              if (__typename === 'JiraGenericFieldConnection') {
+                                const labelMapArr = mapper(issue);
+                                return {
+                                  __typename: 'JiraGenericDirectoryResultCell',
+                                  renderer: {
+                                    js: JSFieldResolver,
+                                    delimiter: ',',
+                                    __typename: 'JiraGenericFieldCollection',
+                                    fields: (
+                                      args: {
+                                        searchText: string;
+                                        cloudId: string;
+                                      } & ConnectionArguments,
+                                    ) => {
+                                      return {
+                                        ...connectionFromArray(
+                                          (labelMapArr instanceof Array
+                                            ? labelMapArr
+                                            : []
+                                          ).map((label) => ({
+                                            js: JSFieldResolver,
+                                            __typename: 'JiraGenericField',
+                                            ...label,
+                                          })),
+                                          {
+                                            first: args.first,
+                                            after: Buffer.from(
+                                              `arrayconnection:${
+                                                (page - 1) * page_size - 1
+                                              }`,
+                                            ).toString('base64'),
+                                            // FIX-ME: fix edge case when page > max-page-size
+                                          },
+                                        ),
+                                        __typename:
+                                          'JiraGenericFieldConnection',
+                                        totalCount:
+                                          labelMapArr instanceof Array
+                                            ? labelMapArr.length
+                                            : null,
+                                      };
+                                    },
+                                  },
+                                };
+                              }
                               return {
                                 __typename: 'JiraGenericDirectoryResultCell',
                                 renderer: {
-                                  __typename: 'JiraGenericField',
                                   js: JSFieldResolver,
+                                  __typename,
                                   ...mapper(issue),
                                 },
                               };
@@ -406,10 +533,7 @@ const resolvers = {
                             totalCount: columnsData.length,
                           };
                         },
-                      }),
-                    );
-                    const page_size = 20;
-                    const page = 1;
+                      }));
                     return {
                       ...connectionFromArray(matchedIssues, {
                         first: page_size,
@@ -430,16 +554,6 @@ const resolvers = {
         }
       },
     }),
-  },
-};
-
-const seenDataDrivenDependencies = new Set();
-const dataDrivenDependencies = {
-  reset() {
-    seenDataDrivenDependencies.clear();
-  },
-  getModules() {
-    return Array.from(seenDataDrivenDependencies);
   },
 };
 

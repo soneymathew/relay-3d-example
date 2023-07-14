@@ -14,11 +14,13 @@ const JiraGenericField = ({
             medium
           }
           altText
+          style
         }
         label {
           stringValue
           linkUrl
           textTransform
+          altText
         }
         color
       }
@@ -29,8 +31,11 @@ const JiraGenericField = ({
   let labelValue = <span>&nbsp;</span>;
   if (data?.icon) {
     iconValue = (
+      // eslint-disable-next-line @next/next/no-img-element
       <img
-        className="inline rounded-full"
+        className={`inline${
+          data?.icon?.style === 'CIRCLE' ? ' rounded-full' : ''
+        }`}
         src={data?.icon?.image?.medium ?? ''}
         alt={data?.icon?.altText ?? ''}
         title={data?.icon?.altText ?? ''}
@@ -44,6 +49,7 @@ const JiraGenericField = ({
       <a
         className={`inline-block border border-blue rounded py-1 px-3 text-white`}
         style={{backgroundColor: data?.color}}
+        title={data?.label?.altText ?? ''}
         href="#">
         <span
           className={data?.label?.textTransform == 'UPPER' ? 'uppercase' : ''}>
@@ -53,16 +59,22 @@ const JiraGenericField = ({
     );
   } else if (data?.label?.stringValue && data?.label?.linkUrl) {
     labelValue = (
-      <a className="underline" href={data?.label?.linkUrl}>
+      <a
+        className="underline"
+        href={data?.label?.linkUrl}
+        title={data?.label?.altText ?? ''}>
         {data?.label?.stringValue}
       </a>
     );
   } else if (data?.label) {
     labelValue = data?.label?.linkUrl ? (
-      <a href={data?.label?.linkUrl}>🔗</a>
+      <a href={data?.label?.linkUrl} title={data?.label?.altText ?? ''}>
+        🔗
+      </a>
     ) : (
       <span
-        className={data?.label?.textTransform == 'UPPER' ? 'uppercase' : ''}>
+        className={data?.label?.textTransform == 'UPPER' ? 'uppercase' : ''}
+        title={data?.label?.altText ?? ''}>
         {data?.label?.stringValue}
       </span>
     );

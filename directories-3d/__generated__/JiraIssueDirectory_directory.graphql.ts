@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<3d9c4a6f2eed60b984ed7f75fb1b5d0e>>
+ * @generated SignedSource<<8d547c90e091c71ae79ab2d0cada1744>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,7 +9,7 @@
 // @ts-nocheck
 
 // @dataDrivenDependency JiraIssueDirectory_directory.createDirectoryItem {"branches":{"JiraGenericDirectoryCreateItem":{"component":"JiraGenericDirectoryCreateItem","fragment":"JiraGenericDirectoryCreateItem_directory$normalization.graphql"}},"plural":false}
-// @dataDrivenDependency JiraIssueDirectory_directory.filterCriteria {"branches":{"JiraDirectorySearchTextFilterCriteria":{"component":"JiraDirectorySearchTextFilterCriteria","fragment":"JiraDirectorySearchTextFilterCriteria_content$normalization.graphql"},"JiraGenericDirectoryProjectCategoriesFilterCriteria":{"component":"JiraGenericDirectoryProjectCategoriesFilterCriteria","fragment":"JiraGenericDirectoryProjectCategoriesFilterCriteria_content$normalization.graphql"},"JiraGenericDirectoryProjectTypesFilterCriteria":{"component":"JiraGenericDirectoryProjectTypesFilterCriteria","fragment":"JiraGenericDirectoryProjectTypesFilterCriteria_content$normalization.graphql"}},"plural":true}
+// @dataDrivenDependency JiraIssueDirectory_directory.filterCriteria {"branches":{"JiraDirectoryJqlBuilderAdvancedCriteria":{"component":"JiraDirectoryJqlBuilderAdvancedCriteria","fragment":"JiraDirectoryJqlBuilderAdvancedCriteria_content$normalization.graphql"}},"plural":true}
 // @dataDrivenDependency JiraIssueDirectory_directory.result {"branches":{"JiraGenericDirectoryResult":{"component":"JiraGenericDirectoryResult","fragment":"JiraGenericDirectoryResults_content$normalization.graphql"}},"plural":false}
 
 import { Fragment, ReaderFragment } from 'relay-runtime';
@@ -24,7 +24,7 @@ export type JiraIssueDirectory_directory$data = {
   readonly filterCriteria: ReadonlyArray<{
     readonly __fragmentPropName?: string | null;
     readonly __module_component?: string | null;
-    readonly " $fragmentSpreads": FragmentRefs<"JiraDirectorySearchTextFilterCriteria_content" | "JiraGenericDirectoryProjectCategoriesFilterCriteria_content" | "JiraGenericDirectoryProjectTypesFilterCriteria_content">;
+    readonly " $fragmentSpreads": FragmentRefs<"JiraDirectoryJqlBuilderAdvancedCriteria_content">;
   }>;
   readonly result: {
     readonly __fragmentPropName?: string | null;
@@ -96,7 +96,7 @@ const node: ReaderFragment = {
         {
           "kind": "Literal",
           "name": "supported",
-          "value": "u9OZc"
+          "value": "4j769g"
         }
       ],
       "concreteType": null,
@@ -110,44 +110,16 @@ const node: ReaderFragment = {
             {
               "args": null,
               "documentName": "JiraIssueDirectory_directory_filterCriteria",
-              "fragmentName": "JiraDirectorySearchTextFilterCriteria_content",
+              "fragmentName": "JiraDirectoryJqlBuilderAdvancedCriteria_content",
               "fragmentPropName": "content",
               "kind": "ModuleImport"
             }
           ],
-          "type": "JiraDirectorySearchTextFilterCriteria",
-          "abstractKey": null
-        },
-        {
-          "kind": "InlineFragment",
-          "selections": [
-            {
-              "args": null,
-              "documentName": "JiraIssueDirectory_directory_filterCriteria",
-              "fragmentName": "JiraGenericDirectoryProjectTypesFilterCriteria_content",
-              "fragmentPropName": "content",
-              "kind": "ModuleImport"
-            }
-          ],
-          "type": "JiraGenericDirectoryProjectTypesFilterCriteria",
-          "abstractKey": null
-        },
-        {
-          "kind": "InlineFragment",
-          "selections": [
-            {
-              "args": null,
-              "documentName": "JiraIssueDirectory_directory_filterCriteria",
-              "fragmentName": "JiraGenericDirectoryProjectCategoriesFilterCriteria_content",
-              "fragmentPropName": "content",
-              "kind": "ModuleImport"
-            }
-          ],
-          "type": "JiraGenericDirectoryProjectCategoriesFilterCriteria",
+          "type": "JiraDirectoryJqlBuilderAdvancedCriteria",
           "abstractKey": null
         }
       ],
-      "storageKey": "filterCriteria(supported:\"u9OZc\")"
+      "storageKey": "filterCriteria(supported:\"4j769g\")"
     },
     {
       "alias": null,
@@ -179,6 +151,6 @@ const node: ReaderFragment = {
   "abstractKey": null
 };
 
-(node as any).hash = "ef2e2cf8d6d60d8b984142fb4f2dd560";
+(node as any).hash = "89e6bf340d5c470031026f1e9c6c36ff";
 
 export default node;

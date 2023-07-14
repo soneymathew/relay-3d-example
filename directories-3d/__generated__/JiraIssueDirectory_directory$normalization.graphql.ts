@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<e2feeb974b6f57e9f55eaea474cc6f13>>
+ * @generated SignedSource<<c183b62a8ae2d2d263312333d126669b>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -76,7 +76,7 @@ return {
         {
           "kind": "Literal",
           "name": "supported",
-          "value": "u9OZc"
+          "value": "4j769g"
         }
       ],
       "concreteType": null,
@@ -91,44 +91,16 @@ return {
             {
               "args": null,
               "documentName": "JiraIssueDirectory_directory_filterCriteria",
-              "fragmentName": "JiraDirectorySearchTextFilterCriteria_content",
+              "fragmentName": "JiraDirectoryJqlBuilderAdvancedCriteria_content",
               "fragmentPropName": "content",
               "kind": "ModuleImport"
             }
           ],
-          "type": "JiraDirectorySearchTextFilterCriteria",
-          "abstractKey": null
-        },
-        {
-          "kind": "InlineFragment",
-          "selections": [
-            {
-              "args": null,
-              "documentName": "JiraIssueDirectory_directory_filterCriteria",
-              "fragmentName": "JiraGenericDirectoryProjectTypesFilterCriteria_content",
-              "fragmentPropName": "content",
-              "kind": "ModuleImport"
-            }
-          ],
-          "type": "JiraGenericDirectoryProjectTypesFilterCriteria",
-          "abstractKey": null
-        },
-        {
-          "kind": "InlineFragment",
-          "selections": [
-            {
-              "args": null,
-              "documentName": "JiraIssueDirectory_directory_filterCriteria",
-              "fragmentName": "JiraGenericDirectoryProjectCategoriesFilterCriteria_content",
-              "fragmentPropName": "content",
-              "kind": "ModuleImport"
-            }
-          ],
-          "type": "JiraGenericDirectoryProjectCategoriesFilterCriteria",
+          "type": "JiraDirectoryJqlBuilderAdvancedCriteria",
           "abstractKey": null
         }
       ],
-      "storageKey": "filterCriteria(supported:\"u9OZc\")"
+      "storageKey": "filterCriteria(supported:\"4j769g\")"
     },
     {
       "alias": null,
@@ -160,6 +132,6 @@ return {
 };
 })();
 
-(node as any).hash = "ef2e2cf8d6d60d8b984142fb4f2dd560";
+(node as any).hash = "89e6bf340d5c470031026f1e9c6c36ff";
 
 export default node;

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<319498b50c8130ffeb020e3e81118464>>
+ * @generated SignedSource<<4e9754182d76fcabc0c48752f8c68527>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,28 +14,28 @@ import { NormalizationSplitOperation } from 'relay-runtime';
 const node: NormalizationSplitOperation = {
   "kind": "SplitOperation",
   "metadata": {},
-  "name": "JiraProjectFavouriteCell_content$normalization",
+  "name": "JiraGenericActionsField_content$normalization",
   "selections": [
     {
       "alias": null,
       "args": null,
-      "concreteType": "JiraProject",
+      "concreteType": "JiraAction",
       "kind": "LinkedField",
-      "name": "project",
-      "plural": false,
+      "name": "actions",
+      "plural": true,
       "selections": [
         {
           "alias": null,
           "args": null,
           "kind": "ScalarField",
-          "name": "favourite",
+          "name": "id",
           "storageKey": null
         },
         {
           "alias": null,
           "args": null,
           "kind": "ScalarField",
-          "name": "id",
+          "name": "name",
           "storageKey": null
         }
       ],
@@ -44,6 +44,6 @@ const node: NormalizationSplitOperation = {
   ]
 };
 
-(node as any).hash = "c6c9ea0c0e51999a7a93498f0219e91f";
+(node as any).hash = "89790fd9fc74c9d3929b77f616802f8d";
 
 export default node;

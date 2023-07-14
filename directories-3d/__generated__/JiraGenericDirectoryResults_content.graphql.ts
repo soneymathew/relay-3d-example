@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<b27601abd54e19cda6db80127cfb9d9a>>
+ * @generated SignedSource<<022b2aac03145ee2e0bb9cc23e225b57>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,19 +8,20 @@
 /* eslint-disable */
 // @ts-nocheck
 
-// @dataDrivenDependency JiraGenericDirectoryResults_content.rows.edges.node.columns.edges.node.renderer {"branches":{"JiraGenericField":{"component":"JiraGenericField","fragment":"JiraGenericField_content$normalization.graphql"},"JiraProjectActionsCell":{"component":"JiraProjectActionsCell","fragment":"JiraProjectActionsCell_content$normalization.graphql"},"JiraProjectFavouriteCell":{"component":"JiraProjectFavouriteCell","fragment":"JiraProjectFavouriteCell_content$normalization.graphql"}},"plural":true}
+// @dataDrivenDependency JiraGenericDirectoryResults_content.headers.edges.node.renderer {"branches":{"JiraDirectoryDefaultResultHeader":{"component":"JiraDirectoryDefaultResultHeader","fragment":"JiraDirectoryDefaultResultHeader_content$normalization.graphql"},"JiraDirectoryIssueResultHeader":{"component":"JiraDirectoryIssueResultHeader","fragment":"JiraDirectoryIssueResultHeader_content$normalization.graphql"}},"plural":true}
+// @dataDrivenDependency JiraGenericDirectoryResults_content.rows.edges.node.columns.edges.node.renderer {"branches":{"JiraGenericActionsField":{"component":"JiraGenericActionsField","fragment":"JiraGenericActionsField_content$normalization.graphql"},"JiraGenericFavouriteField":{"component":"JiraGenericFavouriteField","fragment":"JiraGenericFavouriteField_content$normalization.graphql"},"JiraGenericField":{"component":"JiraGenericField","fragment":"JiraGenericField_content$normalization.graphql"},"JiraGenericFieldCollection":{"component":"JiraGenericFieldCollection","fragment":"JiraGenericFieldCollection_content$normalization.graphql"}},"plural":true}
 
 import { Fragment, ReaderFragment } from 'relay-runtime';
-export type SortDirection = "ASC" | "DESC" | "%future added value";
 import { FragmentRefs } from "relay-runtime";
 export type JiraGenericDirectoryResults_content$data = {
   readonly headers: {
     readonly edges: ReadonlyArray<{
       readonly node: {
-        readonly isSortable: boolean | null;
-        readonly sortDirection: SortDirection | null;
-        readonly sortKey: string | null;
-        readonly title: string | null;
+        readonly renderer: {
+          readonly __fragmentPropName?: string | null;
+          readonly __module_component?: string | null;
+          readonly " $fragmentSpreads": FragmentRefs<"JiraDirectoryDefaultResultHeader_content" | "JiraDirectoryIssueResultHeader_content">;
+        } | null;
       } | null;
     } | null> | null;
   } | null;
@@ -33,7 +34,7 @@ export type JiraGenericDirectoryResults_content$data = {
               readonly renderer: {
                 readonly __fragmentPropName?: string | null;
                 readonly __module_component?: string | null;
-                readonly " $fragmentSpreads": FragmentRefs<"JiraGenericField_content" | "JiraProjectActionsCell_content" | "JiraProjectFavouriteCell_content">;
+                readonly " $fragmentSpreads": FragmentRefs<"JiraGenericActionsField_content" | "JiraGenericFavouriteField_content" | "JiraGenericFieldCollection_content" | "JiraGenericField_content">;
               } | null;
             } | null;
           } | null> | null;
@@ -81,31 +82,48 @@ const node: ReaderFragment = {
               "selections": [
                 {
                   "alias": null,
-                  "args": null,
-                  "kind": "ScalarField",
-                  "name": "title",
-                  "storageKey": null
-                },
-                {
-                  "alias": null,
-                  "args": null,
-                  "kind": "ScalarField",
-                  "name": "isSortable",
-                  "storageKey": null
-                },
-                {
-                  "alias": null,
-                  "args": null,
-                  "kind": "ScalarField",
-                  "name": "sortDirection",
-                  "storageKey": null
-                },
-                {
-                  "alias": null,
-                  "args": null,
-                  "kind": "ScalarField",
-                  "name": "sortKey",
-                  "storageKey": null
+                  "args": [
+                    {
+                      "kind": "Literal",
+                      "name": "supported",
+                      "value": "1rhgR5"
+                    }
+                  ],
+                  "concreteType": null,
+                  "kind": "LinkedField",
+                  "name": "renderer",
+                  "plural": false,
+                  "selections": [
+                    {
+                      "kind": "InlineFragment",
+                      "selections": [
+                        {
+                          "args": null,
+                          "documentName": "JiraGenericDirectoryResults_content_headers",
+                          "fragmentName": "JiraDirectoryDefaultResultHeader_content",
+                          "fragmentPropName": "content",
+                          "kind": "ModuleImport"
+                        }
+                      ],
+                      "type": "JiraDirectoryDefaultResultHeader",
+                      "abstractKey": null
+                    },
+                    {
+                      "kind": "InlineFragment",
+                      "selections": [
+                        {
+                          "args": null,
+                          "documentName": "JiraGenericDirectoryResults_content_headers",
+                          "fragmentName": "JiraDirectoryIssueResultHeader_content",
+                          "fragmentPropName": "content",
+                          "kind": "ModuleImport"
+                        }
+                      ],
+                      "type": "JiraDirectoryIssueResultHeader",
+                      "abstractKey": null
+                    }
+                  ],
+                  "storageKey": "renderer(supported:\"1rhgR5\")"
                 }
               ],
               "storageKey": null
@@ -170,7 +188,7 @@ const node: ReaderFragment = {
                                 {
                                   "kind": "Literal",
                                   "name": "supported",
-                                  "value": "4nFVvF"
+                                  "value": "2JbIzI"
                                 }
                               ],
                               "concreteType": null,
@@ -183,13 +201,13 @@ const node: ReaderFragment = {
                                   "selections": [
                                     {
                                       "args": null,
-                                      "documentName": "JiraGenericDirectoryResults_content",
-                                      "fragmentName": "JiraProjectFavouriteCell_content",
+                                      "documentName": "JiraGenericDirectoryResults_content_columns",
+                                      "fragmentName": "JiraGenericFavouriteField_content",
                                       "fragmentPropName": "content",
                                       "kind": "ModuleImport"
                                     }
                                   ],
-                                  "type": "JiraProjectFavouriteCell",
+                                  "type": "JiraGenericFavouriteField",
                                   "abstractKey": null
                                 },
                                 {
@@ -197,13 +215,13 @@ const node: ReaderFragment = {
                                   "selections": [
                                     {
                                       "args": null,
-                                      "documentName": "JiraGenericDirectoryResults_content",
-                                      "fragmentName": "JiraProjectActionsCell_content",
+                                      "documentName": "JiraGenericDirectoryResults_content_columns",
+                                      "fragmentName": "JiraGenericActionsField_content",
                                       "fragmentPropName": "content",
                                       "kind": "ModuleImport"
                                     }
                                   ],
-                                  "type": "JiraProjectActionsCell",
+                                  "type": "JiraGenericActionsField",
                                   "abstractKey": null
                                 },
                                 {
@@ -211,7 +229,7 @@ const node: ReaderFragment = {
                                   "selections": [
                                     {
                                       "args": null,
-                                      "documentName": "JiraGenericDirectoryResults_content",
+                                      "documentName": "JiraGenericDirectoryResults_content_columns",
                                       "fragmentName": "JiraGenericField_content",
                                       "fragmentPropName": "content",
                                       "kind": "ModuleImport"
@@ -219,9 +237,23 @@ const node: ReaderFragment = {
                                   ],
                                   "type": "JiraGenericField",
                                   "abstractKey": null
+                                },
+                                {
+                                  "kind": "InlineFragment",
+                                  "selections": [
+                                    {
+                                      "args": null,
+                                      "documentName": "JiraGenericDirectoryResults_content_columns",
+                                      "fragmentName": "JiraGenericFieldCollection_content",
+                                      "fragmentPropName": "content",
+                                      "kind": "ModuleImport"
+                                    }
+                                  ],
+                                  "type": "JiraGenericFieldCollection",
+                                  "abstractKey": null
                                 }
                               ],
-                              "storageKey": "renderer(supported:\"4nFVvF\")"
+                              "storageKey": "renderer(supported:\"2JbIzI\")"
                             }
                           ],
                           "storageKey": null
@@ -251,6 +283,6 @@ const node: ReaderFragment = {
   "abstractKey": null
 };
 
-(node as any).hash = "e2bf785e61f2ccb692f9fab1f78f8db9";
+(node as any).hash = "b5fe7b7086e34a9237fb119467060320";
 
 export default node;
