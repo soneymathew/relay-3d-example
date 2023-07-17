@@ -46,21 +46,95 @@ export function issueSorter(
       firstValue = (a?.fields?.updated ?? '').toUpperCase();
       secondValue = (b?.fields?.updated ?? '').toUpperCase();
       break;
+    case 'due':
+      firstValue = (a?.fields?.duedate ?? '').toUpperCase();
+      secondValue = (b?.fields?.duedate ?? '').toUpperCase();
+      break;
+    case 'resolved':
+      firstValue = (a?.fields?.resolutiondate ?? '').toUpperCase();
+      secondValue = (b?.fields?.resolutiondate ?? '').toUpperCase();
+      break;
     case 'key':
       firstValue = (a?.key ?? '').toUpperCase();
       secondValue = (b?.key ?? '').toUpperCase();
+      break;
+    case 'parent':
+      firstValue = (a?.fields?.parent?.fields?.summary ?? '').toUpperCase();
+      secondValue = (b?.fields?.parent?.fields?.summary ?? '').toUpperCase();
       break;
     case 'summary':
       firstValue = (a?.fields?.summary ?? '').toUpperCase();
       secondValue = (b?.fields?.summary ?? '').toUpperCase();
       break;
     case 'assignee':
-      firstValue = (a?.fields?.assignee?.displayName ?? '').toUpperCase();
-      secondValue = (b?.fields?.assignee?.displayName ?? '').toUpperCase();
+      firstValue = (
+        a?.fields?.assignee?.displayName ?? 'Unassigned'
+      ).toUpperCase();
+      secondValue = (
+        b?.fields?.assignee?.displayName ?? 'Unassigned'
+      ).toUpperCase();
       break;
     case 'reporter':
       firstValue = (a?.fields?.reporter?.displayName ?? '').toUpperCase();
       secondValue = (b?.fields?.reporter?.displayName ?? '').toUpperCase();
+      break;
+    case 'creator':
+      firstValue = (a?.fields?.creator?.displayName ?? '').toUpperCase();
+      secondValue = (b?.fields?.creator?.displayName ?? '').toUpperCase();
+      break;
+    case 'issuetype':
+      firstValue = (a?.fields?.issuetype?.name ?? '').toUpperCase();
+      secondValue = (b?.fields?.issuetype?.name ?? '').toUpperCase();
+      break;
+    case 'priority':
+      firstValue = (a?.fields?.priority?.name ?? '').toUpperCase();
+      secondValue = (b?.fields?.priority?.name ?? '').toUpperCase();
+      break;
+    case 'status':
+      firstValue = (a?.fields?.status?.name ?? '').toUpperCase();
+      secondValue = (b?.fields?.status?.name ?? '').toUpperCase();
+      break;
+    case 'statuscategory':
+      firstValue = (a?.fields?.status?.statusCategory.name ?? '').toUpperCase();
+      secondValue = (
+        b?.fields?.status?.statusCategory.name ?? ''
+      ).toUpperCase();
+      break;
+    case 'project':
+      firstValue = (a?.fields?.project?.name ?? '').toUpperCase();
+      secondValue = (b?.fields?.project?.name ?? '').toUpperCase();
+      break;
+    case 'resolution':
+      firstValue = (a?.fields?.resolution?.name ?? 'Unresolved').toUpperCase();
+      secondValue = (b?.fields?.resolution?.name ?? 'Unresolved').toUpperCase();
+      break;
+    case 'fixVersion':
+      firstValue = (
+        a?.fields?.fixVersions?.map((v) => v.name).join(',') ?? ''
+      ).toUpperCase();
+      secondValue = (
+        b?.fields?.fixVersions?.map((v) => v.name).join(',') ?? ''
+      ).toUpperCase();
+      break;
+    case 'affectedVersion':
+      firstValue = (
+        a?.fields?.versions?.map((v) => v.name).join(',') ?? ''
+      ).toUpperCase();
+      secondValue = (
+        b?.fields?.versions?.map((v) => v.name).join(',') ?? ''
+      ).toUpperCase();
+      break;
+    case 'component':
+      firstValue = (
+        a?.fields?.components?.map((c) => c.name).join(',') ?? ''
+      ).toUpperCase();
+      secondValue = (
+        b?.fields?.components?.map((c) => c.name).join(',') ?? ''
+      ).toUpperCase();
+      break;
+    case 'labels':
+      firstValue = (a?.fields?.labels?.join(',') ?? '').toUpperCase();
+      secondValue = (b?.fields?.labels?.join(',') ?? '').toUpperCase();
       break;
     default:
       firstValue = a.id.toUpperCase();

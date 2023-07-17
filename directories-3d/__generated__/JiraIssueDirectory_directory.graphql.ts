@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<8d547c90e091c71ae79ab2d0cada1744>>
+ * @generated SignedSource<<f6a779663cb1ce6ece816ef2011a8548>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,24 +8,24 @@
 /* eslint-disable */
 // @ts-nocheck
 
-// @dataDrivenDependency JiraIssueDirectory_directory.createDirectoryItem {"branches":{"JiraGenericDirectoryCreateItem":{"component":"JiraGenericDirectoryCreateItem","fragment":"JiraGenericDirectoryCreateItem_directory$normalization.graphql"}},"plural":false}
 // @dataDrivenDependency JiraIssueDirectory_directory.filterCriteria {"branches":{"JiraDirectoryJqlBuilderAdvancedCriteria":{"component":"JiraDirectoryJqlBuilderAdvancedCriteria","fragment":"JiraDirectoryJqlBuilderAdvancedCriteria_content$normalization.graphql"}},"plural":true}
+// @dataDrivenDependency JiraIssueDirectory_directory.pageActions {"branches":{"JiraGenericDirectoryCreateItem":{"component":"JiraGenericDirectoryCreateItem","fragment":"JiraGenericDirectoryCreateItem_directory$normalization.graphql"}},"plural":false}
 // @dataDrivenDependency JiraIssueDirectory_directory.result {"branches":{"JiraGenericDirectoryResult":{"component":"JiraGenericDirectoryResult","fragment":"JiraGenericDirectoryResults_content$normalization.graphql"}},"plural":false}
 
 import { Fragment, ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type JiraIssueDirectory_directory$data = {
-  readonly createDirectoryItem: {
-    readonly __fragmentPropName?: string | null;
-    readonly __module_component?: string | null;
-    readonly " $fragmentSpreads": FragmentRefs<"JiraGenericDirectoryCreateItem_directory">;
-  } | null;
   readonly description: string | null;
   readonly filterCriteria: ReadonlyArray<{
     readonly __fragmentPropName?: string | null;
     readonly __module_component?: string | null;
     readonly " $fragmentSpreads": FragmentRefs<"JiraDirectoryJqlBuilderAdvancedCriteria_content">;
   }>;
+  readonly pageActions: {
+    readonly __fragmentPropName?: string | null;
+    readonly __module_component?: string | null;
+    readonly " $fragmentSpreads": FragmentRefs<"JiraGenericDirectoryCreateItem_directory">;
+  } | null;
   readonly result: {
     readonly __fragmentPropName?: string | null;
     readonly __module_component?: string | null;
@@ -70,7 +70,7 @@ const node: ReaderFragment = {
       ],
       "concreteType": null,
       "kind": "LinkedField",
-      "name": "createDirectoryItem",
+      "name": "pageActions",
       "plural": false,
       "selections": [
         {
@@ -88,7 +88,7 @@ const node: ReaderFragment = {
           "abstractKey": null
         }
       ],
-      "storageKey": "createDirectoryItem(supported:\"2ZnHzk\")"
+      "storageKey": "pageActions(supported:\"2ZnHzk\")"
     },
     {
       "alias": null,
@@ -151,6 +151,6 @@ const node: ReaderFragment = {
   "abstractKey": null
 };
 
-(node as any).hash = "89e6bf340d5c470031026f1e9c6c36ff";
+(node as any).hash = "90e349f1ea40c967909e635f3749f5a6";
 
 export default node;

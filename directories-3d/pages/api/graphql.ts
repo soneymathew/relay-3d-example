@@ -152,7 +152,7 @@ const resolvers = {
                 __typename: 'JiraGenericDirectory',
                 title: `${directoryConfig.title}`,
                 description: `${directoryConfig.description}`,
-                createDirectoryItem: () => {
+                pageActions: () => {
                   return directoryConfig.hasCreatePermission
                     ? {
                         __typename: 'JiraGenericDirectoryCreateItem',
@@ -296,6 +296,7 @@ const resolvers = {
                                     stringValue: '',
                                     linkUrl: '',
                                   },
+                                  icon: {},
                                 },
                               };
                               switch (renderer) {
@@ -332,6 +333,13 @@ const resolvers = {
                                 case 'JiraProjectLeadCell':
                                   defaultGenericFieldReturn.renderer.label.stringValue =
                                     project?.lead?.displayName;
+                                  defaultGenericFieldReturn.renderer['icon'] = {
+                                    altText: project?.lead?.displayName,
+                                    image: {
+                                      medium: project?.lead?.avatar,
+                                    },
+                                    style: 'CIRCLE',
+                                  };
                                   return defaultGenericFieldReturn;
                                 case 'JiraProjectLastIssueUpdateCell':
                                   defaultGenericFieldReturn.renderer.label.stringValue =
@@ -418,7 +426,7 @@ const resolvers = {
                 js: JSFieldResolver,
                 title: `${directoryConfig.title}`,
                 description: `${directoryConfig.description}`,
-                createDirectoryItem: null,
+                pageActions: null,
                 filterCriteria: (_args: {supported: string[]}) => {
                   return directoryConfig.filters.map((filter) => {
                     return {
@@ -510,6 +518,47 @@ const resolvers = {
                                         totalCount:
                                           labelMapArr instanceof Array
                                             ? labelMapArr.length
+                                            : null,
+                                      };
+                                    },
+                                  },
+                                };
+                              } else if (
+                                __typename === 'JiraGenericActionsField'
+                              ) {
+                                const actionMapArr = mapper(issue);
+                                return {
+                                  __typename: 'JiraGenericDirectoryResultCell',
+                                  renderer: {
+                                    js: JSFieldResolver,
+                                    __typename: 'JiraGenericActionsField',
+                                    actions: (args: ConnectionArguments) => {
+                                      return {
+                                        ...connectionFromArray(
+                                          (actionMapArr instanceof Array
+                                            ? actionMapArr
+                                            : []
+                                          ).map((action) => ({
+                                            renderer: {
+                                              js: JSFieldResolver,
+                                              ...action,
+                                            },
+                                          })),
+                                          {
+                                            first: args.first,
+                                            after: Buffer.from(
+                                              `arrayconnection:${
+                                                (page - 1) * page_size - 1
+                                              }`,
+                                            ).toString('base64'),
+                                            // FIX-ME: fix edge case when page > max-page-size
+                                          },
+                                        ),
+                                        __typename:
+                                          'JiraActionRendererConnection',
+                                        totalCount:
+                                          actionMapArr instanceof Array
+                                            ? actionMapArr.length
                                             : null,
                                       };
                                     },

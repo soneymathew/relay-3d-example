@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<45aaffd60844c380df5769a144fd60cc>>
+ * @generated SignedSource<<8942ffcee07d03e1ada46815e6da79f0>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,10 +11,17 @@
 import { Fragment, ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type JiraGenericActionsField_content$data = {
-  readonly actions: ReadonlyArray<{
-    readonly id: string;
-    readonly name: string | null;
-  } | null> | null;
+  readonly actions: {
+    readonly edges: ReadonlyArray<{
+      readonly node: {
+        readonly renderer: {
+          readonly canPerform: boolean | null;
+          readonly id: string;
+          readonly name: string | null;
+        } | null;
+      } | null;
+    } | null> | null;
+  } | null;
   readonly " $fragmentType": "JiraGenericActionsField_content";
 };
 export type JiraGenericActionsField_content$key = {
@@ -31,23 +38,63 @@ const node: ReaderFragment = {
     {
       "alias": null,
       "args": null,
-      "concreteType": "JiraAction",
+      "concreteType": "JiraActionRendererConnection",
       "kind": "LinkedField",
       "name": "actions",
-      "plural": true,
+      "plural": false,
       "selections": [
         {
           "alias": null,
           "args": null,
-          "kind": "ScalarField",
-          "name": "id",
-          "storageKey": null
-        },
-        {
-          "alias": null,
-          "args": null,
-          "kind": "ScalarField",
-          "name": "name",
+          "concreteType": "JiraActionRendererEdge",
+          "kind": "LinkedField",
+          "name": "edges",
+          "plural": true,
+          "selections": [
+            {
+              "alias": null,
+              "args": null,
+              "concreteType": "JiraActionRenderer",
+              "kind": "LinkedField",
+              "name": "node",
+              "plural": false,
+              "selections": [
+                {
+                  "alias": null,
+                  "args": null,
+                  "concreteType": null,
+                  "kind": "LinkedField",
+                  "name": "renderer",
+                  "plural": false,
+                  "selections": [
+                    {
+                      "alias": null,
+                      "args": null,
+                      "kind": "ScalarField",
+                      "name": "id",
+                      "storageKey": null
+                    },
+                    {
+                      "alias": null,
+                      "args": null,
+                      "kind": "ScalarField",
+                      "name": "name",
+                      "storageKey": null
+                    },
+                    {
+                      "alias": null,
+                      "args": null,
+                      "kind": "ScalarField",
+                      "name": "canPerform",
+                      "storageKey": null
+                    }
+                  ],
+                  "storageKey": null
+                }
+              ],
+              "storageKey": null
+            }
+          ],
           "storageKey": null
         }
       ],
@@ -58,6 +105,6 @@ const node: ReaderFragment = {
   "abstractKey": null
 };
 
-(node as any).hash = "89790fd9fc74c9d3929b77f616802f8d";
+(node as any).hash = "7c765863b1cbf586a76b3466e31f5f7f";
 
 export default node;

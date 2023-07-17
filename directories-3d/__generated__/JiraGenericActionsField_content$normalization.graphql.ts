@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<4e9754182d76fcabc0c48752f8c68527>>
+ * @generated SignedSource<<c035a35297284402bad67a80d5b95e7c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -19,23 +19,74 @@ const node: NormalizationSplitOperation = {
     {
       "alias": null,
       "args": null,
-      "concreteType": "JiraAction",
+      "concreteType": "JiraActionRendererConnection",
       "kind": "LinkedField",
       "name": "actions",
-      "plural": true,
+      "plural": false,
       "selections": [
         {
           "alias": null,
           "args": null,
-          "kind": "ScalarField",
-          "name": "id",
-          "storageKey": null
-        },
-        {
-          "alias": null,
-          "args": null,
-          "kind": "ScalarField",
-          "name": "name",
+          "concreteType": "JiraActionRendererEdge",
+          "kind": "LinkedField",
+          "name": "edges",
+          "plural": true,
+          "selections": [
+            {
+              "alias": null,
+              "args": null,
+              "concreteType": "JiraActionRenderer",
+              "kind": "LinkedField",
+              "name": "node",
+              "plural": false,
+              "selections": [
+                {
+                  "alias": null,
+                  "args": null,
+                  "concreteType": null,
+                  "kind": "LinkedField",
+                  "name": "renderer",
+                  "plural": false,
+                  "selections": [
+                    {
+                      "alias": null,
+                      "args": null,
+                      "kind": "ScalarField",
+                      "name": "__typename",
+                      "storageKey": null
+                    },
+                    {
+                      "kind": "TypeDiscriminator",
+                      "abstractKey": "__isJiraAction"
+                    },
+                    {
+                      "alias": null,
+                      "args": null,
+                      "kind": "ScalarField",
+                      "name": "id",
+                      "storageKey": null
+                    },
+                    {
+                      "alias": null,
+                      "args": null,
+                      "kind": "ScalarField",
+                      "name": "name",
+                      "storageKey": null
+                    },
+                    {
+                      "alias": null,
+                      "args": null,
+                      "kind": "ScalarField",
+                      "name": "canPerform",
+                      "storageKey": null
+                    }
+                  ],
+                  "storageKey": null
+                }
+              ],
+              "storageKey": null
+            }
+          ],
           "storageKey": null
         }
       ],
@@ -44,6 +95,6 @@ const node: NormalizationSplitOperation = {
   ]
 };
 
-(node as any).hash = "89790fd9fc74c9d3929b77f616802f8d";
+(node as any).hash = "7c765863b1cbf586a76b3466e31f5f7f";
 
 export default node;

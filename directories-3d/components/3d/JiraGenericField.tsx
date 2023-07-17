@@ -29,7 +29,7 @@ const JiraGenericField = ({
   );
   let iconValue = <></>;
   let labelValue = <span>&nbsp;</span>;
-  if (data?.icon) {
+  if (data?.icon && data?.icon?.image) {
     iconValue = (
       // eslint-disable-next-line @next/next/no-img-element
       <img

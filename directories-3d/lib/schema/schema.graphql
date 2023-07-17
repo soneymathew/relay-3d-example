@@ -77,7 +77,7 @@ type JiraQuery {
 interface JiraDirectory {
   title: String!
   description: String
-  createDirectoryItem(supported: [String]): JiraDirectoryCreateItem
+  pageActions(supported: [String]): JiraDirectoryCreateItem
   filterCriteria(supported: [String]): [JiraDirectoryFilterCriteria!]!
   result: JiraDirectoryResult
   js(module: String!, id: String): JSDependency!
@@ -91,7 +91,7 @@ interface JiraDirectoryCreateItem {
 type JiraGenericDirectory implements JiraDirectory & HasJsField {
   title: String!
   description: String
-  createDirectoryItem(supported: [String]): JiraDirectoryCreateItem
+  pageActions(supported: [String]): JiraDirectoryCreateItem
   filterCriteria(supported: [String]): [JiraDirectoryFilterCriteria!]!
   result: JiraDirectoryResult
   js(module: String!, id: String): JSDependency!
@@ -100,7 +100,7 @@ type JiraGenericDirectory implements JiraDirectory & HasJsField {
 type JiraIssueDirectory implements JiraDirectory & HasJsField {
   title: String!
   description: String
-  createDirectoryItem(supported: [String]): JiraDirectoryCreateItem
+  pageActions(supported: [String]): JiraDirectoryCreateItem
   filterCriteria(supported: [String]): [JiraDirectoryFilterCriteria!]!
   result: JiraDirectoryResult
   js(module: String!, id: String): JSDependency!
@@ -294,13 +294,40 @@ type JiraGenericFavouriteField implements JiraDirectoryResultRenderer & HasJsFie
   js(module: String!, id: String): JSDependency!
 }
 
-type JiraAction {
+interface JiraAction {
   id: ID!
   name: String
+  canPerform: Boolean
+}
+
+type JiraGenericAction implements JiraAction & Node {
+  id: ID!
+  name: String
+  canPerform: Boolean
+}
+
+type JiraActionRendererConnection implements HasTotalCount {
+  totalCount: Int
+  pageInfo: PageInfo!
+  edges: [JiraActionRendererEdge]
+}
+
+type JiraActionRendererEdge {
+  node: JiraActionRenderer
+  cursor: String!
+}
+
+type JiraActionRenderer {
+  renderer(supported: [String]): JiraAction
 }
 
 type JiraGenericActionsField implements JiraDirectoryResultRenderer & HasJsField {
-  actions: [JiraAction]
+  actions(
+    first: Int
+    last: Int
+    before: String
+    after: String
+  ): JiraActionRendererConnection
   js(module: String!, id: String): JSDependency!
 }
 

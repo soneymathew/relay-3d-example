@@ -16,7 +16,7 @@ const JiraIssueDirectory = ({
       fragment JiraIssueDirectory_directory on JiraIssueDirectory {
         title
         description
-        createDirectoryItem
+        pageActions
           @match(key: "JiraIssueDirectory_directory_createDirectoryItem") {
           ...JiraGenericDirectoryCreateItem_directory
             @module(name: "JiraGenericDirectoryCreateItem")
@@ -44,8 +44,8 @@ const JiraIssueDirectory = ({
         </Head>
         <Title>{data.title}</Title>
         <div>
-          {data.createDirectoryItem ? (
-            <RelayMatchContainer match={data.createDirectoryItem} />
+          {data.pageActions ? (
+            <RelayMatchContainer match={data.pageActions} />
           ) : (
             <span>❌No create permission❌</span>
           )}

@@ -16,8 +16,17 @@ const JiraGenericActionsField = ({
     graphql`
       fragment JiraGenericActionsField_content on JiraGenericActionsField {
         actions {
-          id
-          name
+          edges {
+            node {
+              renderer {
+                ... on JiraAction {
+                  id
+                  name
+                  canPerform
+                }
+              }
+            }
+          }
         }
       }
     `,
@@ -26,7 +35,7 @@ const JiraGenericActionsField = ({
 
   return (
     <span>
-      {data?.actions && (data?.actions?.length ?? 0) > 0 ? (
+      {data?.actions && (data?.actions?.edges?.length ?? 0) > 0 ? (
         <Menu as="div" className="relative inline-block text-left">
           <div>
             <Menu.Button className="flex items-center rounded bg-gray-100 text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100">
@@ -45,7 +54,7 @@ const JiraGenericActionsField = ({
             leaveTo="transform opacity-0 scale-95">
             <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
               <div className="py-1">
-                {data?.actions?.map((action, index) => (
+                {data?.actions?.edges?.map((actionNode, index) => (
                   <Menu.Item key={`menu-action-${index}`}>
                     {({active}) => (
                       <a
@@ -56,7 +65,7 @@ const JiraGenericActionsField = ({
                             : 'text-gray-700',
                           'block px-4 py-2 text-sm',
                         )}>
-                        {action?.name}
+                        {actionNode?.node?.renderer?.name}
                       </a>
                     )}
                   </Menu.Item>

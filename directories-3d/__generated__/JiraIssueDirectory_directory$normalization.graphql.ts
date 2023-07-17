@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<c183b62a8ae2d2d263312333d126669b>>
+ * @generated SignedSource<<30019f194714cce60932bc8290dc6666>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -49,7 +49,7 @@ return {
       ],
       "concreteType": null,
       "kind": "LinkedField",
-      "name": "createDirectoryItem",
+      "name": "pageActions",
       "plural": false,
       "selections": [
         (v0/*: any*/),
@@ -68,7 +68,7 @@ return {
           "abstractKey": null
         }
       ],
-      "storageKey": "createDirectoryItem(supported:\"2ZnHzk\")"
+      "storageKey": "pageActions(supported:\"2ZnHzk\")"
     },
     {
       "alias": null,
@@ -132,6 +132,6 @@ return {
 };
 })();
 
-(node as any).hash = "89e6bf340d5c470031026f1e9c6c36ff";
+(node as any).hash = "90e349f1ea40c967909e635f3749f5a6";
 
 export default node;
