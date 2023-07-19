@@ -108,7 +108,7 @@ export function issueSorter(
       firstValue = (a?.fields?.resolution?.name ?? 'Unresolved').toUpperCase();
       secondValue = (b?.fields?.resolution?.name ?? 'Unresolved').toUpperCase();
       break;
-    case 'fixVersion':
+    case 'fixversion':
       firstValue = (
         a?.fields?.fixVersions?.map((v) => v.name).join(',') ?? ''
       ).toUpperCase();
@@ -116,7 +116,7 @@ export function issueSorter(
         b?.fields?.fixVersions?.map((v) => v.name).join(',') ?? ''
       ).toUpperCase();
       break;
-    case 'affectedVersion':
+    case 'affectedversion':
       firstValue = (
         a?.fields?.versions?.map((v) => v.name).join(',') ?? ''
       ).toUpperCase();

@@ -152,17 +152,25 @@ const resolvers = {
                 __typename: 'JiraGenericDirectory',
                 title: `${directoryConfig.title}`,
                 description: `${directoryConfig.description}`,
-                pageActions: () => {
-                  return directoryConfig.hasCreatePermission
-                    ? {
-                        __typename: 'JiraGenericDirectoryCreateItem',
-                        canCreate: directoryConfig.hasCreatePermission,
-                        js: JSFieldResolver,
-                      }
-                    : null;
+                pageActions: (args: ConnectionArguments) => {
+                  return {
+                    ...connectionFromArray(
+                      directoryConfig.pageActions.map((action) => ({
+                        renderer: {
+                          js: JSFieldResolver,
+                          __typename: action.type,
+                          id: action.name,
+                          canPerform: true,
+                        },
+                      })),
+                      args,
+                    ),
+                    __typename: 'JiraActionRendererConnection',
+                    totalCount: directoryConfig.pageActions.length,
+                  };
                 },
-                filterCriteria: (args: {supported: string[]}) => {
-                  return directoryConfig.filters.map((filter) => {
+                filterCriteria: (args: ConnectionArguments) => {
+                  const filters = directoryConfig.filters.map((filter) => {
                     // Drive this based on request params and directoryConfig
                     const data = {
                       JiraGenericDirectoryProjectTypesFilterCriteria:
@@ -182,13 +190,20 @@ const resolvers = {
                     }[filter.type];
 
                     return {
-                      __typename: filter.type,
-                      type: filter.type,
-                      searchText,
-                      selectedItems: data,
-                      js: JSFieldResolver,
+                      __typename: 'JiraGenericDirectoryFilterCriteriaRenderer',
+                      renderer: {
+                        __typename: filter.type,
+                        type: filter.type,
+                        searchText,
+                        selectedItems: data,
+                        js: JSFieldResolver,
+                      },
                     };
                   });
+                  return {
+                    ...connectionFromArray(filters, args),
+                    totalCount: filters.length,
+                  };
                 },
                 result: {
                   __typename: 'JiraGenericDirectoryResult',
@@ -426,16 +441,41 @@ const resolvers = {
                 js: JSFieldResolver,
                 title: `${directoryConfig.title}`,
                 description: `${directoryConfig.description}`,
-                pageActions: null,
-                filterCriteria: (_args: {supported: string[]}) => {
-                  return directoryConfig.filters.map((filter) => {
+                pageActions: (args: ConnectionArguments) => {
+                  return {
+                    ...connectionFromArray(
+                      directoryConfig.pageActions.map(
+                        (action: {type: string; name: string}) => ({
+                          renderer: {
+                            js: JSFieldResolver,
+                            __typename: action.type,
+                            id: action.name,
+                            canPerform: true,
+                          },
+                        }),
+                      ),
+                      args,
+                    ),
+                    __typename: 'JiraActionRendererConnection',
+                    totalCount: directoryConfig.pageActions.length,
+                  };
+                },
+                filterCriteria: (args: ConnectionArguments) => {
+                  const filters = directoryConfig.filters.map((filter) => {
                     return {
-                      __typename: filter.type,
-                      type: filter.type,
-                      jql,
-                      js: JSFieldResolver,
+                      __typename: 'JiraGenericDirectoryFilterCriteriaRenderer',
+                      renderer: {
+                        __typename: filter.type,
+                        type: filter.type,
+                        jql,
+                        js: JSFieldResolver,
+                      },
                     };
                   });
+                  return {
+                    ...connectionFromArray(filters, args),
+                    totalCount: filters.length,
+                  };
                 },
                 result: {
                   __typename: 'JiraGenericDirectoryResult',

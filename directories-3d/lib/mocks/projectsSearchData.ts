@@ -183,7 +183,13 @@ export const PROJECT_DIRECTORY_CONFIG = (cloudId: string) => {
         title: 'Manage Projects',
         description:
           'This is the view for a user that is an admin. Notice that the columns are different and the user can create a project',
-        hasCreatePermission: true,
+        pageActions: [
+          {
+            type: 'JiraCreateEntityAction',
+            name: 'Create Project',
+            parameters: {entityType: 'project'},
+          },
+        ],
         headers: projectDirectoryHeaders.filter(
           (project) => project.showInAdmin,
         ),
@@ -197,7 +203,7 @@ export const PROJECT_DIRECTORY_CONFIG = (cloudId: string) => {
         title: 'Projects with no categories',
         description:
           'In this instance there are no project categories. Note that categories picker and categories column are not loaded.',
-        hasCreatePermission: false,
+        pageActions: [],
         headers: projectDirectoryHeaders.filter(
           (project) =>
             project.showInMain &&
@@ -213,7 +219,7 @@ export const PROJECT_DIRECTORY_CONFIG = (cloudId: string) => {
         title: 'Only software project license',
         description:
           'In this instance there are only software projects. All Jira Products picker need not be shown',
-        hasCreatePermission: false,
+        pageActions: [],
         headers: projectDirectoryHeaders.filter(
           (project) =>
             project.showInMain &&
@@ -237,7 +243,7 @@ export const PROJECT_DIRECTORY_CONFIG = (cloudId: string) => {
         title: 'Projects for anonymous user',
         description:
           'In this case project categories should not be shown as user is not logged in. Note that categories picker and categories column are not loaded. There is also less number of projects that are available to be seen',
-        hasCreatePermission: false,
+        pageActions: [],
         headers: projectDirectoryHeaders.filter(
           (project) =>
             project.showInMain &&
@@ -258,7 +264,7 @@ export const PROJECT_DIRECTORY_CONFIG = (cloudId: string) => {
         title: 'Projects',
         description:
           'This is the view for a user that is not an admin. This user also do not have permission to create a project',
-        hasCreatePermission: false,
+        pageActions: [],
         headers: projectDirectoryHeaders.filter(
           (project) => project.showInMain,
         ),

@@ -16,19 +16,37 @@ const JiraGenericDirectory = ({
       fragment JiraGenericDirectory_directory on JiraGenericDirectory {
         title
         description
-        pageActions
-          @match(key: "JiraGenericDirectory_directory_createDirectoryItem") {
-          ...JiraGenericDirectoryCreateItem_directory
-            @module(name: "JiraGenericDirectoryCreateItem")
+        pageActions {
+          edges {
+            node {
+              renderer
+                @match(
+                  key: "JiraGenericDirectory_directory_createDirectoryItem"
+                ) {
+                ...JiraGenericDirectoryCreateItem_directory
+                  @module(name: "JiraGenericDirectoryCreateItem")
+              }
+            }
+          }
         }
-        filterCriteria
-          @match(key: "JiraGenericDirectory_directory_filterCriteria") {
-          ...JiraDirectorySearchTextFilterCriteria_content
-            @module(name: "JiraDirectorySearchTextFilterCriteria")
-          ...JiraGenericDirectoryProjectTypesFilterCriteria_content
-            @module(name: "JiraGenericDirectoryProjectTypesFilterCriteria")
-          ...JiraGenericDirectoryProjectCategoriesFilterCriteria_content
-            @module(name: "JiraGenericDirectoryProjectCategoriesFilterCriteria")
+        filterCriteria {
+          edges {
+            node {
+              renderer
+                @match(key: "JiraGenericDirectory_directory_filterCriteria") {
+                ...JiraDirectorySearchTextFilterCriteria_content
+                  @module(name: "JiraDirectorySearchTextFilterCriteria")
+                ...JiraGenericDirectoryProjectTypesFilterCriteria_content
+                  @module(
+                    name: "JiraGenericDirectoryProjectTypesFilterCriteria"
+                  )
+                ...JiraGenericDirectoryProjectCategoriesFilterCriteria_content
+                  @module(
+                    name: "JiraGenericDirectoryProjectCategoriesFilterCriteria"
+                  )
+              }
+            }
+          }
         }
         result @match(key: "JiraGenericDirectory_directory_result") {
           ...JiraGenericDirectoryResults_content
@@ -48,8 +66,11 @@ const JiraGenericDirectory = ({
         </Head>
         <Title>{data.title}</Title>
         <div>
-          {data.pageActions ? (
-            <RelayMatchContainer match={data.pageActions} />
+          {data.pageActions?.edges &&
+          data.pageActions?.edges[0]?.node?.renderer ? (
+            <RelayMatchContainer
+              match={data.pageActions?.edges[0]?.node?.renderer}
+            />
           ) : (
             <span>❌No create permission❌</span>
           )}
@@ -74,9 +95,12 @@ const JiraGenericDirectory = ({
         )}
       </Disclosure>
       <div className="flex flex-wrap items-center gap-2">
-        {data.filterCriteria.map((criteria, index) =>
-          criteria ? (
-            <RelayMatchContainer key={`criteria-${index}`} match={criteria} />
+        {data.filterCriteria?.edges?.map((criteriaEdge, index) =>
+          criteriaEdge?.node?.renderer ? (
+            <RelayMatchContainer
+              key={`criteria-${index}`}
+              match={criteriaEdge?.node?.renderer}
+            />
           ) : (
             <p key={`criteria-${index}`}>Unsupported filterCriteria.</p>
           ),

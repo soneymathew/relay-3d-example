@@ -16,15 +16,29 @@ const JiraIssueDirectory = ({
       fragment JiraIssueDirectory_directory on JiraIssueDirectory {
         title
         description
-        pageActions
-          @match(key: "JiraIssueDirectory_directory_createDirectoryItem") {
-          ...JiraGenericDirectoryCreateItem_directory
-            @module(name: "JiraGenericDirectoryCreateItem")
+        pageActions {
+          edges {
+            node {
+              renderer
+                @match(
+                  key: "JiraIssueDirectory_directory_createDirectoryItem"
+                ) {
+                ...JiraGenericDirectoryCreateItem_directory
+                  @module(name: "JiraGenericDirectoryCreateItem")
+              }
+            }
+          }
         }
-        filterCriteria
-          @match(key: "JiraIssueDirectory_directory_filterCriteria") {
-          ...JiraDirectoryJqlBuilderAdvancedCriteria_content
-            @module(name: "JiraDirectoryJqlBuilderAdvancedCriteria")
+        filterCriteria {
+          edges {
+            node {
+              renderer
+                @match(key: "JiraIssueDirectory_directory_filterCriteria") {
+                ...JiraDirectoryJqlBuilderAdvancedCriteria_content
+                  @module(name: "JiraDirectoryJqlBuilderAdvancedCriteria")
+              }
+            }
+          }
         }
         result @match(key: "JiraIssueDirectory_directory_result") {
           ...JiraGenericDirectoryResults_content
@@ -70,9 +84,12 @@ const JiraIssueDirectory = ({
         )}
       </Disclosure>
       <div className="flex flex-wrap items-center gap-2">
-        {data.filterCriteria?.map((criteria, index) =>
-          criteria ? (
-            <RelayMatchContainer key={`criteria-${index}`} match={criteria} />
+        {data.filterCriteria?.edges?.map((criteriaEdge, index) =>
+          criteriaEdge?.node?.renderer ? (
+            <RelayMatchContainer
+              key={`criteria-${index}`}
+              match={criteriaEdge?.node?.renderer}
+            />
           ) : (
             <p key={`criteria-${index}`}>Unsupported filterCriteria.</p>
           ),

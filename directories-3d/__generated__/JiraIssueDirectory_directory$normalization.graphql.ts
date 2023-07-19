@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<30019f194714cce60932bc8290dc6666>>
+ * @generated SignedSource<<399bfdd8b1cd93506c144568c7f75244>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -40,67 +40,140 @@ return {
     },
     {
       "alias": null,
-      "args": [
-        {
-          "kind": "Literal",
-          "name": "supported",
-          "value": "2ZnHzk"
-        }
-      ],
-      "concreteType": null,
+      "args": null,
+      "concreteType": "JiraActionRendererConnection",
       "kind": "LinkedField",
       "name": "pageActions",
       "plural": false,
       "selections": [
-        (v0/*: any*/),
         {
-          "kind": "InlineFragment",
+          "alias": null,
+          "args": null,
+          "concreteType": "JiraActionRendererEdge",
+          "kind": "LinkedField",
+          "name": "edges",
+          "plural": true,
           "selections": [
             {
+              "alias": null,
               "args": null,
-              "documentName": "JiraIssueDirectory_directory_createDirectoryItem",
-              "fragmentName": "JiraGenericDirectoryCreateItem_directory",
-              "fragmentPropName": "directory",
-              "kind": "ModuleImport"
+              "concreteType": "JiraActionRenderer",
+              "kind": "LinkedField",
+              "name": "node",
+              "plural": false,
+              "selections": [
+                {
+                  "alias": null,
+                  "args": [
+                    {
+                      "kind": "Literal",
+                      "name": "supported",
+                      "value": "4FchBD"
+                    }
+                  ],
+                  "concreteType": null,
+                  "kind": "LinkedField",
+                  "name": "renderer",
+                  "plural": false,
+                  "selections": [
+                    (v0/*: any*/),
+                    {
+                      "kind": "InlineFragment",
+                      "selections": [
+                        {
+                          "args": null,
+                          "documentName": "JiraIssueDirectory_directory_createDirectoryItem",
+                          "fragmentName": "JiraGenericDirectoryCreateItem_directory",
+                          "fragmentPropName": "directory",
+                          "kind": "ModuleImport"
+                        }
+                      ],
+                      "type": "JiraCreateEntityAction",
+                      "abstractKey": null
+                    },
+                    {
+                      "alias": null,
+                      "args": null,
+                      "kind": "ScalarField",
+                      "name": "id",
+                      "storageKey": null
+                    }
+                  ],
+                  "storageKey": "renderer(supported:\"4FchBD\")"
+                }
+              ],
+              "storageKey": null
             }
           ],
-          "type": "JiraGenericDirectoryCreateItem",
-          "abstractKey": null
+          "storageKey": null
         }
       ],
-      "storageKey": "pageActions(supported:\"2ZnHzk\")"
+      "storageKey": null
     },
     {
       "alias": null,
-      "args": [
-        {
-          "kind": "Literal",
-          "name": "supported",
-          "value": "4j769g"
-        }
-      ],
-      "concreteType": null,
+      "args": null,
+      "concreteType": "JiraDirectoryFilterCriteriaRendererConnection",
       "kind": "LinkedField",
       "name": "filterCriteria",
-      "plural": true,
+      "plural": false,
       "selections": [
-        (v0/*: any*/),
         {
-          "kind": "InlineFragment",
+          "alias": null,
+          "args": null,
+          "concreteType": "JiraDirectoryFilterCriteriaRendererEdge",
+          "kind": "LinkedField",
+          "name": "edges",
+          "plural": true,
           "selections": [
             {
+              "alias": null,
               "args": null,
-              "documentName": "JiraIssueDirectory_directory_filterCriteria",
-              "fragmentName": "JiraDirectoryJqlBuilderAdvancedCriteria_content",
-              "fragmentPropName": "content",
-              "kind": "ModuleImport"
+              "concreteType": "JiraDirectoryFilterCriteriaRenderer",
+              "kind": "LinkedField",
+              "name": "node",
+              "plural": false,
+              "selections": [
+                {
+                  "alias": null,
+                  "args": [
+                    {
+                      "kind": "Literal",
+                      "name": "supported",
+                      "value": "4j769g"
+                    }
+                  ],
+                  "concreteType": null,
+                  "kind": "LinkedField",
+                  "name": "renderer",
+                  "plural": false,
+                  "selections": [
+                    (v0/*: any*/),
+                    {
+                      "kind": "InlineFragment",
+                      "selections": [
+                        {
+                          "args": null,
+                          "documentName": "JiraIssueDirectory_directory_filterCriteria",
+                          "fragmentName": "JiraDirectoryJqlBuilderAdvancedCriteria_content",
+                          "fragmentPropName": "content",
+                          "kind": "ModuleImport"
+                        }
+                      ],
+                      "type": "JiraDirectoryJqlBuilderAdvancedCriteria",
+                      "abstractKey": null
+                    }
+                  ],
+                  "storageKey": "renderer(supported:\"4j769g\")"
+                }
+              ],
+              "storageKey": null
             }
           ],
-          "type": "JiraDirectoryJqlBuilderAdvancedCriteria",
-          "abstractKey": null
+          "storageKey": null
         }
       ],
-      "storageKey": "filterCriteria(supported:\"4j769g\")"
+      "storageKey": null
     },
     {
       "alias": null,
@@ -132,6 +205,6 @@ return {
 };
 })();
 
-(node as any).hash = "90e349f1ea40c967909e635f3749f5a6";
+(node as any).hash = "a97a4c833a5bd970c3e8b36fc2f608cc";
 
 export default node;

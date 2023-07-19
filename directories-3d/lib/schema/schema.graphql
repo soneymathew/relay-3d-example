@@ -77,10 +77,35 @@ type JiraQuery {
 interface JiraDirectory {
   title: String!
   description: String
-  pageActions(supported: [String]): JiraDirectoryCreateItem
-  filterCriteria(supported: [String]): [JiraDirectoryFilterCriteria!]!
+  pageActions(
+    first: Int
+    last: Int
+    before: String
+    after: String
+  ): JiraActionRendererConnection
+  filterCriteria(
+    first: Int
+    last: Int
+    before: String
+    after: String
+  ): JiraDirectoryFilterCriteriaRendererConnection
   result: JiraDirectoryResult
   js(module: String!, id: String): JSDependency!
+}
+
+type JiraDirectoryFilterCriteriaRendererConnection {
+  totalCount: Int
+  pageInfo: PageInfo!
+  edges: [JiraDirectoryFilterCriteriaRendererEdge]
+}
+
+type JiraDirectoryFilterCriteriaRendererEdge {
+  node: JiraDirectoryFilterCriteriaRenderer
+  cursor: String!
+}
+
+type JiraDirectoryFilterCriteriaRenderer {
+  renderer(supported: [String]): JiraDirectoryFilterCriteria
 }
 
 interface JiraDirectoryCreateItem {
@@ -91,8 +116,18 @@ interface JiraDirectoryCreateItem {
 type JiraGenericDirectory implements JiraDirectory & HasJsField {
   title: String!
   description: String
-  pageActions(supported: [String]): JiraDirectoryCreateItem
-  filterCriteria(supported: [String]): [JiraDirectoryFilterCriteria!]!
+  pageActions(
+    first: Int
+    last: Int
+    before: String
+    after: String
+  ): JiraActionRendererConnection
+  filterCriteria(
+    first: Int
+    last: Int
+    before: String
+    after: String
+  ): JiraDirectoryFilterCriteriaRendererConnection
   result: JiraDirectoryResult
   js(module: String!, id: String): JSDependency!
 }
@@ -100,8 +135,18 @@ type JiraGenericDirectory implements JiraDirectory & HasJsField {
 type JiraIssueDirectory implements JiraDirectory & HasJsField {
   title: String!
   description: String
-  pageActions(supported: [String]): JiraDirectoryCreateItem
-  filterCriteria(supported: [String]): [JiraDirectoryFilterCriteria!]!
+  pageActions(
+    first: Int
+    last: Int
+    before: String
+    after: String
+  ): JiraActionRendererConnection
+  filterCriteria(
+    first: Int
+    last: Int
+    before: String
+    after: String
+  ): JiraDirectoryFilterCriteriaRendererConnection
   result: JiraDirectoryResult
   js(module: String!, id: String): JSDependency!
 }
@@ -304,6 +349,15 @@ type JiraGenericAction implements JiraAction & Node {
   id: ID!
   name: String
   canPerform: Boolean
+  js(module: String!, id: String): JSDependency!
+}
+
+type JiraCreateEntityAction implements JiraAction & Node {
+  id: ID!
+  name: String
+  canPerform: Boolean
+  entityType: String
+  js(module: String!, id: String): JSDependency!
 }
 
 type JiraActionRendererConnection implements HasTotalCount {

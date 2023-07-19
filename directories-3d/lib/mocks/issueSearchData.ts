@@ -668,16 +668,16 @@ const MOCK_ISSUE_DATA = {
           ? chance.pickset(
               [
                 {
-                  name: '1.0.0',
+                  name: 'v1.0.0',
                 },
                 {
-                  name: '2.0.0',
+                  name: 'v2.0.0',
                 },
                 {
-                  name: '3.0.0',
+                  name: 'v3.0.0',
                 },
                 {
-                  name: '4.0.0',
+                  name: 'v4.0.0',
                 },
               ],
               chance.integer({min: 0, max: 4}),
@@ -687,16 +687,16 @@ const MOCK_ISSUE_DATA = {
           ? chance.pickset(
               [
                 {
-                  name: '1.0.0',
+                  name: 'v1.0.0',
                 },
                 {
-                  name: '2.0.0',
+                  name: 'v2.0.0',
                 },
                 {
-                  name: '3.0.0',
+                  name: 'v3.0.0',
                 },
                 {
-                  name: '4.0.0',
+                  name: 'v4.0.0',
                 },
               ],
               chance.integer({min: 0, max: 4}),
@@ -746,7 +746,7 @@ export const ISSUE_DIRECTORY_CONFIG = (cloudId: string) => {
       return {
         title: 'Issues',
         description: 'Issue search',
-        hasCreatePermission: false,
+        pageActions: [],
         headers: issueDirectoryHeaders,
         filters: [{type: 'JiraDirectoryJqlBuilderAdvancedCriteria'}],
         data: issueData,
@@ -755,7 +755,7 @@ export const ISSUE_DIRECTORY_CONFIG = (cloudId: string) => {
       return {
         title: 'Issues',
         description: 'Issue search',
-        hasCreatePermission: false,
+        pageActions: [],
         headers: issueDirectoryHeaders,
         filters: [{type: 'JiraDirectoryJqlBuilderAdvancedCriteria'}],
         data: MOCK_ISSUE_DATA_WITH_PARENT,

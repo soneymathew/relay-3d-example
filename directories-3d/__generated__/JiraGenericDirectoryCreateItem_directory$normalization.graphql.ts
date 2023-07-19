@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<bbcec08ad37abba95d7aadec293cf2f2>>
+ * @generated SignedSource<<829e8f9273cb00e7ad5ae5d1b098b74c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -20,12 +20,12 @@ const node: NormalizationSplitOperation = {
       "alias": null,
       "args": null,
       "kind": "ScalarField",
-      "name": "canCreate",
+      "name": "canPerform",
       "storageKey": null
     }
   ]
 };
 
-(node as any).hash = "482a77411e8894f2ece61f2f39be5cf0";
+(node as any).hash = "b6957cf8f63bd5a4f287700f51943033";
 
 export default node;
