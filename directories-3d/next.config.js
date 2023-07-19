@@ -1,6 +1,10 @@
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
+
 const relay = require('./relay.config.json');
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig = withBundleAnalyzer({
   compiler: {
     relay: {
       src: relay.src,
@@ -36,6 +40,6 @@ const nextConfig = {
   images: {
     domains: ['relay.dev'],
   },
-};
+});
 
 module.exports = nextConfig;
