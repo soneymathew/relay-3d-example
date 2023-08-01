@@ -2,19 +2,14 @@ import {useState, useEffect} from 'react';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
 import Image from 'next/image';
-import {
-  Bars3Icon,
-  ArrowTopRightOnSquareIcon,
-  MoonIcon,
-  SunIcon,
-} from '@heroicons/react/20/solid';
+import {Bars3Icon, ArrowTopRightOnSquareIcon} from '@heroicons/react/20/solid';
 import {useTheme} from 'next-themes';
+import ThemeSwitcher from './ThemeSwitcher';
 
 export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
   const [currentRoute, setCurrentRoute] = useState(router.asPath);
-  const {theme, setTheme} = useTheme();
   useEffect(() => {
     setCurrentRoute(router.asPath);
   }, [router.asPath]);
@@ -188,17 +183,7 @@ export default function Nav() {
                 </a>
               </li>
               <li>
-                <button
-                  onClick={() => {
-                    setTheme(theme === 'light' ? 'dark' : 'light');
-                  }}
-                  className="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5">
-                  {theme === 'light' ? (
-                    <MoonIcon className="w-4 h-4" />
-                  ) : (
-                    <SunIcon className="w-4 h-4" />
-                  )}
-                </button>
+                <ThemeSwitcher />
               </li>
             </ul>
           </div>

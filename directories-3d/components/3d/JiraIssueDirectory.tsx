@@ -1,6 +1,6 @@
 import {useFragment, graphql} from 'react-relay';
-import {Title} from '../LayoutComponents';
-import RelayMatchContainer from '../RelayMatchContainer';
+import {Title} from '../common/LayoutComponents';
+import RelayMatchContainer from '../common/RelayMatchContainer';
 import Head from 'next/head';
 import {JiraIssueDirectory_directory$key} from '../../__generated__/JiraIssueDirectory_directory.graphql';
 import {Disclosure} from '@headlessui/react';

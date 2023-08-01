@@ -4,7 +4,7 @@ import Link from 'next/link';
 import {useEffect, useState} from 'react';
 import {useFragment, graphql} from 'react-relay';
 
-import {JiraDirectoryResultPagination_content$key} from '../__generated__/JiraDirectoryResultPagination_content.graphql';
+import {JiraDirectoryResultPagination_content$key} from '../../__generated__/JiraDirectoryResultPagination_content.graphql';
 
 const getUrl = (urlPath: string, pageNum: number) => {
   let url;

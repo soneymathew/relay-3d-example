@@ -1,5 +1,5 @@
-import Nav from '../../components/Nav';
-import {Content} from '../../components/LayoutComponents';
+import Nav from '../../components/common/Nav';
+import {Content} from '../../components/common/LayoutComponents';
 import Head from 'next/head';
 
 export default function CloudId() {

@@ -1,5 +1,5 @@
 import type {NextPage} from 'next';
-import {Content} from '../components/LayoutComponents';
+import {Content} from '../components/common/LayoutComponents';
 import Head from 'next/head';
 import {FolderIcon} from '@heroicons/react/20/solid';
 

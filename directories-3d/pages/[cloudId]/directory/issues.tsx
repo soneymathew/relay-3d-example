@@ -1,8 +1,8 @@
 import {Fragment} from 'react';
 import {graphql, usePreloadedQuery} from 'react-relay';
-import RelayMatchContainer from '../../../components/RelayMatchContainer';
-import {Content} from '../../../components/LayoutComponents';
-import Nav from '../../../components/Nav';
+import RelayMatchContainer from '../../../components/common/RelayMatchContainer';
+import {Content} from '../../../components/common/LayoutComponents';
+import Nav from '../../../components/common/Nav';
 import {getPreloadedQuery} from '../../../lib/relay/getServerSideProps';
 import Head from 'next/head';
 import preLoadedQuery, {

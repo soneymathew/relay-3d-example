@@ -1,5 +1,5 @@
 import '../styles/globals.css';
-import {Layout} from '../components/LayoutComponents';
+import {Layout} from '../components/common/LayoutComponents';
 import {ReactRelayContainer} from '../lib/relay/app';
 import type {AppProps} from 'next/app';
 import {ThemeProvider} from 'next-themes';

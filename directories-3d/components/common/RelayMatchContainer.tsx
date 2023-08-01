@@ -3,9 +3,9 @@ import MatchContainer, {
   type MatchContainerProps,
   // @ts-ignore Could not find a declaration file for module
 } from 'react-relay/lib/relay-hooks/MatchContainer';
-import moduleLoader, {ModuleLoaderError} from '../lib/moduleLoader';
-import ErrorBoundary from './ErrorBoundary';
-import {Button} from './LayoutComponents';
+import moduleLoader, {ModuleLoaderError} from '../../lib/moduleLoader';
+import ErrorBoundary from '../common/ErrorBoundary';
+import {Button} from '../common/LayoutComponents';
 
 export default function RelayMatchContainer({
   match,
