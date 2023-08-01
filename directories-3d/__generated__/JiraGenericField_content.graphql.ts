@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<ebc5e13011800ed35a2bd2c96ce61667>>
+ * @generated SignedSource<<39656d7ddf45dbd1599847761e81b334>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,6 +10,7 @@
 
 import { Fragment, ReaderFragment } from 'relay-runtime';
 export type JiraIconStyle = "CIRCLE" | "SQUARE" | "%future added value";
+export type JiraLabelDecoration = "NORMAL" | "STRIKE_THRU" | "%future added value";
 export type JiraTextTransform = "UPPER" | "%future added value";
 import { FragmentRefs } from "relay-runtime";
 export type JiraGenericField_content$data = {
@@ -23,6 +24,7 @@ export type JiraGenericField_content$data = {
   } | null;
   readonly label: {
     readonly altText: string | null;
+    readonly decoration: JiraLabelDecoration | null;
     readonly linkUrl: any | null;
     readonly stringValue: string | null;
     readonly textTransform: JiraTextTransform | null;
@@ -104,6 +106,13 @@ return {
           "alias": null,
           "args": null,
           "kind": "ScalarField",
+          "name": "decoration",
+          "storageKey": null
+        },
+        {
+          "alias": null,
+          "args": null,
+          "kind": "ScalarField",
           "name": "linkUrl",
           "storageKey": null
         },
@@ -131,6 +140,6 @@ return {
 };
 })();
 
-(node as any).hash = "eee59123a00fa8500d9787d9f8a5c92f";
+(node as any).hash = "f03960a24f15a97ca46124ae8361b8d3";
 
 export default node;

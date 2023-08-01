@@ -34,6 +34,10 @@ export const issueDirectoryHeaders = [
     mapper: (issue: Issue) => ({
       label: {
         stringValue: issue.key,
+        decoration:
+          issue.fields?.status?.statusCategory.name == 'Done'
+            ? 'STRIKE_THRU'
+            : 'NORMAL',
         linkUrl: `https://jira.atlassian.com/browse/${issue.key}`,
       },
     }),

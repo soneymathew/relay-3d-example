@@ -18,6 +18,7 @@ const JiraGenericField = ({
         }
         label {
           stringValue
+          decoration
           linkUrl
           textTransform
           altText
@@ -52,7 +53,9 @@ const JiraGenericField = ({
         title={data?.label?.altText ?? ''}
         href="#">
         <span
-          className={data?.label?.textTransform == 'UPPER' ? 'uppercase' : ''}>
+          className={`${
+            data?.label?.decoration == 'STRIKE_THRU' ? 'line-through ' : ''
+          }${data?.label?.textTransform == 'UPPER' ? 'uppercase ' : ''}`}>
           {data?.label?.stringValue}
         </span>
       </a>
@@ -60,7 +63,9 @@ const JiraGenericField = ({
   } else if (data?.label?.stringValue && data?.label?.linkUrl) {
     labelValue = (
       <a
-        className="underline"
+        className={`${
+          data?.label?.decoration == 'STRIKE_THRU' ? 'line-through ' : ''
+        }${data?.label?.textTransform == 'UPPER' ? 'uppercase ' : ''}underline`}
         href={data?.label?.linkUrl}
         title={data?.label?.altText ?? ''}>
         {data?.label?.stringValue}
@@ -73,7 +78,9 @@ const JiraGenericField = ({
       </a>
     ) : (
       <span
-        className={data?.label?.textTransform == 'UPPER' ? 'uppercase' : ''}
+        className={`${
+          data?.label?.decoration == 'STRIKE_THRU' ? 'line-through ' : ''
+        }${data?.label?.textTransform == 'UPPER' ? 'uppercase ' : ''}`}
         title={data?.label?.altText ?? ''}>
         {data?.label?.stringValue}
       </span>
